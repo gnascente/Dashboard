@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Controle de Obra</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
@@ -64,7 +65,6 @@
             }
         };
     </script>
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
@@ -340,47 +340,51 @@
     <div class="container mx-auto max-w-md p-4 pb-28">
         
         <header class="flex items-center justify-between my-4">
-            <button id="abrir-menu-btn" class="p-2 rounded-full hover:bg-gray-200 focus:outline-none focus:ring-2 focus:ring-accent/40">
+            
+            <button id="abrir-menu-btn" class="p-3 rounded-2xl bg-sand-100 hover:bg-sand-200 focus:outline-none focus:ring-2 focus:ring-accent/40">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
                 </svg>
             </button>
             
             <div class="flex items-center gap-3">
-                <div class="relative">
+                <div class="relative flex-shrink-0">
                     <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-accent/10 blur-xl"></div>
-                    <div class="w-14 h-14 rounded-2xl bg-accent text-white flex items-center justify-center shadow-soft">
-                        <svg class="h-8 w-8" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
+                    <div class="w-12 h-12 rounded-2xl bg-accent text-white flex items-center justify-center shadow-soft">
+                        <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m-3-1l-3-1m-3 1l-3 1m-3-1l3-1.091m0 0l3 1.091m0 0l3-1.091m0 0l3 1.091m0 0l3-1.091M5.25 9.75h3.75m-3.75 0a.75.75 0 01.75-.75h2.25c.414 0 .75.336.75.75m0 0v3.375c0 .621-.504 1.125-1.125 1.125h-1.5c-.621 0-1.125-.504-1.125-1.125V9.75z" />
                         </svg>
                     </div>
                 </div>
                 <div>
-                    <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Obra residencial</p>
-                    <h1 id="titulo-principal" class="text-2xl font-semibold text-gray-800">Controle da Obra</h1>
+                    <h1 id="titulo-principal" class="text-xl font-semibold text-gray-800 leading-tight">Controle da Obra</h1>
+                    <div class="flex items-baseline gap-2">
+                        <p class="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-gray-500">Residencial</p>
+                        <span class="text-gray-400">&bull;</span>
+                        <span class="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-gray-500">v1.0</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="flex items-center gap-2">
-                <span class="px-3 py-1 rounded-full bg-accent/10 text-accent-hover text-xs font-medium tracking-[0.2em] uppercase">Atualizado</span>
-                <div class="w-10 h-10"></div>
-            </div>
+            <!-- Placeholder for centering -->
+            <div class="w-12 h-12"></div>
+
         </header>
 
         <div id="main-content">
             <div class="border-b border-gray-200 mb-4">
-                <nav class="-mb-px flex space-x-6" aria-label="Tabs">
-                    <button id="lancamentos-tab-btn" aria-selected="true" class="group whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm text-blue-600 border-blue-600">
-                        <span class="block text-left">
-                            <span class="block text-[0.65rem] uppercase tracking-[0.24em] text-gray-500 group-hover:text-accent">Fluxo</span>
-                            Lançamentos
-                        </span>
+                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+                    <button id="lancamentos-tab-btn" aria-selected="true" class="group whitespace-nowrap pb-3 px-1 border-b-2 font-semibold text-sm text-blue-600 border-blue-600 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        <span>Lançamentos</span>
                     </button>
-                    <button id="relatorios-tab-btn" class="group whitespace-nowrap py-3 px-1 border-b-2 font-semibold text-sm text-gray-500 hover:text-gray-700 border-transparent">
-                        <span class="block text-left">
-                            <span class="block text-[0.65rem] uppercase tracking-[0.24em] text-gray-500 group-hover:text-accent">Insights</span>
-                            Relatórios
-                        </span>
+                    <button id="relatorios-tab-btn" class="group whitespace-nowrap pb-3 px-1 border-b-2 font-semibold text-sm text-gray-500 hover:text-gray-700 border-transparent flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                        </svg>
+                        <span>Relatórios</span>
                     </button>
                 </nav>
             </div>
@@ -421,19 +425,25 @@
         </div>
         
         <div id="backup-content" class="hidden">
-            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-soft space-y-6">
-                <div>
-                    <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Segurança</p>
-                    <h3 class="text-lg font-bold text-gray-800">Exportar Dados</h3>
-                    <p class="text-sm text-gray-600 mt-1">Salve todos os seus dados, incluindo fotos, em um único arquivo de backup.</p>
-                    <button id="exportar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">Exportar Backup</button>
+            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-soft">
+                <div class="text-center pb-6 mb-6 border-b border-dashed">
+                    <h2 class="text-2xl font-semibold text-gray-800">Backup</h2>
+                    <p class="text-sm text-gray-500 mt-1">Exporte ou importe os dados da sua obra</p>
                 </div>
-                <div class="border-t border-dashed pt-6">
-                    <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Restauração</p>
-                    <h3 class="text-lg font-bold text-gray-800">Importar Dados</h3>
-                    <p class="text-sm text-gray-600 mt-1">Carregue um arquivo de backup para restaurar seus dados. <strong class="text-red-600">Atenção:</strong> Isso substituirá todos os dados atuais.</p>
-                    <input type="file" id="importar-input" class="hidden" accept=".json, .txt">
-                    <button id="importar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Selecionar Arquivo</button>
+                <div class="space-y-6">
+                    <div>
+                        <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Segurança</p>
+                        <h3 class="text-lg font-bold text-gray-800">Exportar Dados</h3>
+                        <p class="text-sm text-gray-600 mt-1">Salve todos os seus dados, incluindo fotos, em um único arquivo de backup.</p>
+                        <button id="exportar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">Exportar Backup</button>
+                    </div>
+                    <div class="border-t border-dashed pt-6">
+                        <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Restauração</p>
+                        <h3 class="text-lg font-bold text-gray-800">Importar Dados</h3>
+                        <p class="text-sm text-gray-600 mt-1">Carregue um arquivo de backup para restaurar seus dados. <strong class="text-red-600">Atenção:</strong> Isso substituirá todos os dados atuais.</p>
+                        <input type="file" id="importar-input" class="hidden" accept=".json, .txt">
+                        <button id="importar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Selecionar Arquivo</button>
+                    </div>
                 </div>
             </div>
         </div>
@@ -471,7 +481,10 @@
                     </div>
                     <div class="w-3/5">
                         <label for="lancamento-valor" class="block text-sm font-medium text-gray-700">Valor</label>
-                        <input type="text" id="lancamento-valor" inputmode="decimal" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm">
+                        <div class="relative mt-1">
+                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">R$</span>
+                            <input type="text" inputmode="decimal" id="lancamento-valor" placeholder="0,00" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm pl-10">
+                        </div>
                     </div>
                 </div>
 
@@ -661,8 +674,6 @@
         <button id="fechar-zoom" class="absolute top-4 right-4 text-white text-opacity-80 hover:text-opacity-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
     </div>
     
-    <script src="https://unpkg.com/imask"></script>
-
     <script>
         // --- DADOS GLOBAIS ---
         let categorias = ['Estrutura e Vedações', 'Acabamentos', 'Terraplanagem/Tratores', 'Hidráulica', 'Elétrica'];
@@ -760,9 +771,9 @@
         const cancelarConfirmacaoBtn = document.getElementById('cancelar-confirmacao-btn');
         const confirmarAcaoBtn = document.getElementById('confirmar-acao-btn');
         const excluirLancamentoBtn = document.getElementById('excluir-lancamento-btn');
+        const totalizerFooter = document.querySelector('footer');
 
         // --- VARIÁVEIS DE ESTADO ---
-        let valorMask;
         let fotosTemporarias = [];
         let categoryChartInstance = null;
         let filtrosAtivos = { status: null, categorias: [], fornecedores: [], carteiras: [] };
@@ -779,19 +790,38 @@
         };
 
         const formatarMoeda = (valor) => (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const formatarData = (dataStr) => {
-            if (!dataStr) return { data: '', dias: '' };
+        const formatarData = (item) => {
+            if (!item || !item.data) return { data: '', dias: '' };
             const hoje = new Date();
             hoje.setHours(0, 0, 0, 0);
-            const parts = dataStr.split('-');
+            const parts = item.data.split('-');
             const dataLancamento = new Date(parts[0], parts[1] - 1, parts[2]);
             dataLancamento.setHours(0,0,0,0);
             const diffTime = dataLancamento.getTime() - hoje.getTime();
             const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+            
             let diasRestantesTexto = '';
-            if (diffDays > 0) diasRestantesTexto = `vence em ${diffDays} dia${diffDays > 1 ? 's' : ''}`;
-            else if (diffDays === 0) diasRestantesTexto = 'vence hoje';
-            else diasRestantesTexto = `venceu há ${Math.abs(diffDays)} dia${Math.abs(diffDays) > 1 ? 's' : ''}`;
+            
+            if (item.pago) {
+                if (diffDays === 0) {
+                    diasRestantesTexto = 'Pago hoje';
+                } else if (diffDays < 0) {
+                    const diasPassados = Math.abs(diffDays);
+                    diasRestantesTexto = `Pago há ${diasPassados} dia${diasPassados > 1 ? 's' : ''}`;
+                } else {
+                    diasRestantesTexto = `Pago com ${diffDays} dia${diffDays > 1 ? 's' : ''} de antecedência`;
+                }
+            } else {
+                if (diffDays > 0) {
+                    diasRestantesTexto = `Vence em ${diffDays} dia${diffDays > 1 ? 's' : ''}`;
+                } else if (diffDays === 0) {
+                    diasRestantesTexto = 'Vence hoje';
+                } else {
+                    const diasAtraso = Math.abs(diffDays);
+                    diasRestantesTexto = `Vencido há ${diasAtraso} dia${diasAtraso > 1 ? 's' : ''}`;
+                }
+            }
+
             const diaSemanaFormatado = new Intl.DateTimeFormat('pt-BR', { weekday: 'short', timeZone: 'UTC' }).format(dataLancamento).replace('.', '');
             const dia = String(dataLancamento.getDate()).padStart(2, '0');
             const mes = new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'UTC' }).format(dataLancamento).replace('.', '');
@@ -1084,8 +1114,8 @@
                 document.getElementById('lancamento-data').value = lancamento.data;
                 document.getElementById('lancamento-descricao').value = lancamento.descricao;
                 document.getElementById('lancamento-pago').checked = lancamento.pago;
-
-                valorMask.typedValue = String(lancamento.valor || '');
+                document.getElementById('lancamento-valor').value = lancamento.valor ? String(lancamento.valor).replace('.', ',') : '';
+                
                 fotosTemporarias = [...(lancamento.fotos || [])];
 
                 atualizarTodosDropdownsEPopups();
@@ -1098,8 +1128,7 @@
                 excluirLancamentoBtn.classList.add('hidden');
                 document.getElementById('lancamento-id').value = '';
                 document.getElementById('lancamento-data').valueAsDate = new Date();
-                valorMask.typedValue = '';
-
+                document.getElementById('lancamento-valor').value = '';
                 atualizarTodosDropdownsEPopups();
             }
 
@@ -1112,15 +1141,16 @@
             e.preventDefault();
             const id = parseInt(document.getElementById('lancamento-id').value);
             const valorInput = document.getElementById('lancamento-valor');
-            const isValorEmpty = valorMask.unmaskedValue.trim() === '';
+            const isValorEmpty = valorInput.value.trim() === '';
 
-            // Validação de campo obrigatório para novos lançamentos
             if (!id && isValorEmpty) {
                 mostrarNotificacao('O campo Valor é obrigatório para novos lançamentos.');
                 valorInput.classList.add('border-red-500');
                 return;
             }
              valorInput.classList.remove('border-red-500');
+
+            const valorNumerico = parseFloat(valorInput.value.replace(',', '.')) || 0;
 
             const dados = {
                 data: document.getElementById('lancamento-data').value,
@@ -1132,20 +1162,18 @@
                 fotos: [...fotosTemporarias]
             };
 
-            if (id) { // Editando um lançamento
+            if (id) { 
                 const index = lancamentos.findIndex(l => l.id === id);
                 if (index !== -1) {
                     const lancamentoAtualizado = { ...lancamentos[index], ...dados };
-                    // Só atualiza o valor se o campo não estiver vazio.
                     if (!isValorEmpty) {
-                        lancamentoAtualizado.valor = valorMask.number;
+                        lancamentoAtualizado.valor = valorNumerico;
                     }
-                    // Se estiver vazio, o valor antigo é preservado pelo spread operator.
                     lancamentos[index] = lancamentoAtualizado;
                 }
-            } else { // Criando um novo lançamento
+            } else {
                 const novoId = lancamentos.length > 0 ? Math.max(...lancamentos.map(l => l.id)) + 1 : 1;
-                lancamentos.push({ id: novoId, ...dados, valor: valorMask.number });
+                lancamentos.push({ id: novoId, ...dados, valor: valorNumerico });
             }
             
             renderizarLancamentos();
@@ -1306,21 +1334,21 @@
                 const listContainer = document.createElement('div');
                 listContainer.className = 'mt-4 transition-all duration-300 space-y-3';
                 lancamentosDoMes.forEach(item => {
-                    const infoData = formatarData(item.data);
+                    const infoData = formatarData(item);
                     const itemDiv = document.createElement('div');
                     itemDiv.className = `bg-white rounded-2xl border border-gray-200 shadow-soft p-4 mb-3 last:mb-0 transition-opacity duration-300 ${item.pago ? 'opacity-60' : ''}`;
                     itemDiv.innerHTML = `
                         <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
                             <div>
                                 <span class="font-semibold text-gray-600">${infoData.data}</span>
-                                <p class="text-[0.65rem] uppercase tracking-[0.22em] text-gray-400">${item.categoria}</p>
+                                <p class="font-semibold text-sm text-gray-700 mt-1">${item.categoria}</p>
                             </div>
-                            <span class="px-2 py-1 rounded-full text-[0.65rem] uppercase tracking-[0.22em] ${item.pago ? 'bg-green-50 text-green-600' : 'bg-accent/10 text-accent-hover border border-accent/30'}">${infoData.dias.toUpperCase()}</span>
+                            <span class="px-3 py-2 text-center rounded-lg text-[0.65rem] uppercase tracking-[0.22em] leading-tight ${item.pago ? 'bg-green-50 text-green-600' : 'bg-accent/10 text-accent-hover border border-accent/30'}">${infoData.dias.toUpperCase().replace(' HÁ', '<br>HÁ').replace(' EM', '<br>EM').replace(' COM', '<br>COM')}</span>
                         </div>
                         <div class="space-y-3">
-                            <div class="grid grid-cols-1 gap-2 text-xs text-gray-500">
-                                <p>Fornecedor: <span class="font-medium text-gray-700">${item.fornecedor || 'Não informado'}</span></p>
-                                <p>${item.pago ? 'Pago com' : 'Pagar com'}: <span class="font-medium text-gray-700">${item.carteira}</span></p>
+                            <div class="grid grid-cols-1 gap-2 text-xs text-gray-400">
+                                <p>Fornecedor: <span class="font-medium text-gray-500">${item.fornecedor || 'Não informado'}</span></p>
+                                <p>${item.pago ? 'Pago com' : 'Pagar com'}: <span class="font-medium text-gray-500">${item.carteira}</span></p>
                                 <p>Status: <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.65rem] uppercase tracking-[0.22em] ${item.pago ? 'bg-green-50 text-green-600 border border-green-200' : 'bg-red-100 text-red-600 border border-red-200'}">${item.pago ? 'Pago' : 'Pendente'}</span></p>
                             </div>
                             <div class="flex justify-between items-center">
@@ -1417,9 +1445,16 @@
                 if (delBtn) handleExclusao(delBtn.dataset.tipo);
             });
 
-            valorMask = IMask(document.getElementById('lancamento-valor'), {
-                mask: 'R$ num',
-                blocks: { num: { mask: Number, scale: 2, thousandsSeparator: '.', padFractionalZeros: true, radix: ',', mapToRadix: ['.'] } }
+            const valorInput = document.getElementById('lancamento-valor');
+            valorInput.addEventListener('input', (e) => {
+                let value = e.target.value;
+                value = value.replace(/\./g, ',');
+                value = value.replace(/[^0-9,]/g, '');
+                const parts = value.split(',');
+                if (parts.length > 2) {
+                    value = parts[0] + ',' + parts.slice(1).join('');
+                }
+                e.target.value = value;
             });
             
             containerLista.addEventListener('click', (e) => {
@@ -1452,8 +1487,8 @@
             const fecharMenu = () => { menuLateral.classList.add('-translate-x-full'); menuLateralOverlay.classList.add('hidden'); };
             abrirMenuBtn.addEventListener('click', () => { menuLateral.classList.remove('-translate-x-full'); menuLateralOverlay.classList.remove('hidden'); });
             menuLateralOverlay.addEventListener('click', fecharMenu);
-            menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); tituloPrincipal.textContent = 'Controle da Obra'; fecharMenu(); });
-            menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); tituloPrincipal.textContent = 'Backup'; fecharMenu(); });
+            menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); totalizerFooter.classList.remove('hidden'); abrirNovoLancamentoBtn.classList.remove('hidden'); fecharMenu(); });
+            menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); totalizerFooter.classList.add('hidden'); abrirNovoLancamentoBtn.classList.add('hidden'); fecharMenu(); });
             exportarBtn.addEventListener('click', () => {
                 const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
                 const dataStr = JSON.stringify(dataToSave, null, 2);
@@ -1497,16 +1532,24 @@
 
         const alternarAbas = (aba) => {
             const isLancamentos = aba === 'lancamentos';
+            lancamentosTabBtn.setAttribute('aria-selected', isLancamentos);
+            relatoriosTabBtn.setAttribute('aria-selected', !isLancamentos);
+
             lancamentosTabBtn.classList.toggle('text-blue-600', isLancamentos);
             lancamentosTabBtn.classList.toggle('border-blue-600', isLancamentos);
             lancamentosTabBtn.classList.toggle('text-gray-500', !isLancamentos);
             lancamentosTabBtn.classList.toggle('border-transparent', !isLancamentos);
+            
             relatoriosTabBtn.classList.toggle('text-blue-600', !isLancamentos);
             relatoriosTabBtn.classList.toggle('border-blue-600', !isLancamentos);
             relatoriosTabBtn.classList.toggle('text-gray-500', isLancamentos);
             relatoriosTabBtn.classList.toggle('border-transparent', isLancamentos);
+
             lancamentosContent.classList.toggle('hidden', !isLancamentos);
             relatoriosContent.classList.toggle('hidden', isLancamentos);
+
+            totalizerFooter.classList.toggle('hidden', !isLancamentos);
+            abrirNovoLancamentoBtn.classList.toggle('hidden', !isLancamentos);
 
             if (!isLancamentos) {
                 renderizarGraficoCategorias();
@@ -1515,3 +1558,6 @@
     </script>
 </body>
 </html>
+
+
+

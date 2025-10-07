@@ -811,6 +811,29 @@
         let abrirAddCategoriaModal, abrirAddCarteiraModal, abrirAddFornecedorModal;
         let onConfirmAction = null;
 
+        // --- PERSISTÊNCIA DE DADOS ---
+        const salvarDados = () => {
+            const dataToSave = {
+                lancamentos,
+                categorias,
+                carteiras,
+                fornecedores
+            };
+            localStorage.setItem('controleObraData', JSON.stringify(dataToSave));
+        };
+
+        const carregarDados = () => {
+            const dadosSalvos = localStorage.getItem('controleObraData');
+            if (dadosSalvos) {
+                const data = JSON.parse(dadosSalvos);
+                lancamentos = data.lancamentos || [];
+                categorias = data.categorias || ['Estrutura e Vedações'];
+                carteiras = data.carteiras || ['Conta Corrente'];
+                fornecedores = data.fornecedores || ['Leroy Merlin'];
+            }
+        };
+
+
         // --- FUNÇÕES AUXILIARES ---
         const parseCurrency = (valorString) => {
             if (!valorString || typeof valorString !== 'string') return 0;
@@ -967,6 +990,7 @@
                 if (novoItem) {
                     if (!dataArray.some(item => item.toLowerCase() === novoItem.toLowerCase())) {
                         dataArray.push(novoItem);
+                        salvarDados();
                         atualizarTodosDropdownsEPopups();
                         mainDropdown.value = novoItem;
                         if (onSuccessCallback) {
@@ -1067,6 +1091,7 @@
             if (tipo === 'fornecedor') fornecedores = fornecedores.filter(i => i !== valor);
             if (tipo === 'carteira') carteiras = carteiras.filter(i => i !== valor);
 
+            salvarDados();
             atualizarTodosDropdownsEPopups();
             deleteItemModal.classList.add('hidden');
             mostrarNotificacao(`"${valor}" excluído com sucesso.`, true);
@@ -1088,6 +1113,7 @@
             if (tipo === 'fornecedor') fornecedores = fornecedores.filter(i => i !== valor);
             if (tipo === 'carteira') carteiras = carteiras.filter(i => i !== valor);
 
+            salvarDados();
             atualizarTodosDropdownsEPopups();
             
             if (!lancamentoModal.classList.contains('hidden') && tipo === 'categoria') {
@@ -1222,6 +1248,7 @@
                 lancamentos.push({ id: novoId, ...dados, valor: valorNumerico });
             }
             
+            salvarDados();
             renderizarLancamentos();
             fecharModalLancamento();
         });
@@ -1444,6 +1471,7 @@
 
         // --- EVENT LISTENERS ---
         document.addEventListener('DOMContentLoaded', () => {
+            carregarDados();
             atualizarTodosDropdownsEPopups();
             renderizarLancamentos();
 
@@ -1463,6 +1491,7 @@
                     const index = lancamentos.findIndex(l => l.id === id);
                     if (index > -1) {
                         lancamentos.splice(index, 1);
+                        salvarDados();
                         fecharModalLancamento();
                         renderizarLancamentos();
                         mostrarNotificacao('Lançamento excluído com sucesso!', true);
@@ -1539,6 +1568,7 @@
                     const lancamento = lancamentos.find(l => l.id === parseInt(btnToggle.dataset.id)); 
                     if (lancamento) { 
                         lancamento.pago = !lancamento.pago; 
+                        salvarDados();
                         renderizarLancamentos(); 
                     }
                 } else if (btnGaleria) {
@@ -1591,6 +1621,7 @@
                             categorias = data.categorias; 
                             carteiras = data.carteiras; 
                             fornecedores = data.fornecedores;
+                            salvarDados();
                             atualizarTodosDropdownsEPopups();
                             renderizarLancamentos();
                             mostrarNotificacao('Backup importado com sucesso!', true);

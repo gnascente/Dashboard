@@ -187,7 +187,7 @@
       window.OneSignalDeferred = window.OneSignalDeferred || [];
       OneSignalDeferred.push(function(OneSignal) {
         OneSignal.init({
-          appId: "bfad3d68-ae1c-4b4c-90a7-dc211aa11727",
+          appId: "9ba8834c-e59a-4dcd-bd78-435ff070e262",
           allowLocalhostAsSecureOrigin: true,
           promptOptions: {
             slidedown: {
@@ -241,7 +241,20 @@
                             </div>
                         </a>
                     </li>
-                </ul>
+                    <li>
+                        <a href="#" id="menu-teste-notificacao-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-violet-50 hover:text-violet-600 transition-colors">
+                             <span class="w-[38px] h-[38px] rounded-full flex items-center justify-center bg-violet-50 text-violet-600 mr-3">
+                                <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                </svg>
+                            </span>
+                            <div>
+                                <p class="text-sm font-semibold leading-none">Testar Notificação</p>
+                                <span class="text-xs text-gray-500">Enviar um push de teste agora</span>
+                            </div>
+                        </a>
+                    </li>
+                    </ul>
             </nav>
         </div>
     </div>
@@ -1021,6 +1034,67 @@
             }
         }
 
+        /**
+         * Função de TESTE para enviar a notificação imediatamente.
+         */
+        async function enviarNotificacaoDeTesteImediata() {
+            mostrarNotificacao('Preparando notificação de teste...', true);
+
+            // A lógica para montar a mensagem é a MESMA da função original.
+            // Assim, você testa se a mensagem está sendo criada corretamente.
+            const amanha = new Date();
+            amanha.setDate(amanha.getDate() + 1);
+            amanha.setHours(0, 0, 0, 0);
+            const amanhaStr = amanha.toISOString().slice(0, 10);
+
+            const lancamentosNaoPagos = lancamentos.filter(l => !l.pago);
+            const atrasados = lancamentosNaoPagos.filter(l => {
+                const dataLancamento = new Date(l.data + "T12:00:00Z");
+                return dataLancamento < amanha;
+            });
+            const vencendoAmanha = lancamentosNaoPagos.filter(l => l.data === amanhaStr);
+
+            let mensagem = "Lembrete da Obra: ";
+            const partesMensagem = [];
+
+            if (atrasados.length > 0) {
+                partesMensagem.push(`você tem ${atrasados.length} lançamento${atrasados.length > 1 ? 's' : ''} atrasado${atrasados.length > 1 ? 's' : ''}`);
+            }
+            if (vencendoAmanha.length > 0) {
+                partesMensagem.push(`${vencendoAmanha.length} vencendo hoje`);
+            }
+            
+            // Se não houver nada, envia uma mensagem padrão de teste.
+            if (partesMensagem.length === 0) {
+                mensagem = "Esta é uma notificação de teste. Tudo funcionando!";
+            } else {
+                mensagem += partesMensagem.join(' e ') + ".";
+            }
+
+            const playerId = await OneSignal.User.getPushSubscriptionId();
+            if (!playerId) {
+                mostrarNotificacao("Não foi possível obter seu ID de usuário para o teste.");
+                console.warn("Player ID do OneSignal não encontrado.");
+                return;
+            }
+
+            const notificationPayload = {
+                include_player_ids: [playerId],
+                headings: { pt: "Teste de Notificação da Obra", en: "Test Notification" },
+                contents: { pt: mensagem, en: "This is a test notification." },
+                // IMPORTANTE: Removemos a chave 'send_after' para envio imediato.
+            };
+
+            // Chama o mesmo endpoint da Vercel.
+            const response = await agendarNotificacao(notificationPayload);
+            
+            if (response && response.id) {
+                console.log('Notificação de teste enviada com ID:', response.id);
+                mostrarNotificacao('Notificação de teste enviada!', true);
+            } else {
+                mostrarNotificacao('Falha ao enviar notificação de teste.');
+            }
+        }
 
         // --- LÓGICA DE DROPDOWNS ---
         const popularDropdown = (dropdown, items, placeholder = null) => {
@@ -1745,6 +1819,14 @@
                 totalizerFooter.classList.add('hidden');
                 fecharMenu();
             });
+
+            // Listener para o novo botão de teste de notificação
+            document.getElementById('menu-teste-notificacao-btn').addEventListener('click', (e) => {
+                e.preventDefault();
+                enviarNotificacaoDeTesteImediata();
+                fecharMenu(); // Fecha o menu lateral após o clique
+            });
+            
             exportarBtn.addEventListener('click', () => {
                 const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
                 const dataStr = JSON.stringify(dataToSave, null, 2);

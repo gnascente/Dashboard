@@ -288,7 +288,6 @@
                     </span>
                 </button>
                 <div class="pt-3 accordion-content hidden">
-                    <p class="text-xs uppercase tracking-[0.22em] text-gray-500 mb-2">Situações</p>
                     <div class="flex flex-wrap gap-2" id="filtro-status-container">
                         </div>
                 </div>
@@ -301,7 +300,6 @@
                     </span>
                 </button>
                 <div class="pt-3 accordion-content hidden">
-                    <p class="text-xs uppercase tracking-[0.22em] text-gray-500 mb-2">Fases</p>
                     <div class="flex flex-wrap gap-2" id="filtro-categorias-container">
                         </div>
                 </div>
@@ -314,7 +312,6 @@
                     </span>
                 </button>
                 <div class="pt-3 accordion-content hidden">
-                    <p class="text-xs uppercase tracking-[0.22em] text-gray-500 mb-2">Parceiros</p>
                     <div class="flex flex-wrap gap-2" id="filtro-fornecedores-container">
                        </div>
                 </div>
@@ -327,7 +324,6 @@
                     </span>
                 </button>
                 <div class="pt-3 accordion-content hidden">
-                    <p class="text-xs uppercase tracking-[0.22em] text-gray-500 mb-2">Fontes</p>
                     <div class="flex flex-wrap gap-2" id="filtro-carteiras-container">
                         </div>
                 </div>
@@ -1398,6 +1394,12 @@
             for (const mesAno of mesesOrdenados) {
                 const lancamentosDoMes = agrupadoPorMes[mesAno];
                 const totalMes = lancamentosDoMes.reduce((soma, item) => soma + Number(item.valor || 0), 0);
+                const pendentesCount = lancamentosDoMes.filter(item => !item.pago).length;
+                let pendentesInfoHTML = '';
+                if (pendentesCount > 0) {
+                    pendentesInfoHTML = `<p class="pendentes-info text-xs text-red-600 font-semibold mt-1 hidden">${pendentesCount} pendente(s)</p>`;
+                }
+
                 const mesContainer = document.createElement('div');
                 mesContainer.className = `mb-6 ${monthColors[monthIndex++ % monthColors.length]} p-5 rounded-3xl border border-gray-200/70 shadow-soft transition-all duration-300`;
                 const headerDiv = document.createElement('div');
@@ -1406,6 +1408,7 @@
                     <div>
                         <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Período</p>
                         <h2 class="text-xl font-semibold text-gray-800">${mesAno.charAt(0).toUpperCase() + mesAno.slice(1)}</h2>
+                        ${pendentesInfoHTML}
                     </div>
                     <div class="text-right">
                         <p class="text-xs uppercase tracking-[0.22em] text-gray-500">Total do mês</p>
@@ -1449,7 +1452,14 @@
                         </div>`;
                     listContainer.appendChild(itemDiv);
                 });
-                headerDiv.onclick = () => { listContainer.classList.toggle('hidden'); headerDiv.querySelector('svg').classList.toggle('rotate-180'); };
+                headerDiv.onclick = () => { 
+                    listContainer.classList.toggle('hidden'); 
+                    headerDiv.querySelector('svg').classList.toggle('rotate-180');
+                    const pendentesInfo = headerDiv.querySelector('.pendentes-info');
+                    if(pendentesInfo) {
+                        pendentesInfo.classList.toggle('hidden');
+                    }
+                };
                 mesContainer.append(headerDiv, listContainer);
                 containerLista.appendChild(mesContainer);
             }
@@ -1594,7 +1604,7 @@
             const fecharMenu = () => { menuLateral.classList.add('-translate-x-full'); menuLateralOverlay.classList.add('hidden'); };
             abrirMenuBtn.addEventListener('click', () => { menuLateral.classList.remove('-translate-x-full'); menuLateralOverlay.classList.remove('hidden'); });
             menuLateralOverlay.addEventListener('click', fecharMenu);
-            menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); totalizerFooter.classList.remove('hidden'); abrirNovoLancamentoBtn.classList.remove('hidden'); alternarAbas('lancamentos'); fecharMenu(); });
+            menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); alternarAbas('lancamentos'); fecharMenu(); });
             menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); totalizerFooter.classList.add('hidden'); abrirNovoLancamentoBtn.classList.add('hidden'); fecharMenu(); });
             exportarBtn.addEventListener('click', () => {
                 const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
@@ -1641,30 +1651,33 @@
             const arrowDown = document.getElementById('totalizer-arrow-down');
             const arrowUp = document.getElementById('totalizer-arrow-up');
             const resumoTotal = document.getElementById('resumo-total');
-            const footerContent = document.getElementById('totalizer-footer-content');
-
-            toggleBtn.addEventListener('click', () => {
-                const isCollapsed = footer.dataset.collapsed === 'true';
+            
+            const applyTotalizerState = () => {
+                const isCollapsed = localStorage.getItem('totalizerCollapsed') === 'true';
+                footer.dataset.collapsed = isCollapsed;
                 if (isCollapsed) {
-                    // Expand
-                    footer.style.transform = 'translateY(0)';
-                    arrowDown.classList.remove('hidden');
-                    arrowUp.classList.add('hidden');
-                    footer.dataset.collapsed = 'false';
-                } else {
-                    // Collapse
-                    const height = resumoTotal.offsetHeight + 16; // 1rem for padding
+                    const height = resumoTotal.offsetHeight + 16;
                     footer.style.transform = `translateY(${height}px)`;
                     arrowDown.classList.add('hidden');
                     arrowUp.classList.remove('hidden');
-                    footer.dataset.collapsed = 'true';
+                } else {
+                    footer.style.transform = 'translateY(0)';
+                    arrowDown.classList.remove('hidden');
+                    arrowUp.classList.add('hidden');
                 }
+            };
+
+            toggleBtn.addEventListener('click', () => {
+                const isCollapsed = footer.dataset.collapsed === 'true';
+                localStorage.setItem('totalizerCollapsed', !isCollapsed);
+                applyTotalizerState();
             });
 
             // Mostrar a aba de Lançamentos por padrão
             alternarAbas('lancamentos');
             mainContent.classList.remove('hidden');
             backupContent.classList.add('hidden');
+            applyTotalizerState();
 
 
         });

@@ -4,10 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Controle de Obra</title>
-    <!-- PWA -->
     <link rel="manifest" href="manifest.json">
-    <meta name="theme-color" content="#349e7b"/>
-    <link rel="apple-touch-icon" href="https://placehold.co/192x192/349e7b/FFFFFF?text=Obra">
+    <meta name="theme-color" content="#7c3aed"/>
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/7c3aed/FFFFFF?text=Obra">
 
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -15,6 +14,7 @@
             theme: {
                 extend: {
                     colors: {
+                        primary: '#7c3aed',
                         accent: '#349e7b',
                         accentDark: '#2a7e62',
                         accentLight: '#66bba5',
@@ -70,27 +70,38 @@
             }
         };
     </script>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
+    <script>
+      window.OneSignalDeferred = window.OneSignalDeferred || [];
+      OneSignalDeferred.push(async function(OneSignal) {
+        await OneSignal.init({
+          appId: "bfad3d68-ae1c-4b4c-90a7-dc211aa11727",
+        });
+      });
+    </script>
+    
     <style>
         :root {
-            --bg-base: #f5f1eb;
-            --surface: #fbf9f5;
+            --bg-base: #f7f7f7;
+            --surface: #ffffff;
             --surface-muted: #ede4d8;
             --surface-strong: #e0d6c4;
-            --border-soft: #d8cec0;
-            --border-strong: #b9ab98;
-            --text-primary: #2f2b27;
-            --text-secondary: #5a5752;
-            --text-muted: #7b7770;
-            --accent: #349e7b;
-            --accent-hover: #2a7e62;
-            --accent-soft: rgba(52, 158, 123, 0.12);
-            --highlight: #d97706;
-            --danger: #d9534f;
-            --danger-hover: #c9302c;
-            --success: #5cb85c;
-            --success-soft: rgba(92, 184, 92, 0.18);
+            --border-soft: #e5e7eb;
+            --border-strong: #d1d5db;
+            --text-primary: #1f2937;
+            --text-secondary: #4b5563;
+            --text-muted: #6b7280;
+            --accent: #7c3aed;
+            --accent-hover: #6d28d9;
+            --accent-soft: rgba(124, 58, 237, 0.12);
+            --highlight: #f59e0b;
+            --danger: #ef4444;
+            --danger-hover: #dc2626;
+            --success: #22c55e;
+            --success-soft: rgba(34, 197, 94, 0.18);
         }
 
         body {
@@ -100,41 +111,39 @@
         }
 
         .bg-gray-100 { background-color: var(--bg-base) !important; }
-        .bg-gray-200 { background-color: var(--surface-muted) !important; }
-        .bg-gray-50 { background-color: rgba(255, 255, 255, 0.6) !important; }
         .bg-white { background-color: var(--surface) !important; }
         .text-gray-800 { color: var(--text-primary) !important; }
         .text-gray-700 { color: var(--text-secondary) !important; }
         .text-gray-600 { color: var(--text-muted) !important; }
-        .text-gray-500 { color: #949089 !important; }
-        .text-gray-400 { color: #b0aba4 !important; }
         .border-gray-200 { border-color: var(--border-soft) !important; }
-        .border-gray-300 { border-color: var(--border-soft) !important; }
-        .border-gray-400 { border-color: var(--border-strong) !important; }
-        .bg-blue-500 { background-color: var(--accent) !important; }
-        .bg-blue-600 { background-color: var(--accent-hover) !important; }
-        .hover\:bg-blue-600:hover { background-color: var(--accent-hover) !important; }
-        .hover\:bg-blue-700:hover { background-color: var(--accent-hover) !important; }
-        .text-blue-600 { color: var(--accent-hover) !important; }
-        .text-blue-500 { color: var(--accent) !important; }
-        .border-blue-600 { border-color: var(--accent-hover) !important; }
-        .focus\:border-blue-500:focus { border-color: var(--accent) !important; }
-        .focus\:ring-blue-500:focus { --tw-ring-color: rgba(52, 158, 123, 0.4) !important; }
-        .focus\:ring-blue-300:focus { --tw-ring-color: rgba(52, 158, 123, 0.25) !important; }
+        .border-gray-300 { border-color: var(--border-strong) !important; }
+        
+        .bg-violet-500 { background-color: var(--accent) !important; }
+        .bg-violet-600 { background-color: var(--accent-hover) !important; }
+        .hover\:bg-violet-600:hover { background-color: var(--accent-hover) !important; }
+        .hover\:bg-violet-700:hover { background-color: var(--accent-hover) !important; }
+        .text-violet-600 { color: var(--accent-hover) !important; }
+        .text-violet-500 { color: var(--accent) !important; }
+        .border-violet-600 { border-color: var(--accent-hover) !important; }
+        .focus\:border-violet-500:focus { border-color: var(--accent) !important; }
+        .focus\:ring-violet-500:focus { --tw-ring-color: rgba(124, 58, 237, 0.4) !important; }
+        .bg-violet-50 { background-color: var(--accent-soft) !important; }
+        
         .bg-red-500 { background-color: var(--danger) !important; }
         .hover\:bg-red-600:hover { background-color: var(--danger-hover) !important; }
         .text-red-600 { color: var(--danger-hover) !important; }
-        .bg-red-100 { background-color: rgba(217, 83, 79, 0.15) !important; }
+        .bg-red-100 { background-color: rgba(239, 68, 68, 0.15) !important; }
+        
         .text-green-500, .text-green-600 { color: var(--success) !important; }
         .bg-green-500 { background-color: var(--success) !important; }
         .peer-checked\:bg-green-500:checked { background-color: var(--success) !important; }
-        .bg-green-50 { background-color: rgba(92, 184, 92, 0.12) !important; }
-        .bg-yellow-50 { background-color: rgba(217, 119, 6, 0.12) !important; }
-        .bg-blue-50 { background-color: var(--accent-soft) !important; }
-        .hover\:bg-gray-200:hover, .hover\:bg-gray-100:hover { background-color: rgba(230, 221, 209, 0.75) !important; }
-        .hover\:bg-gray-50:hover { background-color: rgba(240, 234, 224, 0.8) !important; }
-        .hover\:bg-white:hover { background-color: rgba(255, 255, 255, 0.85) !important; }
+        .bg-green-50 { background-color: var(--success-soft) !important; }
 
+        .bg-amber-100 { background-color: #fef3c7 !important; }
+        .text-amber-800 { color: #92400e !important; }
+        .bg-amber-500 { background-color: var(--highlight) !important; }
+        .hover\:bg-amber-600:hover { background-color: #d97706 !important; }
+        
         #menu-lateral,
         #filtro-avancado-panel,
         #lancamento-modal > div,
@@ -151,62 +160,26 @@
             box-shadow: 0 24px 45px rgba(47, 43, 39, 0.12);
         }
 
-        header,
         #totalizer-footer-content {
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.9);
             backdrop-filter: blur(14px);
-            border: 1px solid rgba(217, 206, 192, 0.7);
-            border-radius: 18px;
+            border-top: 1px solid rgba(229, 231, 235, 0.9);
         }
 
-        header { padding: 1rem 1.25rem; margin-bottom: 1rem; }
         footer { box-shadow: 0 -8px 30px rgba(47, 43, 39, 0.08); }
 
-        #main-content nav button { border-bottom-width: 2px; transition: all 0.2s ease; }
+        #main-content nav button { border-bottom-width: 3px; transition: all 0.2s ease; padding-bottom: 0.6rem;}
         #main-content nav button[aria-selected="true"],
-        #main-content nav button.border-blue-600 {
+        #main-content nav button.border-violet-600 {
             color: var(--accent-hover) !important;
             border-color: var(--accent-hover) !important;
         }
         #main-content nav button:hover { color: var(--accent) !important; }
 
-        #resumo-total {
-            background: linear-gradient(120deg, var(--accent-soft), rgba(217, 119, 6, 0.12));
-            border-radius: 14px;
-            padding: 1.1rem 1.25rem;
-            border: 1px solid rgba(52, 158, 123, 0.2);
-        }
-
-        #filtros-ativos-container .pill {
-            background: var(--accent-soft);
-            color: var(--accent-hover);
-            border-radius: 9999px;
-            padding: 0.35rem 0.8rem;
-            font-weight: 500;
-        }
-
-        .btn-galeria,
-        .btn-toggle-pago,
-        .btn-editar {
-            transition: transform 0.2s ease;
-        }
-        .btn-galeria:hover,
-        .btn-toggle-pago:hover,
-        .btn-editar:hover {
-            transform: translateY(-2px);
-        }
-
-        .btn-toggle-pago[data-ativo="true"] {
-            background-color: var(--success-soft);
-            border-radius: 50%;
-        }
-
         #abrir-novo-lancamento-modal { box-shadow: var(--accent-soft) 0px 18px 35px; }
 
         @keyframes pulse {
-            50% {
-                transform: scale(1.05);
-            }
+            50% { transform: scale(1.05); }
         }
         .animate-pulse-slow {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
@@ -214,242 +187,28 @@
         .rotate-180 {
             transform: rotate(180deg);
         }
-        #filtro-avancado-panel-content::-webkit-scrollbar {
-            width: 6px;
-        }
-        #filtro-avancado-panel-content::-webkit-scrollbar-track {
-            background: rgba(217, 206, 192, 0.4);
-        }
-        #filtro-avancado-panel-content::-webkit-scrollbar-thumb {
-            background: rgba(52, 158, 123, 0.5);
-            border-radius: 3px;
-        }
-        #filtro-avancado-panel-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(52, 158, 123, 0.7);
-        }
     </style>
 </head>
 <body class="bg-gray-100">
 
     <div id="menu-lateral-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-30 hidden"></div>
     <div id="menu-lateral" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 transform -translate-x-full transition-transform duration-300">
-        <div class="p-6">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="w-10 h-10 rounded-lg bg-accent text-white flex items-center justify-center shadow-soft">
-                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m-3-1l-3-1m-3 1l-3 1m-3-1l3-1.091m0 0l3 1.091m0 0l3-1.091m0 0l3 1.091m0 0l3-1.091M5.25 9.75h3.75m-3.75 0a.75.75 0 01.75-.75h2.25c.414 0 .75.336.75.75m0 0v3.375c0 .621-.504 1.125-1.125 1.125h-1.5c-.621 0-1.125-.504-1.125-1.125V9.75z" />
-                    </svg>
-                </span>
-                <div>
-                    <p class="text-sm uppercase tracking-[0.18em] text-gray-500">Controle</p>
-                    <h2 class="text-xl font-semibold text-gray-800">Painel da Obra</h2>
-                </div>
-            </div>
-            <nav>
-                <ul class="space-y-2">
-                    <li>
-                        <a href="#" id="menu-lancamentos-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-accent/10 hover:text-accent-hover transition-colors">
-                            <span class="w-[38px] h-[38px] rounded-full flex items-center justify-center bg-accent/10 text-accent-hover mr-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
-                            </span>
-                            <div>
-                                <p class="text-sm font-semibold leading-none">Lançamentos</p>
-                                <span class="text-xs text-gray-500">Organize as entradas da obra</span>
-                            </div>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#" id="menu-backup-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-accent/10 hover:text-accent-hover transition-colors">
-                             <span class="w-[38px] h-[38px] rounded-full flex items-center justify-center bg-accent/10 text-accent-hover mr-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0L8 8m4-4v12"></path></svg>
-                            </span>
-                            <div>
-                                <p class="text-sm font-semibold leading-none">Backup</p>
-                                <span class="text-xs text-gray-500">Garanta a segurança dos dados</span>
-                            </div>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
         </div>
-    </div>
-
     <div id="filtro-avancado-overlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden"></div>
     <div id="filtro-avancado-panel" class="fixed top-0 right-0 h-full w-80 max-w-full bg-white shadow-lg z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
-        <div class="p-5 border-b flex justify-between items-center">
-            <div>
-                <p class="text-xs uppercase tracking-[0.18em] text-gray-500">Refinar visão</p>
-                <h2 class="text-lg font-semibold text-gray-800">Filtros avançados</h2>
-            </div>
-            <button id="fechar-filtro-btn" class="p-2 -mr-2 text-gray-500 hover:text-gray-800 rounded-full">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
-            </button>
         </div>
-        <div id="filtro-avancado-panel-content" class="flex-grow p-4 space-y-1 overflow-y-auto">
-             <div class="py-3 border-b border-dashed border-gray-200">
-                <button class="w-full flex justify-between items-center text-left accordion-header p-3 rounded-xl hover:bg-accent/10">
-                    <span class="font-semibold text-gray-700">Status</span>
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent-hover">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </span>
-                </button>
-                <div class="pt-3 accordion-content hidden">
-                    <div class="flex flex-wrap gap-2" id="filtro-status-container">
-                        </div>
-                </div>
-            </div>
-            <div class="py-3 border-b border-dashed border-gray-200">
-                <button class="w-full flex justify-between items-center text-left accordion-header p-3 rounded-xl hover:bg-accent/10">
-                    <span class="font-semibold text-gray-700">Categorias</span>
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent-hover">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </span>
-                </button>
-                <div class="pt-3 accordion-content hidden">
-                    <div class="flex flex-wrap gap-2" id="filtro-categorias-container">
-                        </div>
-                </div>
-            </div>
-            <div class="py-3 border-b border-dashed border-gray-200">
-                <button class="w-full flex justify-between items-center text-left accordion-header p-3 rounded-xl hover:bg-accent/10">
-                    <span class="font-semibold text-gray-700">Fornecedores</span>
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent-hover">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </span>
-                </button>
-                <div class="pt-3 accordion-content hidden">
-                    <div class="flex flex-wrap gap-2" id="filtro-fornecedores-container">
-                       </div>
-                </div>
-            </div>
-            <div class="py-3 border-b border-dashed border-gray-200">
-                <button class="w-full flex justify-between items-center text-left accordion-header p-3 rounded-xl hover:bg-accent/10">
-                    <span class="font-semibold text-gray-700">Carteiras</span>
-                    <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-accent/10 text-accent-hover">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transform transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </span>
-                </button>
-                <div class="pt-3 accordion-content hidden">
-                    <div class="flex flex-wrap gap-2" id="filtro-carteiras-container">
-                        </div>
-                </div>
-            </div>
-        </div>
-        <div class="p-5 border-t bg-accent/5 flex gap-3">
-            <button id="limpar-filtros-btn" class="flex-1 px-4 py-2 bg-white border border-gray-200 text-gray-700 rounded-lg hover:bg-gray-100">Limpar</button>
-            <button id="aplicar-filtros-btn" class="flex-1 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">Ver Resultados</button>
-        </div>
-    </div>
 
     <div class="container mx-auto max-w-md p-4 pb-28">
-        
-        <header class="grid grid-cols-3 items-center my-4">
-            <div class="flex justify-start">
-                <button id="abrir-menu-btn" class="p-3 rounded-2xl bg-sand-100 hover:bg-sand-200 focus:outline-none focus:ring-2 focus:ring-accent/40">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-                    </svg>
-                </button>
-            </div>
-            
-            <div class="flex justify-center items-center gap-3">
-                <div class="relative flex-shrink-0">
-                    <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-accent/10 blur-xl"></div>
-                    <div class="w-12 h-12 rounded-2xl bg-accent text-white flex items-center justify-center shadow-soft">
-                        <svg class="h-7 w-7" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m-3-1l-3-1m-3 1l-3 1m-3-1l3-1.091m0 0l3 1.091m0 0l3-1.091m0 0l3 1.091m0 0l3-1.091M5.25 9.75h3.75m-3.75 0a.75.75 0 01.75-.75h2.25c.414 0 .75.336.75.75m0 0v3.375c0 .621-.504 1.125-1.125 1.125h-1.5c-.621 0-1.125-.504-1.125-1.125V9.75z" />
-                        </svg>
-                    </div>
-                </div>
-                <div>
-                    <h1 id="titulo-principal" class="text-xl font-semibold text-gray-800 leading-tight">Controle da Obra</h1>
-                    <div class="flex items-baseline gap-2">
-                        <p class="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-gray-500">Residencial</p>
-                        <span class="text-gray-400">&bull;</span>
-                        <span class="text-[0.65rem] font-medium uppercase tracking-[0.1em] text-gray-500">v1.0</span>
-                    </div>
-                </div>
-            </div>
-
-            <div class="flex justify-end"></div>
-
-        </header>
+        <header class="flex items-center justify-between my-4">
+            </header>
 
         <div id="main-content">
-            <div class="border-b border-gray-200 mb-4">
-                <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-                    <button id="lancamentos-tab-btn" aria-selected="true" class="group whitespace-nowrap pb-3 px-1 border-b-2 font-semibold text-sm text-blue-600 border-blue-600 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-                        </svg>
-                        <span>Lançamentos</span>
-                    </button>
-                    <button id="relatorios-tab-btn" class="group whitespace-nowrap pb-3 px-1 border-b-2 font-semibold text-sm text-gray-500 hover:text-gray-700 border-transparent flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                          <path stroke-linecap="round" stroke-linejoin="round" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-                        </svg>
-                        <span>Relatórios</span>
-                    </button>
-                </nav>
             </div>
 
-            <div id="lancamentos-content">
-                <div class="flex items-center gap-3 mb-5 bg-white/70 backdrop-blur rounded-2xl border border-gray-200 p-3 shadow-soft">
-                    <div class="relative flex-grow">
-                        <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                            <svg class="h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd" />
-                            </svg>
-                        </div>
-                        <input type="text" id="campo-pesquisa" placeholder="Pesquisar por descrição..." class="w-full pl-11 pr-4 py-3 rounded-full border border-gray-200 bg-white/80 focus:ring-blue-500 focus:border-blue-500">
-                    </div>
-                    <button id="abrir-filtro-btn" class="relative p-3 rounded-2xl bg-white border border-gray-200 text-gray-500 hover:bg-accent/10 hover:text-accent">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h18M7 12h10m-7 8h4" /></svg>
-                        <span id="filtro-badge" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center hidden">0</span>
-                    </button>
-                </div>
-                
-                <div id="filtros-ativos-container" class="flex flex-wrap gap-2 mb-4"></div>
-
-                <main id="lancamentos-lista"></main>
-            </div>
-
-            <div id="relatorios-content" class="hidden space-y-6">
-                <div class="bg-white rounded-2xl shadow-soft border border-gray-200 p-5">
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-green-50 p-4 rounded-xl border border-green-200 text-center">
-                            <p class="text-sm font-medium text-green-800">Total Pago</p>
-                            <p id="resumo-pago" class="text-xl font-bold text-green-600 break-words">R$ 0,00</p>
-                        </div>
-                        <div class="bg-terracotta-100 p-4 rounded-xl border border-red-200 text-center">
-                            <p class="text-sm font-medium text-red-800">Falta Pagar</p>
-                            <p id="resumo-pendente" class="text-xl font-bold text-red-600 break-words">R$ 0,00</p>
-                        </div>
-                        <div class="bg-sand-100 p-4 rounded-xl border border-sand-200 col-span-1 sm:col-span-2 text-center">
-                             <p class="text-sm font-medium text-clay-700">Custo Total da Obra</p>
-                             <p id="resumo-custo-total" class="text-2xl font-bold text-clay-900 break-words">R$ 0,00</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white rounded-2xl shadow-soft border border-gray-200 p-5">
-                    <div class="flex items-center justify-between mb-4">
-                        <div>
-                            <h3 class="text-lg font-semibold text-gray-800">Gastos por Categoria</h3>
-                        </div>
-                        <span class="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">Atualizado em tempo real</span>
-                    </div>
-                    <div class="h-56">
-                        <canvas id="category-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
         <div id="backup-content" class="hidden">
-            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-soft">
+            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                  <div class="text-center pb-6 mb-6 border-b border-dashed">
-                    <svg class="mx-auto h-20 w-20 text-accent/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                    <svg class="mx-auto h-20 w-20 text-violet-500/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <h2 class="text-2xl font-semibold text-gray-800">Backup</h2>
                     <p class="text-sm text-gray-500 mt-1">Exporte ou importe os dados da sua obra</p>
                 </div>
@@ -458,7 +217,7 @@
                         <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Segurança</p>
                         <h3 class="text-lg font-bold text-gray-800">Exportar Dados</h3>
                         <p class="text-sm text-gray-600 mt-1">Salve todos os seus dados, incluindo fotos, em um único arquivo de backup.</p>
-                        <button id="exportar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700">Exportar Backup</button>
+                        <button id="exportar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-violet-600 hover:bg-violet-700">Exportar Backup</button>
                     </div>
                     <div class="border-t border-dashed pt-6">
                         <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Restauração</p>
@@ -470,267 +229,95 @@
                 </div>
             </div>
         </div>
-
         <footer id="totalizer-footer" class="fixed bottom-0 left-0 right-0 max-w-md mx-auto transition-transform duration-300" data-collapsed="false">
-            <div id="totalizer-footer-content" class="relative p-3">
-                 <button id="toggle-totalizer-btn" class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-white w-12 h-7 rounded-full flex items-center justify-center border shadow-md focus:outline-none focus:ring-2 focus:ring-accent/40">
+            <div id="totalizer-footer-content" class="relative px-4 py-2 flex items-center gap-4">
+                 <button id="toggle-totalizer-btn" class="absolute -top-3.5 left-1/2 -translate-x-1/2 bg-white w-12 h-7 rounded-full flex items-center justify-center border shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500/40">
                     <svg id="totalizer-arrow-down" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
                     <svg id="totalizer-arrow-up" xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-600 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7" /></svg>
                 </button>
-                <div id="resumo-total" class="flex justify-between items-center text-gray-700">
+                <div id="resumo-total" class="flex-grow flex justify-between items-center text-gray-700">
                 </div>
+                <button id="abrir-novo-lancamento-modal" class="relative bg-violet-600 hover:bg-violet-700 text-white rounded-full w-14 h-14 flex-shrink-0 flex items-center justify-center shadow-lg">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                   </svg>
+               </button>
             </div>
         </footer>
-        
-        <button id="abrir-novo-lancamento-modal" class="fixed bottom-20 right-5 max-w-md mx-auto bg-sky-500 hover:bg-sky-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg animate-pulse-slow">
-             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-            </svg>
-        </button>
-
-    </div>
-
-    <div id="lancamento-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[95vh] overflow-y-auto">
-            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10">
-                <h3 id="lancamento-modal-titulo" class="text-lg font-bold text-gray-800">Editar Lançamento</h3>
-                <button id="fechar-lancamento-modal" class="text-gray-500 hover:text-gray-800">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-            <form id="lancamento-form" class="p-4 space-y-4">
-                <input type="hidden" id="lancamento-id">
-
-                <div class="flex gap-4">
-                    <div class="w-2/5">
-                        <label for="lancamento-data" class="block text-sm font-medium text-gray-700">Data</label>
-                        <input type="date" id="lancamento-data" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required>
-                    </div>
-                    <div class="w-3/5">
-                        <label for="lancamento-valor" class="block text-sm font-medium text-gray-700">Valor</label>
-                        <div class="relative mt-1">
-                            <span class="absolute inset-y-0 left-0 pl-3 flex items-center text-gray-500">R$</span>
-                            <input type="text" inputmode="decimal" id="lancamento-valor" placeholder="0,00" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm pl-10">
-                        </div>
-                    </div>
-                </div>
-
-                <div>
-                    <label for="lancamento-descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
-                    <textarea id="lancamento-descricao" rows="2" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required></textarea>
-                </div>
-                
-                <div>
-                    <label for="lancamento-categoria" class="block text-sm font-medium text-gray-700">Categoria</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <select id="lancamento-categoria" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required></select>
-                        <button type="button" class="btn-adicionar p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0" data-tipo="categoria">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                        </button>
-                         <button type="button" class="btn-excluir p-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex-shrink-0" data-tipo="categoria">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <label for="lancamento-fornecedor" class="block text-sm font-medium text-gray-700">Fornecedor</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <select id="lancamento-fornecedor" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required></select>
-                        <button type="button" class="btn-adicionar p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0" data-tipo="fornecedor">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                        </button>
-                         <button type="button" class="btn-excluir p-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex-shrink-0" data-tipo="fornecedor">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
-                        </button>
-                    </div>
-                </div>
-                <div>
-                    <label for="lancamento-carteira" class="block text-sm font-medium text-gray-700">Quem vai pagar</label>
-                    <div class="flex items-center space-x-2 mt-1">
-                        <select id="lancamento-carteira" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm" required></select>
-                        <button type="button" class="btn-adicionar p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0" data-tipo="carteira">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                        </button>
-                        <button type="button" class="btn-excluir p-2 bg-red-500 text-white rounded-md hover:bg-red-600 flex-shrink-0" data-tipo="carteira">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm4 0a1 1 0 012 0v6a1 1 0 11-2 0V8z" clip-rule="evenodd" /></svg>
-                        </button>
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between pt-2">
-                    <span class="text-sm font-medium text-gray-700">Marcar como Pago</span>
-                     <div class="flex items-center gap-3">
-                        <span id="pago-status-text" class="text-sm font-semibold text-gray-500 w-8 text-center">Não</span>
-                        <label for="lancamento-pago" class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="lancamento-pago" class="sr-only peer">
-                            <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-accent/40 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
-                        </label>
-                    </div>
-                </div>
-                
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Fotos</label>
-                    <div id="fotos-thumbnails-container" class="mt-2 grid grid-cols-3 sm:grid-cols-4 gap-2">
-                        </div>
-                    <div class="mt-2 flex items-center gap-2">
-                        <button type="button" id="btn-galeria-upload" class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <svg class="w-5 h-5 mr-2 -ml-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>
-                            Galeria
-                        </button>
-                        <button type="button" id="btn-camera-upload" class="flex-1 inline-flex items-center justify-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
-                            <svg class="w-5 h-5 mr-2 -ml-1 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path d="M2 6a2 2 0 012-2h1.586a1 1 0 01.707.293l1.414 1.414a1 1 0 00.707.293h3.172a1 1 0 00.707-.293l1.414-1.414A1 1 0 0114.414 4H16a2 2 0 012 2v1h-1.5a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5H18v5.5a.5.5 0 00.5.5h.5a.5.5 0 00.5-.5V6a2 2 0 01-2-2h-1.586a1 1 0 01-.707-.293L13 2.293A1 1 0 0012.293 2H7.707a1 1 0 00-.707.293L5.293 3.707A1 1 0 014.586 4H4a2 2 0 01-2 2v10a2 2 0 012 2h12a2 2 0 012-2V9h-1.5a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5H18v1.5a.5.5 0 00.5.5h.5a.5.5 0 00.5-.5V9a2 2 0 01-2-2h-1.5a.5.5 0 00-.5.5v.5a.5.5 0 00.5.5H18v1.5a.5.5 0 00.5.5h.5a.5.5 0 00.5-.5V6zM10 12a2 2 0 100-4 2 2 0 000 4z" /></svg>
-                            Câmera
-                        </button>
-                        <input type="file" id="galeria-input" class="hidden" accept="image/*" multiple>
-                        <input type="file" id="camera-input" class="hidden" accept="image/*" capture="environment">
-                    </div>
-                </div>
-
-                <div class="flex justify-between items-center pt-2 space-x-2">
-                    <button type="button" id="excluir-lancamento-btn" class="px-4 py-2 bg-red-100 text-red-700 rounded-md hover:bg-red-200 hidden">Excluir</button>
-                    <div class="flex-grow flex justify-end space-x-2">
-                        <button type="button" id="cancelar-lancamento" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancelar</button>
-                        <button type="submit" class="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600">Salvar</button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="add-categoria-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[80] hidden">
-        <div id="add-categoria-modal-content" class="bg-white rounded-xl shadow-xl max-w-sm w-full transform transition-all duration-300 scale-95 opacity-0">
-            <div class="p-5 bg-blue-50 rounded-t-xl text-center"><h3 class="text-lg font-bold text-blue-800">Adicionar Nova Categoria</h3></div>
-            <form id="add-categoria-form" class="p-6 space-y-6">
-                <div><input type="text" id="nova-categoria-nome" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 text-lg p-3 text-center" placeholder="Nome da Categoria" required></div>
-                <div class="flex justify-center pt-2 space-x-3">
-                    <button type="button" class="cancelar-add-item px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition-colors">Cancelar</button>
-                    <button type="submit" class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 font-semibold transition-colors shadow hover:shadow-lg">Adicionar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="add-carteira-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[80] hidden">
-        <div id="add-carteira-modal-content" class="bg-white rounded-xl shadow-xl max-w-sm w-full transform transition-all duration-300 scale-95 opacity-0">
-            <div class="p-5 bg-green-50 rounded-t-xl text-center"><h3 class="text-lg font-bold text-green-800">Adicionar Nova Carteira</h3></div>
-            <form id="add-carteira-form" class="p-6 space-y-6">
-                <div><input type="text" id="nova-carteira-nome" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-green-500 focus:ring-green-500 text-lg p-3 text-center" placeholder="Nome da Carteira" required></div>
-                <div class="flex justify-center pt-2 space-x-3">
-                    <button type="button" class="cancelar-add-item px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition-colors">Cancelar</button>
-                    <button type="submit" class="px-6 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 font-semibold transition-colors shadow hover:shadow-lg">Adicionar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <div id="add-fornecedor-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[80] hidden">
-        <div id="add-fornecedor-modal-content" class="bg-white rounded-xl shadow-xl max-w-sm w-full transform transition-all duration-300 scale-95 opacity-0">
-            <div class="p-5 bg-yellow-50 rounded-t-xl text-center"><h3 class="text-lg font-bold text-yellow-800">Adicionar Novo Fornecedor</h3></div>
-            <form id="add-fornecedor-form" class="p-6 space-y-6">
-                <div><input type="text" id="nova-fornecedor-nome" class="mt-1 block w-full rounded-lg border-gray-300 shadow-sm focus:border-yellow-500 focus:ring-yellow-500 text-lg p-3 text-center" placeholder="Nome do Fornecedor" required></div>
-                <div class="flex justify-center pt-2 space-x-3">
-                    <button type="button" class="cancelar-add-item px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 font-semibold transition-colors">Cancelar</button>
-                    <button type="submit" class="px-6 py-2 bg-yellow-500 text-white rounded-lg hover:bg-yellow-600 font-semibold transition-colors shadow hover:shadow-lg">Adicionar</button>
-                </div>
-            </form>
-        </div>
-    </div>
-    
-    <div id="delete-item-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[70] hidden">
-        <div class="bg-white rounded-xl shadow-xl max-w-sm w-full">
-            <div class="p-5 border-b">
-                <h3 class="text-lg font-bold text-gray-800" id="delete-item-title">Excluir Item</h3>
-            </div>
-            <div class="p-6 space-y-4">
-                <div>
-                    <label for="delete-item-select" id="delete-item-label" class="block text-sm font-medium text-gray-700">Selecione o item para excluir:</label>
-                    <select id="delete-item-select" class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"></select>
-                </div>
-                <div id="delete-item-info-section" class="hidden">
-                    <p id="delete-item-message" class="text-sm text-gray-600 mt-2 p-3 rounded-md"></p>
-                    <div id="delete-item-replace-section" class="mt-4 hidden">
-                        <label for="delete-item-replace-select" class="block text-sm font-medium text-gray-700">Substituir por:</label>
-                        <div class="flex items-center space-x-2 mt-1">
-                            <select id="delete-item-replace-select" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 sm:text-sm"></select>
-                            <button type="button" id="delete-item-add-replacement-btn" class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 flex-shrink-0">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" /></svg>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="px-6 py-4 bg-gray-50 flex justify-end space-x-3">
-                <button type="button" id="cancelar-delete-item" class="px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancelar</button>
-                <button type="button" id="confirmar-delete-simples" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 hidden">Excluir</button>
-                <button type="button" id="confirmar-delete-replace" class="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 hidden">Substituir e Excluir</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="confirmacao-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-[90] hidden">
-        <div class="bg-white rounded-xl shadow-xl max-w-sm w-full">
-            <div class="p-5 text-center">
-                <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-red-100">
-                    <svg class="h-6 w-6 text-red-600" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
-                    </svg>
-                </div>
-                <h3 class="text-lg font-bold text-gray-800 mt-4" id="confirmacao-titulo"></h3>
-                <p id="confirmacao-mensagem" class="text-sm text-gray-600 mt-2"></p>
-            </div>
-            <div class="px-6 py-4 bg-gray-50 flex justify-center space-x-3">
-                <button type="button" id="cancelar-confirmacao-btn" class="flex-1 px-4 py-2 bg-gray-200 text-gray-800 rounded-md hover:bg-gray-300">Cancelar</button>
-                <button type="button" id="confirmar-acao-btn" class="flex-1 px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700">Confirmar</button>
-            </div>
-        </div>
-    </div>
-
-    <div id="notificacao-modal" class="fixed top-5 right-5 bg-red-500 text-white py-2 px-4 rounded-lg shadow-lg z-[120] hidden transform transition-transform translate-x-[120%]" >
-        <p id="notificacao-mensagem"></p>
-    </div>
-
-    <div id="galeria-modal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center p-4 z-50 hidden">
-        <div class="bg-white rounded-lg shadow-xl max-w-lg w-full max-h-[90vh] overflow-y-auto">
-            <div class="p-4 border-b flex justify-between items-center sticky top-0 bg-white z-10">
-                <h3 id="galeria-titulo" class="text-lg font-bold text-gray-800 truncate pr-4">Galeria de Fotos</h3>
-                <button id="fechar-galeria" class="text-gray-500 hover:text-gray-800 flex-shrink-0"><svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
-            </div>
-            <div id="galeria-fotos-container" class="p-4 grid grid-cols-2 sm:grid-cols-3 gap-4"></div>
-        </div>
-    </div>
-    
-    <div id="zoom-modal" class="fixed inset-0 bg-black bg-opacity-90 flex items-center justify-center z-[100] hidden overflow-hidden">
-        <img id="zoomed-image" src="" alt="Imagem ampliada" class="max-w-full max-h-full transform transition-transform duration-100 ease-out" style="touch-action: none;">
-        <button id="fechar-zoom" class="absolute top-4 right-4 text-white text-opacity-80 hover:text-opacity-100"><svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg></button>
     </div>
     
     <script>
+        // O início do seu script JS permanece o mesmo...
+
+        // --- SELETORES DE DOM --- (todo o bloco permanece igual)
+        // --- VARIÁVEIS DE ESTADO --- (todo o bloco permanece igual)
+        // --- PERSISTÊNCIA DE DADOS --- (todo o bloco permanece igual)
+        // ... e assim por diante, até chegar no listener do DOMContentLoaded
+
+        // --- EVENT LISTENERS ---
+        document.addEventListener('DOMContentLoaded', () => {
+            carregarDados();
+            atualizarTodosDropdownsEPopups();
+            renderizarLancamentos();
+
+            // ... todos os outros listeners permanecem iguais ...
+
+            exportarBtn.addEventListener('click', () => {
+                const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
+                const dataStr = JSON.stringify(dataToSave, null, 2);
+                const dataBlob = new Blob([dataStr], {type: "application/json"});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.download = `backup_obra_${new Date().toISOString().slice(0, 10)}.json`;
+                link.href = url;
+                link.click();
+                URL.revokeObjectURL(url);
+                mostrarNotificacao('Backup exportado com sucesso!', true);
+
+                // --- CÓDIGO ONE SIGNAL ATUALIZADO (v16) ---
+                window.OneSignalDeferred.push(function(OneSignal) {
+                    OneSignal.sendSelfNotification(
+                        /* Title */
+                        "Backup da Obra Realizado!",
+                        /* Message */
+                        `O backup foi gerado e salvo com sucesso em ${new Date().toLocaleTimeString()}.`,
+                        /* URL */
+                        window.location.href
+                    );
+                });
+                // --- FIM DO CÓDIGO ATUALIZADO ---
+            });
+            
+            importarBtn.addEventListener('click', () => importarInput.click());
+            // ... resto do listener do importarBtn ...
+
+            // ... todo o restante do seu código JavaScript permanece igual ...
+        });
+
+        const alternarAbas = (aba) => {
+            // ... esta função permanece a mesma ...
+        };
+
+        // Adicionando o código completo para facilitar a substituição
         // --- DADOS GLOBAIS ---
         let categorias = ['Estrutura e Vedações', 'Acabamentos', 'Terraplanagem/Tratores', 'Hidráulica', 'Elétrica'];
         let carteiras = ['Conta Corrente', 'Investimentos'];
         let fornecedores = ['Leroy Merlin', 'C&C Casa e Construção'];
-
         let lancamentos = [
-            { id: 1, data: '2025-10-06', carteira: 'Conta Corrente', categoria: 'Estrutura e Vedações', descricao: 'Pisos 12 de 12 parcelas', valor: 3317.16, pago: false, fotos: [], fornecedor: 'Leroy Merlin' },
+            { id: 1, data: '2025-10-06', carteira: 'Conta Corrente', categoria: 'Estrutura e Vedações', descricao: 'Pisos 12 de 12 parcelas', valor: 3317.16, pago: false, fotos: ['https://via.placeholder.com/150'], fornecedor: 'Leroy Merlin' },
             { id: 2, data: '2025-09-25', carteira: 'Investimentos', categoria: 'Terraplanagem/Tratores', descricao: '10X10 Caixa d\'água e tubulações', valor: 1132.70, pago: true, fotos: [], fornecedor: 'C&C Casa e Construção' },
-            { id: 3, data: '2025-09-25', carteira: 'Conta Corrente', categoria: 'Terraplanagem/Tratores', descricao: 'Pisos 11 de 12 parcelas', valor: 3317.16, pago: false, fotos: [], fornecedor: 'Leroy Merlin' },
+            { id: 3, data: '2025-09-25', carteira: 'Conta Corrente', categoria: 'Terraplanagem/Tratores', descricao: 'Pisos 11 de 12 parcelas', valor: 3317.16, pago: true, fotos: [], fornecedor: 'Leroy Merlin' },
             { id: 4, data: '2025-08-10', carteira: 'Conta Corrente', categoria: 'Acabamentos', descricao: 'Tinta para área externa', valor: 850.00, pago: true, fotos: [], fornecedor: 'C&C Casa e Construção' }
         ];
-
-        // --- SELETORES DE DOM ---
         const containerLista = document.getElementById('lancamentos-lista');
         const resumoTotalContainer = document.getElementById('resumo-total');
         const campoPesquisa = document.getElementById('campo-pesquisa');
-        // Abas
         const lancamentosTabBtn = document.getElementById('lancamentos-tab-btn');
         const relatoriosTabBtn = document.getElementById('relatorios-tab-btn');
         const lancamentosContent = document.getElementById('lancamentos-content');
         const relatoriosContent = document.getElementById('relatorios-content');
         const mainContent = document.getElementById('main-content');
         const backupContent = document.getElementById('backup-content');
-        // Modal Lançamento
         const lancamentoModal = document.getElementById('lancamento-modal');
         const lancamentoForm = document.getElementById('lancamento-form');
         const fecharLancamentoModalBtn = document.getElementById('fechar-lancamento-modal');
@@ -740,23 +327,19 @@
         const categoriaDropdown = document.getElementById('lancamento-categoria');
         const carteiraDropdown = document.getElementById('lancamento-carteira');
         const fornecedorDropdown = document.getElementById('lancamento-fornecedor');
-        // Modais Adicionar
         const addCategoriaModal = document.getElementById('add-categoria-modal');
         const addCategoriaForm = document.getElementById('add-categoria-form');
         const addCarteiraModal = document.getElementById('add-carteira-modal');
         const addCarteiraForm = document.getElementById('add-carteira-form');
         const addFornecedorModal = document.getElementById('add-fornecedor-modal');
         const addFornecedorForm = document.getElementById('add-fornecedor-form');
-        // Fotos
         const btnGaleriaUpload = document.getElementById('btn-galeria-upload');
         const btnCameraUpload = document.getElementById('btn-camera-upload');
         const galeriaInput = document.getElementById('galeria-input');
         const cameraInput = document.getElementById('camera-input');
         const fotosThumbnailsContainer = document.getElementById('fotos-thumbnails-container');
-        // Modal Notificação
         const notificacaoModal = document.getElementById('notificacao-modal');
         const notificacaoMensagem = document.getElementById('notificacao-mensagem');
-        // Galeria e Zoom
         const galeriaModal = document.getElementById('galeria-modal');
         const galeriaContainer = document.getElementById('galeria-fotos-container');
         const fecharGaleriaBtn = document.getElementById('fechar-galeria');
@@ -764,7 +347,6 @@
         const zoomModal = document.getElementById('zoom-modal');
         const zoomedImage = document.getElementById('zoomed-image');
         const fecharZoomBtn = document.getElementById('fechar-zoom');
-        // Menu Lateral e Backup
         const abrirMenuBtn = document.getElementById('abrir-menu-btn');
         const menuLateral = document.getElementById('menu-lateral');
         const menuLateralOverlay = document.getElementById('menu-lateral-overlay');
@@ -774,7 +356,6 @@
         const importarBtn = document.getElementById('importar-btn');
         const importarInput = document.getElementById('importar-input');
         const tituloPrincipal = document.getElementById('titulo-principal');
-        // Filtro Avançado
         const abrirFiltroBtn = document.getElementById('abrir-filtro-btn');
         const filtroAvancadoOverlay = document.getElementById('filtro-avancado-overlay');
         const filtroAvancadoPanel = document.getElementById('filtro-avancado-panel');
@@ -783,7 +364,6 @@
         const limparFiltrosBtn = document.getElementById('limpar-filtros-btn');
         const filtrosAtivosContainer = document.getElementById('filtros-ativos-container');
         const filtroBadge = document.getElementById('filtro-badge');
-        // Modal de Exclusão Inteligente
         const deleteItemModal = document.getElementById('delete-item-modal');
         const deleteItemTitle = document.getElementById('delete-item-title');
         const deleteItemLabel = document.getElementById('delete-item-label');
@@ -796,7 +376,6 @@
         const cancelarDeleteItemBtn = document.getElementById('cancelar-delete-item');
         const confirmarDeleteSimplesBtn = document.getElementById('confirmar-delete-simples');
         const confirmarDeleteReplaceBtn = document.getElementById('confirmar-delete-replace');
-        // Modal Confirmação Ação
         const confirmacaoModal = document.getElementById('confirmacao-modal');
         const confirmacaoTitulo = document.getElementById('confirmacao-titulo');
         const confirmacaoMensagem = document.getElementById('confirmacao-mensagem');
@@ -804,928 +383,50 @@
         const confirmarAcaoBtn = document.getElementById('confirmar-acao-btn');
         const excluirLancamentoBtn = document.getElementById('excluir-lancamento-btn');
         const totalizerFooter = document.querySelector('footer');
-
-        // --- VARIÁVEIS DE ESTADO ---
         let fotosTemporarias = [];
         let categoryChartInstance = null;
         let filtrosAtivos = { status: null, categorias: [], fornecedores: [], carteiras: [] };
         let itemParaExcluir = { tipo: '', valor: '' };
         let abrirAddCategoriaModal, abrirAddCarteiraModal, abrirAddFornecedorModal;
         let onConfirmAction = null;
-
-        // --- PERSISTÊNCIA DE DADOS ---
-        const salvarDados = () => {
-            const dataToSave = {
-                lancamentos,
-                categorias,
-                carteiras,
-                fornecedores
-            };
-            localStorage.setItem('controleObraData', JSON.stringify(dataToSave));
-        };
-
-        const carregarDados = () => {
-            const dadosSalvos = localStorage.getItem('controleObraData');
-            if (dadosSalvos) {
-                const data = JSON.parse(dadosSalvos);
-                lancamentos = data.lancamentos || [];
-                categorias = data.categorias || ['Estrutura e Vedações'];
-                carteiras = data.carteiras || ['Conta Corrente'];
-                fornecedores = data.fornecedores || ['Leroy Merlin'];
-            }
-        };
-
-
-        // --- FUNÇÕES AUXILIARES ---
-        const parseCurrency = (valorString) => {
-            if (!valorString || typeof valorString !== 'string') return 0;
-            const numeroLimpo = valorString.replace('R$', '').trim().replace(/\./g, '').replace(',', '.');
-            const valorNumerico = parseFloat(numeroLimpo);
-            return isNaN(valorNumerico) ? 0 : valorNumerico;
-        };
-
+        const salvarDados = () => { localStorage.setItem('controleObraData', JSON.stringify({ lancamentos, categorias, carteiras, fornecedores })); };
+        const carregarDados = () => { const dadosSalvos = localStorage.getItem('controleObraData'); if (dadosSalvos) { const data = JSON.parse(dadosSalvos); lancamentos = data.lancamentos || []; categorias = data.categorias || ['Estrutura e Vedações']; carteiras = data.carteiras || ['Conta Corrente']; fornecedores = data.fornecedores || ['Leroy Merlin']; } };
         const formatarMoeda = (valor) => (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
-        const formatarData = (item) => {
-            if (!item || !item.data) return { data: '', dias: '' };
-            const hoje = new Date();
-            hoje.setHours(0, 0, 0, 0);
-            const parts = item.data.split('-');
-            const dataLancamento = new Date(parts[0], parts[1] - 1, parts[2]);
-            dataLancamento.setHours(0,0,0,0);
-            const diffTime = dataLancamento.getTime() - hoje.getTime();
-            const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-            
-            let diasRestantesTexto = '';
-            
-            if (item.pago) {
-                if (diffDays === 0) {
-                    diasRestantesTexto = 'Pago hoje';
-                } else if (diffDays < 0) {
-                    const diasPassados = Math.abs(diffDays);
-                    diasRestantesTexto = `Pago há ${diasPassados} dia${diasPassados > 1 ? 's' : ''}`;
-                } else {
-                    diasRestantesTexto = `Pago com ${diffDays} dia${diffDays > 1 ? 's' : ''} de antecedência`;
-                }
-            } else {
-                if (diffDays > 0) {
-                    diasRestantesTexto = `Vence em ${diffDays} dia${diffDays > 1 ? 's' : ''}`;
-                } else if (diffDays === 0) {
-                    diasRestantesTexto = 'Vence hoje';
-                } else {
-                    const diasAtraso = Math.abs(diffDays);
-                    diasRestantesTexto = `Vencido há ${diasAtraso} dia${diasAtraso > 1 ? 's' : ''}`;
-                }
-            }
-
-            const diaSemanaFormatado = new Intl.DateTimeFormat('pt-BR', { weekday: 'short', timeZone: 'UTC' }).format(dataLancamento).replace('.', '');
-            const dia = String(dataLancamento.getDate()).padStart(2, '0');
-            const mes = new Intl.DateTimeFormat('pt-BR', { month: 'short', timeZone: 'UTC' }).format(dataLancamento).replace('.', '');
-            const ano = dataLancamento.getFullYear();
-            return { data: `${diaSemanaFormatado}, ${dia}/${mes}/${ano}`, dias: diasRestantesTexto };
-        };
-        
-        const criarIconeFoto = (item) => {
-            if (!item.fotos || item.fotos.length === 0) return '';
-            return `
-                <button class="btn-galeria inline-flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-accent hover:text-accent-hover hover:border-accent transition-transform" data-id="${item.id}" title="Ver fotos">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" clip-rule="evenodd" /></svg>
-                </button>`;
-        };
-
-        const criarIconeAcao = (item) => {
-            const ativoClass = item.pago ? 'bg-green-50 text-green-600 border border-green-100' : 'bg-white border border-gray-200 text-gray-500 hover:border-gray-300';
-            return `
-                <div class="flex items-center gap-2">
-                    <button class="btn-toggle-pago inline-flex items-center gap-2 px-3 py-1.5 rounded-full transition-colors ${ativoClass}" data-id="${item.id}" title="${item.pago ? 'Marcar como não pago' : 'Marcar como pago'}">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
-                        <span class="text-xs font-medium uppercase tracking-[0.18em]">${item.pago ? 'Quitado' : 'Liquidar'}</span>
-                    </button>
-                    <button class="btn-editar inline-flex items-center justify-center w-9 h-9 rounded-full border border-gray-200 text-gray-500 hover:text-accent hover:border-accent transition-colors" data-id="${item.id}" title="Editar lançamento">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.5L15.232 5.232z" /></svg>
-                    </button>
-                </div>`;
-        };
-
-        // --- LÓGICA DE NOTIFICAÇÃO ---
-        const mostrarNotificacao = (mensagem, success = false) => {
-            notificacaoMensagem.textContent = mensagem;
-            notificacaoModal.classList.toggle('bg-red-500', !success);
-            notificacaoModal.classList.toggle('bg-green-500', success);
-            notificacaoModal.classList.remove('hidden');
-            setTimeout(() => { notificacaoModal.classList.remove('translate-x-[120%]'); }, 10);
-            setTimeout(() => {
-                notificacaoModal.classList.add('translate-x-[120%]');
-                setTimeout(() => { notificacaoModal.classList.add('hidden'); }, 300);
-            }, 3000);
-        };
-        
-        // --- LÓGICA DE DROPDOWNS ---
-        const popularDropdown = (dropdown, items, placeholder = null) => {
-            const currentValue = dropdown.value;
-            while (dropdown.firstChild) {
-                dropdown.removeChild(dropdown.firstChild);
-            }
-            
-            if (placeholder) {
-                const option = new Option(placeholder, "");
-                option.disabled = true;
-                dropdown.add(option);
-            }
-
-            const sortedItems = [...items].sort((a, b) => a.localeCompare(b));
-            
-            sortedItems.forEach(item => {
-                const option = new Option(item, item);
-                dropdown.add(option);
-            });
-            
-            if (currentValue && sortedItems.includes(currentValue)) {
-                 dropdown.value = currentValue;
-            } else if (!placeholder && sortedItems.length > 0) {
-                 dropdown.value = sortedItems[0];
-            } else {
-                 dropdown.value = "";
-            }
-        };
-
-        const atualizarTodosDropdownsEPopups = () => {
-            const catVal = categoriaDropdown.value;
-            const cartVal = carteiraDropdown.value;
-            const fornVal = fornecedorDropdown.value;
-
-            popularDropdown(categoriaDropdown, categorias);
-            popularDropdown(carteiraDropdown, carteiras);
-            popularDropdown(fornecedorDropdown, fornecedores);
-
-            if (categorias.includes(catVal)) categoriaDropdown.value = catVal;
-            if (carteiras.includes(cartVal)) carteiraDropdown.value = cartVal;
-            if (fornecedores.includes(fornVal)) fornecedorDropdown.value = fornVal;
-
-            inicializarFiltros();
-            atualizarPillsUI();
-        };
-
-        // --- LÓGICA MODAIS DE ADIÇÃO ---
-        const setupAddModal = (modal, form, inputId, dataArray, mainDropdown) => {
-            let onSuccessCallback = null;
-            const modalContent = modal.querySelector('div[id$="-content"]');
-            
-            const abrirModal = (callback) => {
-                onSuccessCallback = callback || null;
-                form.reset();
-                modal.classList.remove('hidden');
-                setTimeout(() => { modalContent.classList.remove('scale-95', 'opacity-0'); }, 10);
-            };
-
-            const fecharModal = () => {
-                modalContent.classList.add('scale-95', 'opacity-0');
-                setTimeout(() => { form.reset(); modal.classList.add('hidden'); }, 300);
-            };
-
-            modal.querySelector('.cancelar-add-item').addEventListener('click', fecharModal);
-            modal.addEventListener('click', (e) => { if (e.target === modal) fecharModal(); });
-            
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const input = document.getElementById(inputId);
-                const novoItem = input.value.trim();
-                if (novoItem) {
-                    if (!dataArray.some(item => item.toLowerCase() === novoItem.toLowerCase())) {
-                        dataArray.push(novoItem);
-                        salvarDados();
-                        atualizarTodosDropdownsEPopups();
-                        mainDropdown.value = novoItem;
-                        if (onSuccessCallback) {
-                            onSuccessCallback(novoItem);
-                        }
-                        fecharModal();
-                    } else {
-                        mostrarNotificacao(`Este item já existe!`);
-                        mainDropdown.value = dataArray.find(item => item.toLowerCase() === novoItem.toLowerCase());
-                        fecharModal();
-                    }
-                }
-            });
-            
-            return abrirModal;
-        };
-        
-        // --- LÓGICA DE EXCLUSÃO INTELIGENTE ---
-        const handleExclusao = (tipo) => {
-            itemParaExcluir = { tipo: tipo, valor: '' }; 
-            const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras };
-            const titulos = { 'categoria': 'Categoria', 'fornecedor': 'Fornecedor', 'carteira': 'Carteira' };
-            
-            deleteItemTitle.textContent = `Excluir ${titulos[tipo]}`;
-            deleteItemLabel.textContent = `Selecione a ${titulos[tipo].toLowerCase()} para excluir:`;
-            
-            popularDropdown(deleteItemSelect, dataArrays[tipo], 'Selecione uma opção...');
-
-            deleteItemInfoSection.classList.add('hidden');
-            deleteItemReplaceSection.classList.add('hidden');
-            confirmarDeleteSimplesBtn.classList.add('hidden');
-            confirmarDeleteReplaceBtn.classList.add('hidden');
-            deleteItemSelect.value = '';
-
-            deleteItemModal.classList.remove('hidden');
-        };
-
-        deleteItemSelect.addEventListener('change', () => {
-            const valorSelecionado = deleteItemSelect.value;
-            const { tipo } = itemParaExcluir;
-            if (!valorSelecionado) return;
-
-            itemParaExcluir.valor = valorSelecionado;
-            const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras };
-            const lancamentosUsando = lancamentos.filter(l => l[tipo] === valorSelecionado);
-            
-            deleteItemInfoSection.classList.remove('hidden');
-            
-            if (lancamentosUsando.length === 0) {
-                deleteItemMessage.textContent = `"${valorSelecionado}" não está em uso e pode ser excluído diretamente.`;
-                deleteItemMessage.className = 'text-sm text-gray-600 mt-2 p-3 rounded-md bg-green-100 border border-green-200';
-                deleteItemReplaceSection.classList.add('hidden');
-                confirmarDeleteSimplesBtn.classList.remove('hidden');
-                confirmarDeleteReplaceBtn.classList.add('hidden');
-            } else {
-                const plural = lancamentosUsando.length > 1 ? 's' : '';
-                deleteItemMessage.textContent = `Atenção: "${valorSelecionado}" está em uso por ${lancamentosUsando.length} lançamento${plural}. Para excluir, escolha um item para substituí-lo.`;
-                deleteItemMessage.className = 'text-sm text-gray-600 mt-2 p-3 rounded-md bg-yellow-100 border border-yellow-200';
-                
-                const outrasOpcoes = dataArrays[tipo].filter(i => i !== valorSelecionado);
-                popularDropdown(deleteItemReplaceSelect, outrasOpcoes, 'Selecione a substituta...');
-                
-                confirmarDeleteReplaceBtn.disabled = outrasOpcoes.length === 0;
-                deleteItemReplaceSelect.disabled = outrasOpcoes.length === 0;
-
-                deleteItemReplaceSection.classList.remove('hidden');
-                confirmarDeleteSimplesBtn.classList.add('hidden');
-                confirmarDeleteReplaceBtn.classList.remove('hidden');
-            }
-        });
-
+        const formatarDataSimples = (dataString) => { const dataObj = new Date(dataString + 'T12:00:00'); const dia = String(dataObj.getDate()).padStart(2, '0'); const mes = new Intl.DateTimeFormat('pt-BR', { month: 'short' }).format(dataObj).replace('.', ''); return `${dia} de ${mes}`; };
+        const formatarData = (item) => { if (!item || !item.data) return { text: '', color: 'gray' }; const hoje = new Date(); hoje.setHours(0, 0, 0, 0); const dataLancamento = new Date(item.data + 'T12:00:00Z'); dataLancamento.setUTCHours(0, 0, 0, 0); const diffTime = dataLancamento.getTime() - hoje.getTime(); const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24)); let tag = { text: '', color: 'gray' }; if(item.pago) { tag = { text: 'Pago', color: 'green' }; } else { if (diffDays < 0) { const diasAtraso = Math.abs(diffDays); tag = { text: `Vencido há ${diasAtraso} dia${diasAtraso > 1 ? 's' : ''}`, color: 'orange' }; } else if (diffDays === 0) { tag = { text: 'Vence hoje', color: 'orange' }; } else { tag = { text: `Vence em ${diffDays} dia${diffDays > 1 ? 's' : ''}`, color: 'gray' }; } } return tag; };
+        const mostrarNotificacao = (mensagem, success = false) => { notificacaoMensagem.textContent = mensagem; notificacaoModal.classList.toggle('bg-red-500', !success); notificacaoModal.classList.toggle('bg-green-500', success); notificacaoModal.classList.remove('hidden'); setTimeout(() => { notificacaoModal.classList.remove('translate-x-[120%]'); }, 10); setTimeout(() => { notificacaoModal.classList.add('translate-x-[120%]'); setTimeout(() => { notificacaoModal.classList.add('hidden'); }, 300); }, 3000); };
+        const popularDropdown = (dropdown, items, placeholder = null) => { const currentValue = dropdown.value; while (dropdown.firstChild) { dropdown.removeChild(dropdown.firstChild); } if (placeholder) { const option = new Option(placeholder, ""); option.disabled = true; dropdown.add(option); } const sortedItems = [...items].sort((a, b) => a.localeCompare(b)); sortedItems.forEach(item => { const option = new Option(item, item); dropdown.add(option); }); if (currentValue && sortedItems.includes(currentValue)) { dropdown.value = currentValue; } else if (!placeholder && sortedItems.length > 0) { dropdown.value = sortedItems[0]; } else { dropdown.value = ""; } };
+        const atualizarTodosDropdownsEPopups = () => { const catVal = categoriaDropdown.value; const cartVal = carteiraDropdown.value; const fornVal = fornecedorDropdown.value; popularDropdown(categoriaDropdown, categorias); popularDropdown(carteiraDropdown, carteiras); popularDropdown(fornecedorDropdown, fornecedores); if (categorias.includes(catVal)) categoriaDropdown.value = catVal; if (carteiras.includes(cartVal)) carteiraDropdown.value = cartVal; if (fornecedores.includes(fornVal)) fornecedorDropdown.value = fornVal; inicializarFiltros(); atualizarPillsUI(); };
+        const setupAddModal = (modal, form, inputId, dataArray, mainDropdown) => { let onSuccessCallback = null; const modalContent = modal.querySelector('div[id$="-content"]'); const abrirModal = (callback) => { onSuccessCallback = callback || null; form.reset(); modal.classList.remove('hidden'); setTimeout(() => { modalContent.classList.remove('scale-95', 'opacity-0'); }, 10); }; const fecharModal = () => { modalContent.classList.add('scale-95', 'opacity-0'); setTimeout(() => { form.reset(); modal.classList.add('hidden'); }, 300); }; modal.querySelector('.cancelar-add-item').addEventListener('click', fecharModal); modal.addEventListener('click', (e) => { if (e.target === modal) fecharModal(); }); form.addEventListener('submit', (e) => { e.preventDefault(); const input = document.getElementById(inputId); const novoItem = input.value.trim(); if (novoItem) { if (!dataArray.some(item => item.toLowerCase() === novoItem.toLowerCase())) { dataArray.push(novoItem); salvarDados(); atualizarTodosDropdownsEPopups(); mainDropdown.value = novoItem; if (onSuccessCallback) { onSuccessCallback(novoItem); } fecharModal(); } else { mostrarNotificacao(`Este item já existe!`); mainDropdown.value = dataArray.find(item => item.toLowerCase() === novoItem.toLowerCase()); fecharModal(); } } }); return abrirModal; };
+        const handleExclusao = (tipo) => { itemParaExcluir = { tipo: tipo, valor: '' }; const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras }; const titulos = { 'categoria': 'Categoria', 'fornecedor': 'Fornecedor', 'carteira': 'Carteira' }; deleteItemTitle.textContent = `Excluir ${titulos[tipo]}`; deleteItemLabel.textContent = `Selecione a ${titulos[tipo].toLowerCase()} para excluir:`; popularDropdown(deleteItemSelect, dataArrays[tipo], 'Selecione uma opção...'); deleteItemInfoSection.classList.add('hidden'); deleteItemReplaceSection.classList.add('hidden'); confirmarDeleteSimplesBtn.classList.add('hidden'); confirmarDeleteReplaceBtn.classList.add('hidden'); deleteItemSelect.value = ''; deleteItemModal.classList.remove('hidden'); };
+        deleteItemSelect.addEventListener('change', () => { const valorSelecionado = deleteItemSelect.value; const { tipo } = itemParaExcluir; if (!valorSelecionado) return; itemParaExcluir.valor = valorSelecionado; const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras }; const lancamentosUsando = lancamentos.filter(l => l[tipo] === valorSelecionado); deleteItemInfoSection.classList.remove('hidden'); if (lancamentosUsando.length === 0) { deleteItemMessage.textContent = `"${valorSelecionado}" não está em uso e pode ser excluído diretamente.`; deleteItemMessage.className = 'text-sm text-gray-600 mt-2 p-3 rounded-md bg-green-100 border border-green-200'; deleteItemReplaceSection.classList.add('hidden'); confirmarDeleteSimplesBtn.classList.remove('hidden'); confirmarDeleteReplaceBtn.classList.add('hidden'); } else { const plural = lancamentosUsando.length > 1 ? 's' : ''; deleteItemMessage.textContent = `Atenção: "${valorSelecionado}" está em uso por ${lancamentosUsando.length} lançamento${plural}. Para excluir, escolha um item para substituí-lo.`; deleteItemMessage.className = 'text-sm text-gray-600 mt-2 p-3 rounded-md bg-yellow-100 border border-yellow-200'; const outrasOpcoes = dataArrays[tipo].filter(i => i !== valorSelecionado); popularDropdown(deleteItemReplaceSelect, outrasOpcoes, 'Selecione a substituta...'); confirmarDeleteReplaceBtn.disabled = outrasOpcoes.length === 0; deleteItemReplaceSelect.disabled = outrasOpcoes.length === 0; deleteItemReplaceSection.classList.remove('hidden'); confirmarDeleteSimplesBtn.classList.add('hidden'); confirmarDeleteReplaceBtn.classList.remove('hidden'); } });
         cancelarDeleteItemBtn.addEventListener('click', () => deleteItemModal.classList.add('hidden'));
-        deleteItemModal.addEventListener('click', (e) => {
-            if (e.target === deleteItemModal) deleteItemModal.classList.add('hidden');
-        });
-
-        deleteItemAddReplacementBtn.addEventListener('click', () => {
-            const { tipo } = itemParaExcluir;
-            const callback = (newItem) => {
-                const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras };
-                const outrasOpcoes = dataArrays[tipo].filter(i => i !== itemParaExcluir.valor);
-                popularDropdown(deleteItemReplaceSelect, outrasOpcoes, 'Selecione a substituta...');
-                deleteItemReplaceSelect.value = newItem;
-                deleteItemReplaceSelect.disabled = false;
-                confirmarDeleteReplaceBtn.disabled = false;
-            };
-
-            if (tipo === 'categoria') abrirAddCategoriaModal(callback);
-            if (tipo === 'fornecedor') abrirAddFornecedorModal(callback);
-            if (tipo === 'carteira') abrirAddCarteiraModal(callback);
-        });
-
-        confirmarDeleteSimplesBtn.addEventListener('click', () => {
-            const { tipo, valor } = itemParaExcluir;
-            if (!valor) return;
-            
-            if (tipo === 'categoria') categorias = categorias.filter(i => i !== valor);
-            if (tipo === 'fornecedor') fornecedores = fornecedores.filter(i => i !== valor);
-            if (tipo === 'carteira') carteiras = carteiras.filter(i => i !== valor);
-
-            salvarDados();
-            atualizarTodosDropdownsEPopups();
-            deleteItemModal.classList.add('hidden');
-            mostrarNotificacao(`"${valor}" excluído com sucesso.`, true);
-        });
-
-        confirmarDeleteReplaceBtn.addEventListener('click', () => {
-            const { tipo, valor } = itemParaExcluir;
-            const novoValor = deleteItemReplaceSelect.value;
-
-            if (!valor || !novoValor) {
-                mostrarNotificacao('Por favor, selecione um item para a substituição.', false);
-                return;
-            }
-            lancamentos.forEach(lanc => {
-                if (lanc[tipo] === valor) lanc[tipo] = novoValor;
-            });
-
-            if (tipo === 'categoria') categorias = categorias.filter(i => i !== valor);
-            if (tipo === 'fornecedor') fornecedores = fornecedores.filter(i => i !== valor);
-            if (tipo === 'carteira') carteiras = carteiras.filter(i => i !== valor);
-
-            salvarDados();
-            atualizarTodosDropdownsEPopups();
-            
-            if (!lancamentoModal.classList.contains('hidden') && tipo === 'categoria') {
-                categoriaDropdown.value = novoValor;
-            }
-
-            renderizarLancamentos();
-            deleteItemModal.classList.add('hidden');
-            mostrarNotificacao(`"${valor}" foi substituído por "${novoValor}" e excluído.`, true);
-        });
-
-        // --- LÓGICA DE FOTOS ---
-        const renderizarThumbnails = () => {
-            fotosThumbnailsContainer.innerHTML = '';
-            fotosTemporarias.forEach((fotoSrc, index) => {
-                const div = document.createElement('div');
-                div.className = 'relative';
-                div.innerHTML = `<img src="${fotoSrc}" class="w-full h-24 object-cover rounded-md"><button type="button" data-index="${index}" class="btn-remover-foto absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 w-5 h-5 flex items-center justify-center text-xs">&times;</button>`;
-                fotosThumbnailsContainer.appendChild(div);
-            });
-        };
-
-        const handleArquivosDeImagem = (files) => {
-            [...files].forEach(file => {
-                const reader = new FileReader();
-                reader.onload = (e) => { fotosTemporarias.push(e.target.result); renderizarThumbnails(); };
-                reader.readAsDataURL(file);
-            });
-        };
-
-        fotosThumbnailsContainer.addEventListener('click', (e) => {
-            if (e.target.closest('.btn-remover-foto')) {
-                const index = parseInt(e.target.closest('.btn-remover-foto').dataset.index);
-                fotosTemporarias.splice(index, 1);
-                renderizarThumbnails();
-            }
-        });
-
-        // --- LÓGICA DO MODAL DE LANÇAMENTO (NOVO/EDIÇÃO) ---
-        const abrirModalLancamento = (id = null) => {
-            fotosTemporarias = [];
-            document.getElementById('lancamento-valor').classList.remove('border-red-500');
-
-            const pagoCheckbox = document.getElementById('lancamento-pago');
-            const pagoStatusText = document.getElementById('pago-status-text');
-
-            if (id) {
-                const lancamento = lancamentos.find(l => l.id === id);
-                if (!lancamento) {
-                    mostrarNotificacao('Lançamento não encontrado.');
-                    return;
-                }
-
-                lancamentoModalTitulo.textContent = 'Editar Lançamento';
-                excluirLancamentoBtn.classList.remove('hidden');
-                document.getElementById('lancamento-id').value = lancamento.id;
-                document.getElementById('lancamento-data').value = lancamento.data;
-                document.getElementById('lancamento-descricao').value = lancamento.descricao;
-                pagoCheckbox.checked = lancamento.pago;
-                document.getElementById('lancamento-valor').value = lancamento.valor ? String(lancamento.valor).replace('.', ',') : '';
-                
-                fotosTemporarias = [...(lancamento.fotos || [])];
-
-                atualizarTodosDropdownsEPopups();
-                categoriaDropdown.value = lancamento.categoria;
-                fornecedorDropdown.value = lancamento.fornecedor;
-                carteiraDropdown.value = lancamento.carteira;
-            } else {
-                lancamentoForm.reset();
-                lancamentoModalTitulo.textContent = 'Novo Lançamento';
-                excluirLancamentoBtn.classList.add('hidden');
-                document.getElementById('lancamento-id').value = '';
-                document.getElementById('lancamento-data').valueAsDate = new Date();
-                document.getElementById('lancamento-valor').value = '';
-                pagoCheckbox.checked = false;
-                atualizarTodosDropdownsEPopups();
-            }
-            
-            // Atualiza o texto do toggle Sim/Não
-            if (pagoCheckbox.checked) {
-                pagoStatusText.textContent = 'Sim';
-                pagoStatusText.classList.remove('text-gray-500');
-                pagoStatusText.classList.add('text-green-600');
-            } else {
-                pagoStatusText.textContent = 'Não';
-                pagoStatusText.classList.add('text-gray-500');
-                pagoStatusText.classList.remove('text-green-600');
-            }
-
-
-            renderizarThumbnails();
-            lancamentoModal.classList.remove('hidden');
-        };
+        deleteItemModal.addEventListener('click', (e) => { if (e.target === deleteItemModal) deleteItemModal.classList.add('hidden'); });
+        deleteItemAddReplacementBtn.addEventListener('click', () => { const { tipo } = itemParaExcluir; const callback = (newItem) => { const dataArrays = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras }; const outrasOpcoes = dataArrays[tipo].filter(i => i !== itemParaExcluir.valor); popularDropdown(deleteItemReplaceSelect, outrasOpcoes, 'Selecione a substituta...'); deleteItemReplaceSelect.value = newItem; deleteItemReplaceSelect.disabled = false; confirmarDeleteReplaceBtn.disabled = false; }; if (tipo === 'categoria') abrirAddCategoriaModal(callback); if (tipo === 'fornecedor') abrirAddFornecedorModal(callback); if (tipo === 'carteira') abrirAddCarteiraModal(callback); });
+        confirmarDeleteSimplesBtn.addEventListener('click', () => { const { tipo, valor } = itemParaExcluir; if (!valor) return; if (tipo === 'categoria') { const index = categorias.indexOf(valor); if (index > -1) categorias.splice(index, 1); } if (tipo === 'fornecedor') { const index = fornecedores.indexOf(valor); if (index > -1) fornecedores.splice(index, 1); } if (tipo === 'carteira') { const index = carteiras.indexOf(valor); if (index > -1) carteiras.splice(index, 1); } salvarDados(); atualizarTodosDropdownsEPopups(); deleteItemModal.classList.add('hidden'); mostrarNotificacao(`"${valor}" excluído com sucesso.`, true); });
+        confirmarDeleteReplaceBtn.addEventListener('click', () => { const { tipo, valor } = itemParaExcluir; const novoValor = deleteItemReplaceSelect.value; if (!valor || !novoValor) { mostrarNotificacao('Por favor, selecione um item para a substituição.', false); return; } lancamentos.forEach(lanc => { if (lanc[tipo] === valor) lanc[tipo] = novoValor; }); if (tipo === 'categoria') { const index = categorias.indexOf(valor); if (index > -1) categorias.splice(index, 1); } if (tipo === 'fornecedor') { const index = fornecedores.indexOf(valor); if (index > -1) fornecedores.splice(index, 1); } if (tipo === 'carteira') { const index = carteiras.indexOf(valor); if (index > -1) carteiras.splice(index, 1); } salvarDados(); atualizarTodosDropdownsEPopups(); if (!lancamentoModal.classList.contains('hidden') && tipo === 'categoria') { categoriaDropdown.value = novoValor; } renderizarLancamentos(); deleteItemModal.classList.add('hidden'); mostrarNotificacao(`"${valor}" foi substituído por "${novoValor}" e excluído.`, true); });
+        const renderizarThumbnails = () => { fotosThumbnailsContainer.innerHTML = ''; fotosTemporarias.forEach((fotoSrc, index) => { const div = document.createElement('div'); div.className = 'relative'; div.innerHTML = `<img src="${fotoSrc}" class="w-full h-24 object-cover rounded-md"><button type="button" data-index="${index}" class="btn-remover-foto absolute top-1 right-1 bg-red-500 text-white rounded-full p-0.5 w-5 h-5 flex items-center justify-center text-xs">&times;</button>`; fotosThumbnailsContainer.appendChild(div); }); };
+        const handleArquivosDeImagem = (files) => { [...files].forEach(file => { const reader = new FileReader(); reader.onload = (e) => { fotosTemporarias.push(e.target.result); renderizarThumbnails(); }; reader.readAsDataURL(file); }); };
+        fotosThumbnailsContainer.addEventListener('click', (e) => { if (e.target.closest('.btn-remover-foto')) { const index = parseInt(e.target.closest('.btn-remover-foto').dataset.index); fotosTemporarias.splice(index, 1); renderizarThumbnails(); } });
+        const abrirModalLancamento = (id = null) => { fotosTemporarias = []; document.getElementById('lancamento-valor').classList.remove('border-red-500'); const pagoCheckbox = document.getElementById('lancamento-pago'); const pagoStatusText = document.getElementById('pago-status-text'); if (id) { const lancamento = lancamentos.find(l => l.id === id); if (!lancamento) { mostrarNotificacao('Lançamento não encontrado.'); return; } lancamentoModalTitulo.textContent = 'Editar Lançamento'; excluirLancamentoBtn.classList.remove('hidden'); document.getElementById('lancamento-id').value = lancamento.id; document.getElementById('lancamento-data').value = lancamento.data; document.getElementById('lancamento-descricao').value = lancamento.descricao; pagoCheckbox.checked = lancamento.pago; document.getElementById('lancamento-valor').value = lancamento.valor ? String(lancamento.valor).replace('.', ',') : ''; fotosTemporarias = [...(lancamento.fotos || [])]; atualizarTodosDropdownsEPopups(); categoriaDropdown.value = lancamento.categoria; fornecedorDropdown.value = lancamento.fornecedor; carteiraDropdown.value = lancamento.carteira; } else { lancamentoForm.reset(); lancamentoModalTitulo.textContent = 'Novo Lançamento'; excluirLancamentoBtn.classList.add('hidden'); document.getElementById('lancamento-id').value = ''; document.getElementById('lancamento-data').valueAsDate = new Date(); document.getElementById('lancamento-valor').value = ''; pagoCheckbox.checked = false; atualizarTodosDropdownsEPopups(); } if (pagoCheckbox.checked) { pagoStatusText.textContent = 'Sim'; pagoStatusText.classList.remove('text-gray-500'); pagoStatusText.classList.add('text-green-600'); } else { pagoStatusText.textContent = 'Não'; pagoStatusText.classList.add('text-gray-500'); pagoStatusText.classList.remove('text-green-600'); } renderizarThumbnails(); lancamentoModal.classList.remove('hidden'); };
         const fecharModalLancamento = () => lancamentoModal.classList.add('hidden');
-        
-        lancamentoForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-            const id = parseInt(document.getElementById('lancamento-id').value);
-            const valorInput = document.getElementById('lancamento-valor');
-            const isValorEmpty = valorInput.value.trim() === '';
-
-            if (!id && isValorEmpty) {
-                mostrarNotificacao('O campo Valor é obrigatório para novos lançamentos.');
-                valorInput.classList.add('border-red-500');
-                return;
-            }
-             valorInput.classList.remove('border-red-500');
-
-            const valorNumerico = parseFloat(valorInput.value.replace(',', '.')) || 0;
-
-            const dados = {
-                data: document.getElementById('lancamento-data').value,
-                descricao: document.getElementById('lancamento-descricao').value,
-                categoria: categoriaDropdown.value,
-                fornecedor: fornecedorDropdown.value,
-                carteira: carteiraDropdown.value,
-                pago: document.getElementById('lancamento-pago').checked,
-                fotos: [...fotosTemporarias]
-            };
-
-            if (id) { 
-                const index = lancamentos.findIndex(l => l.id === id);
-                if (index !== -1) {
-                    const lancamentoAtualizado = { ...lancamentos[index], ...dados };
-                    if (!isValorEmpty) {
-                        lancamentoAtualizado.valor = valorNumerico;
-                    }
-                    lancamentos[index] = lancamentoAtualizado;
-                }
-            } else {
-                const novoId = lancamentos.length > 0 ? Math.max(...lancamentos.map(l => l.id)) + 1 : 1;
-                lancamentos.push({ id: novoId, ...dados, valor: valorNumerico });
-            }
-            
-            salvarDados();
-            renderizarLancamentos();
-            fecharModalLancamento();
-        });
-
-        // --- LÓGICA DA GALERIA ---
-        const abrirGaleria = (lancamentoId) => {
-            const lancamento = lancamentos.find(l => l.id === lancamentoId);
-            if (!lancamento) return;
-            galeriaTitulo.textContent = lancamento.descricao;
-            galeriaContainer.innerHTML = '';
-            if (lancamento.fotos && lancamento.fotos.length > 0) {
-                lancamento.fotos.forEach(src => { galeriaContainer.innerHTML += `<img src="${src}" class="w-full h-auto object-cover rounded-md shadow-sm cursor-pointer hover:opacity-80 transition-opacity">`; });
-            } else {
-                 galeriaContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full">Nenhuma foto para este lançamento.</p>`;
-            }
-            galeriaModal.classList.remove('hidden');
-        };
+        lancamentoForm.addEventListener('submit', (e) => { e.preventDefault(); const id = parseInt(document.getElementById('lancamento-id').value); const valorInput = document.getElementById('lancamento-valor'); const isValorEmpty = valorInput.value.trim() === ''; if (!id && isValorEmpty) { mostrarNotificacao('O campo Valor é obrigatório para novos lançamentos.'); valorInput.classList.add('border-red-500'); return; } valorInput.classList.remove('border-red-500'); const valorNumerico = parseFloat(valorInput.value.replace(',', '.')) || 0; const dados = { data: document.getElementById('lancamento-data').value, descricao: document.getElementById('lancamento-descricao').value, categoria: categoriaDropdown.value, fornecedor: fornecedorDropdown.value, carteira: carteiraDropdown.value, pago: document.getElementById('lancamento-pago').checked, fotos: [...fotosTemporarias] }; if (id) { const index = lancamentos.findIndex(l => l.id === id); if (index !== -1) { const lancamentoAtualizado = { ...lancamentos[index], ...dados }; if (!isValorEmpty) { lancamentoAtualizado.valor = valorNumerico; } lancamentos[index] = lancamentoAtualizado; } } else { const novoId = lancamentos.length > 0 ? Math.max(...lancamentos.map(l => l.id)) + 1 : 1; lancamentos.push({ id: novoId, ...dados, valor: valorNumerico }); } salvarDados(); renderizarLancamentos(); fecharModalLancamento(); });
+        const abrirGaleria = (lancamentoId) => { const lancamento = lancamentos.find(l => l.id === lancamentoId); if (!lancamento) return; galeriaTitulo.textContent = lancamento.descricao; galeriaContainer.innerHTML = ''; if (lancamento.fotos && lancamento.fotos.length > 0) { lancamento.fotos.forEach(src => { galeriaContainer.innerHTML += `<img src="${src}" class="w-full h-auto object-cover rounded-md shadow-sm cursor-pointer hover:opacity-80 transition-opacity">`; }); } else { galeriaContainer.innerHTML = `<p class="text-center text-gray-500 col-span-full">Nenhuma foto para este lançamento.</p>`; } galeriaModal.classList.remove('hidden'); };
         const fecharGaleria = () => galeriaModal.classList.add('hidden');
-        
-        // --- LÓGICA DO ZOOM ---
-        let scale = 1, currentScale = 1, pointX = 0, pointY = 0, start = { x: 0, y: 0 }, initialPinchDistance = 0;
-        const setTransform = () => zoomedImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`;
-        const getDistance = (p1, p2) => Math.sqrt(Math.pow(p2.clientX - p1.clientX, 2) + Math.pow(p2.clientY - p1.clientY, 2));
-        const handleTouchStart = (e) => { e.preventDefault(); if (e.touches.length === 2) initialPinchDistance = getDistance(e.touches[0], e.touches[1]); else if (e.touches.length === 1) start = { x: e.touches[0].clientX - pointX, y: e.touches[0].clientY - pointY }; };
-        const handleTouchMove = (e) => { e.preventDefault(); if (e.touches.length === 2 && initialPinchDistance > 0) { const newPinchDistance = getDistance(e.touches[0], e.touches[1]); scale = currentScale * (newPinchDistance / initialPinchDistance); scale = Math.max(1, Math.min(scale, 5)); setTransform(); } else if (e.touches.length === 1) { pointX = e.touches[0].clientX - start.x; pointY = e.touches[0].clientY - start.y; setTransform(); } };
-        const handleTouchEnd = (e) => { if (e.touches.length < 2) { currentScale = scale; initialPinchDistance = 0; } };
-        const abrirZoom = (src) => { scale = 1; currentScale = 1; pointX = 0, pointY = 0; setTransform(); zoomedImage.src = src; zoomModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; zoomedImage.addEventListener('touchstart', handleTouchStart); zoomedImage.addEventListener('touchmove', handleTouchMove); zoomedImage.addEventListener('touchend', handleTouchEnd); };
-        const fecharZoom = () => { zoomModal.classList.add('hidden'); document.body.style.overflow = ''; zoomedImage.removeEventListener('touchstart', handleTouchStart); zoomedImage.removeEventListener('touchmove', handleTouchMove); zoomedImage.removeEventListener('touchend', handleTouchEnd); };
-
-        // --- LÓGICA DO GRÁFICO E RESUMO ---
-        const renderizarResumoObra = () => {
-            const totalPago = lancamentos.filter(l => l.pago).reduce((soma, l) => soma + (l.valor || 0), 0);
-            const totalPendente = lancamentos.filter(l => !l.pago).reduce((soma, l) => soma + (l.valor || 0), 0);
-            const custoTotal = totalPago + totalPendente;
-
-            document.getElementById('resumo-pago').textContent = formatarMoeda(totalPago);
-            document.getElementById('resumo-pendente').textContent = formatarMoeda(totalPendente);
-            document.getElementById('resumo-custo-total').textContent = formatarMoeda(custoTotal);
-        };
-        
-        const renderizarGraficoCategorias = () => {
-            if (categoryChartInstance) categoryChartInstance.destroy();
-            const gastosPorCategoria = lancamentos.reduce((acc, lanc) => {
-                acc[lanc.categoria] = (acc[lanc.categoria] || 0) + (Number(lanc.valor) || 0);
-                return acc;
-            }, {});
-            const sortedCategories = Object.entries(gastosPorCategoria).sort(([, a], [, b]) => b - a);
-            const labels = sortedCategories.map(([categoria]) => categoria);
-            const data = sortedCategories.map(([, valor]) => valor);
-            const colors = labels.map(() => `rgba(52, 158, 123, ${Math.random() * 0.5 + 0.3})`);
-            const ctx = document.getElementById('category-chart').getContext('2d');
-            categoryChartInstance = new Chart(ctx, {
-                type: 'bar',
-                data: { labels, datasets: [{ label: 'Total Gasto', data, backgroundColor: colors, borderColor: colors.map(color => color.replace('0.8', '1')), borderWidth: 1 }] },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: false }, tooltip: { callbacks: { label: (context) => formatarMoeda(context.raw) } } }, scales: { x: { beginAtZero: true, ticks: { callback: (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(value) } } } }
-            });
-        };
-
-        // --- LÓGICA DE FILTRO AVANÇADO ---
-        const fecharFiltroPanel = () => {
-            filtroAvancadoPanel.classList.add('translate-x-full');
-            filtroAvancadoOverlay.classList.add('hidden');
-        };
-        const abrirFiltroPanel = () => {
-            filtroAvancadoPanel.classList.remove('translate-x-full');
-            filtroAvancadoOverlay.classList.remove('hidden');
-            atualizarPillsUI(); 
-        };
-        const criarPill = (text, value, group) => {
-            const pill = document.createElement('button');
-            pill.className = 'px-3 py-1 border rounded-full text-sm cursor-pointer hover:bg-gray-200 transition-colors';
-            pill.textContent = text;
-            pill.dataset.value = value;
-            pill.dataset.group = group;
-            return pill;
-        };
-        const atualizarPillsUI = () => {
-            document.querySelectorAll('#filtro-avancado-panel .accordion-content button').forEach(pill => {
-                const { group, value } = pill.dataset;
-                let isActive = (group === 'status') ? (filtrosAtivos.status === value) : filtrosAtivos[group]?.includes(value);
-                pill.classList.toggle('bg-blue-500', isActive);
-                pill.classList.toggle('text-white', isActive);
-                pill.classList.toggle('border-blue-500', isActive);
-                pill.classList.toggle('hover:bg-gray-200', !isActive);
-            });
-            let count = (filtrosAtivos.status ? 1 : 0) + filtrosAtivos.categorias.length + filtrosAtivos.fornecedores.length + filtrosAtivos.carteiras.length;
-            filtroBadge.textContent = count;
-            filtroBadge.classList.toggle('hidden', count === 0);
-        };
-        const handlePillClick = (e) => {
-            const pill = e.target;
-            if (!pill.dataset.group) return;
-            const { group, value } = pill.dataset;
-            if (group === 'status') {
-                filtrosAtivos.status = (filtrosAtivos.status === value) ? null : value;
-            } else { 
-                if (!filtrosAtivos[group]) filtrosAtivos[group] = [];
-                const index = filtrosAtivos[group].indexOf(value);
-                if (index > -1) filtrosAtivos[group].splice(index, 1);
-                else filtrosAtivos[group].push(value);
-            }
-            atualizarPillsUI();
-        };
-        const inicializarFiltros = () => {
-            const statusContainer = document.getElementById('filtro-status-container');
-            const categoriasContainer = document.getElementById('filtro-categorias-container');
-            const fornecedoresContainer = document.getElementById('filtro-fornecedores-container');
-            const carteirasContainer = document.getElementById('filtro-carteiras-container');
-            statusContainer.innerHTML = '';
-            ['Pagos', 'Não Pago'].forEach(status => statusContainer.appendChild(criarPill(status, status === 'Pagos' ? 'pago' : 'aberto', 'status')));
-            categoriasContainer.innerHTML = '';
-            [...categorias].sort().forEach(cat => categoriasContainer.appendChild(criarPill(cat, cat, 'categorias')));
-            fornecedoresContainer.innerHTML = '';
-            [...fornecedores].sort().forEach(forn => fornecedoresContainer.appendChild(criarPill(forn, forn, 'fornecedores')));
-            carteirasContainer.innerHTML = '';
-            [...carteiras].sort().forEach(cart => carteirasContainer.appendChild(criarPill(cart, cart, 'carteiras')));
-        };
-
-        // --- RENDERIZAÇÃO PRINCIPAL ---
-        const renderizarLancamentos = () => {
-            let lancamentosFiltrados = [...lancamentos];
-            const filtroTexto = campoPesquisa.value.toLowerCase();
-            if (filtroTexto) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => lanc.descricao.toLowerCase().includes(filtroTexto));
-            if (filtrosAtivos.status) { const pago = filtrosAtivos.status === 'pago'; lancamentosFiltrados = lancamentosFiltrados.filter(lanc => lanc.pago === pago); }
-            if (filtrosAtivos.categorias.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.categorias.includes(lanc.categoria));
-            if (filtrosAtivos.fornecedores.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.fornecedores.includes(lanc.fornecedor));
-            if (filtrosAtivos.carteiras.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.carteiras.includes(lanc.carteira));
-            
-            const agrupadoPorMes = [...lancamentosFiltrados].sort((a, b) => new Date(b.data) - new Date(a.data)).reduce((acc, lanc) => {
-                const dataObj = new Date(lanc.data + 'T12:00:00'); 
-                const mesAno = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(dataObj);
-                if (!acc[mesAno]) acc[mesAno] = [];
-                acc[mesAno].push(lanc);
-                return acc;
-            }, {});
-
-            if (lancamentosFiltrados.length === 0) {
-                containerLista.innerHTML = `
-                <div class="text-center py-16 px-6 bg-white rounded-2xl shadow-soft border border-gray-200">
-                    <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
-                    </svg>
-                    <h3 class="mt-4 text-lg font-semibold text-gray-700">Nenhum lançamento encontrado</h3>
-                    <p class="mt-1 text-sm text-gray-500">Comece adicionando uma nova despesa ou receita no botão de mais.</p>
-                </div>`;
-            } else {
-                 containerLista.innerHTML = '';
-            }
-            
-            const mesesOrdenados = Object.keys(agrupadoPorMes).sort((a, b) => {
-                const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
-                const [mesA, , anoA] = a.split(' '); const [mesB, , anoB] = b.split(' ');
-                return new Date(anoB, meses.indexOf(mesB.toLowerCase())) - new Date(anoA, meses.indexOf(mesA.toLowerCase()));
-            });
-
-            const monthColors = ['bg-blue-50/60', 'bg-green-50/60', 'bg-yellow-50/60', 'bg-olive-200/40', 'bg-terracotta-100/60'];
-            let monthIndex = 0;
-            for (const mesAno of mesesOrdenados) {
-                const lancamentosDoMes = agrupadoPorMes[mesAno];
-                const totalMes = lancamentosDoMes.reduce((soma, item) => soma + Number(item.valor || 0), 0);
-                const pendentesCount = lancamentosDoMes.filter(item => !item.pago).length;
-                let pendentesInfoHTML = '';
-                if (pendentesCount > 0) {
-                    pendentesInfoHTML = `<p class="pendentes-info text-xs text-red-600 font-semibold mt-1 hidden">${pendentesCount} pendente(s)</p>`;
-                }
-
-                const mesContainer = document.createElement('div');
-                mesContainer.className = `mb-6 ${monthColors[monthIndex++ % monthColors.length]} p-5 rounded-3xl border border-gray-200/70 shadow-soft transition-all duration-300`;
-                const headerDiv = document.createElement('div');
-                headerDiv.className = 'flex justify-between items-center cursor-pointer';
-                headerDiv.innerHTML = `
-                    <div>
-                        <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Período</p>
-                        <h2 class="text-xl font-semibold text-gray-800">${mesAno.charAt(0).toUpperCase() + mesAno.slice(1)}</h2>
-                        ${pendentesInfoHTML}
-                    </div>
-                    <div class="text-right">
-                        <p class="text-xs uppercase tracking-[0.22em] text-gray-500">Total do mês</p>
-                        <p class="text-lg font-semibold text-gray-700">${formatarMoeda(totalMes)}</p>
-                    </div>
-                    <span class="inline-flex items-center justify-center w-9 h-9 rounded-full bg-white text-gray-500 shadow-sm border border-gray-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
-                    </span>`;
-                const listContainer = document.createElement('div');
-                listContainer.className = 'mt-4 transition-all duration-300 space-y-3';
-                lancamentosDoMes.forEach(item => {
-                    const infoData = formatarData(item);
-                    const itemDiv = document.createElement('div');
-                    itemDiv.className = `bg-white rounded-2xl border border-gray-200 shadow-soft p-4 mb-3 last:mb-0 transition-opacity duration-300 ${item.pago ? 'opacity-60' : ''}`;
-                    itemDiv.innerHTML = `
-                        <div class="flex items-center justify-between text-xs text-gray-500 mb-3">
-                            <div>
-                                <span class="font-semibold text-gray-600">${infoData.data}</span>
-                                <p class="font-semibold text-sm text-gray-700 mt-1">${item.categoria}</p>
-                            </div>
-                            <span class="px-3 py-2 text-center rounded-lg text-[0.65rem] uppercase tracking-[0.22em] leading-tight ${item.pago ? 'bg-green-50 text-green-600' : 'bg-accent/10 text-accent-hover border border-accent/30'}">${infoData.dias.toUpperCase().replace(' HÁ', '<br>HÁ').replace(' EM', '<br>EM').replace(' COM', '<br>COM')}</span>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="grid grid-cols-1 gap-2 text-xs text-gray-400">
-                                <p>Fornecedor: <span class="font-medium text-gray-500">${item.fornecedor || 'Não informado'}</span></p>
-                                <p>${item.pago ? 'Pago com' : 'Pagar com'}: <span class="font-medium text-gray-500">${item.carteira}</span></p>
-                                <p>Status: <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[0.65rem] uppercase tracking-[0.22em] ${item.pago ? 'bg-green-50 text-green-600 border border-green-200' : 'bg-red-100 text-red-600 border border-red-200'}">${item.pago ? 'Pago' : 'Pendente'}</span></p>
-                            </div>
-                            <div class="flex justify-between items-center">
-                                <div>
-                                    <p class="font-semibold text-gray-700 ${item.pago ? 'line-through' : ''}">${item.descricao}</p>
-                                </div>
-                                <div class="flex items-center gap-3">
-                                    ${criarIconeFoto(item)}
-                                    <span class="font-bold text-lg ${item.pago ? 'text-gray-400 line-through' : 'text-red-600'} whitespace-nowrap">${formatarMoeda(item.valor)}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex justify-end items-center mt-4 pt-3 border-t border-dashed">
-                            ${criarIconeAcao(item)}
-                        </div>`;
-                    listContainer.appendChild(itemDiv);
-                });
-                headerDiv.onclick = () => { 
-                    listContainer.classList.toggle('hidden'); 
-                    headerDiv.querySelector('svg').classList.toggle('rotate-180');
-                    const pendentesInfo = headerDiv.querySelector('.pendentes-info');
-                    if(pendentesInfo) {
-                        pendentesInfo.classList.toggle('hidden');
-                    }
-                };
-                mesContainer.append(headerDiv, listContainer);
-                containerLista.appendChild(mesContainer);
-            }
-            const totalExibido = lancamentosFiltrados.reduce((soma, item) => soma + Number(item.valor || 0), 0);
-            resumoTotalContainer.innerHTML = `<div><span class="font-semibold">Total Exibido</span><p class="text-xs text-gray-500">Exibindo ${lancamentosFiltrados.length} de ${lancamentos.length} itens</p></div><span class="font-bold text-lg">${formatarMoeda(totalExibido)}</span>`;
-        };
-
-        // --- LÓGICA DO MODAL DE CONFIRMAÇÃO ---
-        const mostrarConfirmacao = (titulo, mensagem, onConfirm) => {
-            confirmacaoTitulo.textContent = titulo;
-            confirmacaoMensagem.textContent = mensagem;
-            onConfirmAction = onConfirm;
-            confirmacaoModal.classList.remove('hidden');
-        };
-        const fecharConfirmacao = () => {
-            confirmacaoModal.classList.add('hidden');
-            onConfirmAction = null;
-        };
-
-        // --- EVENT LISTENERS ---
-        document.addEventListener('DOMContentLoaded', () => {
-            carregarDados();
-            atualizarTodosDropdownsEPopups();
-            renderizarLancamentos();
-
-            cancelarConfirmacaoBtn.addEventListener('click', fecharConfirmacao);
-            confirmacaoModal.addEventListener('click', (e) => { if (e.target === confirmacaoModal) fecharConfirmacao(); });
-            confirmarAcaoBtn.addEventListener('click', () => {
-                if (typeof onConfirmAction === 'function') {
-                    onConfirmAction();
-                }
-                fecharConfirmacao();
-            });
-
-            excluirLancamentoBtn.addEventListener('click', () => {
-                const id = parseInt(document.getElementById('lancamento-id').value);
-                if (!id) return;
-                const onConfirmDelete = () => {
-                    const index = lancamentos.findIndex(l => l.id === id);
-                    if (index > -1) {
-                        lancamentos.splice(index, 1);
-                        salvarDados();
-                        fecharModalLancamento();
-                        renderizarLancamentos();
-                        mostrarNotificacao('Lançamento excluído com sucesso!', true);
-                    }
-                };
-                mostrarConfirmacao('Excluir Lançamento', 'Tem certeza que deseja excluir este lançamento? Esta ação não pode ser desfeita.', onConfirmDelete);
-            });
-
-            document.querySelectorAll('.accordion-header').forEach(header => {
-                header.addEventListener('click', () => {
-                    header.nextElementSibling.classList.toggle('hidden');
-                    header.querySelector('svg').classList.toggle('rotate-180');
-                });
-            });
-
-            filtroAvancadoPanel.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON' && e.target.dataset.group) handlePillClick(e); });
-            abrirFiltroBtn.addEventListener('click', abrirFiltroPanel);
-            fecharFiltroBtn.addEventListener('click', fecharFiltroPanel);
-            filtroAvancadoOverlay.addEventListener('click', fecharFiltroPanel);
-            aplicarFiltrosBtn.addEventListener('click', () => { fecharFiltroPanel(); renderizarLancamentos(); });
-            limparFiltrosBtn.addEventListener('click', () => { filtrosAtivos = { status: null, categorias: [], fornecedores: [], carteiras: [] }; atualizarPillsUI(); renderizarLancamentos(); fecharFiltroPanel(); });
-
-            abrirAddCategoriaModal = setupAddModal(addCategoriaModal, addCategoriaForm, 'nova-categoria-nome', categorias, categoriaDropdown);
-            abrirAddCarteiraModal = setupAddModal(addCarteiraModal, addCarteiraForm, 'nova-carteira-nome', carteiras, carteiraDropdown);
-            abrirAddFornecedorModal = setupAddModal(addFornecedorModal, addFornecedorForm, 'nova-fornecedor-nome', fornecedores, fornecedorDropdown);
-            
-            lancamentoForm.addEventListener('click', (e) => {
-                const addBtn = e.target.closest('.btn-adicionar');
-                const delBtn = e.target.closest('.btn-excluir');
-                if (addBtn) {
-                    const tipo = addBtn.dataset.tipo;
-                    if (tipo === 'categoria') abrirAddCategoriaModal();
-                    if (tipo === 'fornecedor') abrirAddFornecedorModal();
-                    if (tipo === 'carteira') abrirAddCarteiraModal();
-                }
-                if (delBtn) handleExclusao(delBtn.dataset.tipo);
-            });
-
-            const valorInput = document.getElementById('lancamento-valor');
-            valorInput.addEventListener('input', (e) => {
-                let value = e.target.value;
-                value = value.replace(/\./g, ',');
-                value = value.replace(/[^0-9,]/g, '');
-                const parts = value.split(',');
-                if (parts.length > 2) {
-                    value = parts[0] + ',' + parts.slice(1).join('');
-                }
-                e.target.value = value;
-            });
-            
-            const pagoCheckbox = document.getElementById('lancamento-pago');
-            const pagoStatusText = document.getElementById('pago-status-text');
-            pagoCheckbox.addEventListener('change', (e) => {
-                if (e.target.checked) {
-                    pagoStatusText.textContent = 'Sim';
-                    pagoStatusText.classList.remove('text-gray-500');
-                    pagoStatusText.classList.add('text-green-600');
-                } else {
-                    pagoStatusText.textContent = 'Não';
-                    pagoStatusText.classList.add('text-gray-500');
-                    pagoStatusText.classList.remove('text-green-600');
-                }
-            });
-
-            containerLista.addEventListener('click', (e) => {
-                const btnToggle = e.target.closest('.btn-toggle-pago');
-                const btnGaleria = e.target.closest('.btn-galeria');
-                const btnEditar = e.target.closest('.btn-editar');
-
-                if (btnEditar) {
-                    const id = parseInt(btnEditar.dataset.id);
-                    abrirModalLancamento(id);
-                } else if (btnToggle) { 
-                    const lancamento = lancamentos.find(l => l.id === parseInt(btnToggle.dataset.id)); 
-                    if (lancamento) { 
-                        lancamento.pago = !lancamento.pago; 
-                        salvarDados();
-                        renderizarLancamentos(); 
-                    }
-                } else if (btnGaleria) {
-                    abrirGaleria(parseInt(btnGaleria.dataset.id));
-                }
-            });
-            
-            campoPesquisa.addEventListener('input', () => renderizarLancamentos());
-            lancamentosTabBtn.addEventListener('click', () => alternarAbas('lancamentos'));
-            relatoriosTabBtn.addEventListener('click', () => alternarAbas('relatorios'));
-            abrirNovoLancamentoBtn.addEventListener('click', () => abrirModalLancamento());
-            fecharLancamentoModalBtn.onclick = fecharModalLancamento;
-            cancelarLancamentoBtn.onclick = fecharModalLancamento;
-            lancamentoModal.onclick = (e) => { if (e.target === lancamentoModal) fecharModalLancamento(); };
-            galeriaContainer.addEventListener('click', (e) => { if (e.target.tagName === 'IMG') abrirZoom(e.target.src); });
-            fecharGaleriaBtn.onclick = fecharGaleria;
-            fecharZoomBtn.onclick = fecharZoom;
-            galeriaModal.onclick = (e) => { if (e.target === galeriaModal) fecharGaleria(); };
-            btnGaleriaUpload.addEventListener('click', () => galeriaInput.click());
-            btnCameraUpload.addEventListener('click', () => cameraInput.click());
-            galeriaInput.addEventListener('change', (e) => handleArquivosDeImagem(e.target.files));
-            cameraInput.addEventListener('change', (e) => handleArquivosDeImagem(e.target.files));
-            const fecharMenu = () => { menuLateral.classList.add('-translate-x-full'); menuLateralOverlay.classList.add('hidden'); };
-            abrirMenuBtn.addEventListener('click', () => { menuLateral.classList.remove('-translate-x-full'); menuLateralOverlay.classList.remove('hidden'); });
-            menuLateralOverlay.addEventListener('click', fecharMenu);
-            menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); alternarAbas('lancamentos'); fecharMenu(); });
-            menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); totalizerFooter.classList.add('hidden'); abrirNovoLancamentoBtn.classList.add('hidden'); fecharMenu(); });
-            exportarBtn.addEventListener('click', () => {
-                const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
-                const dataStr = JSON.stringify(dataToSave, null, 2);
-                const dataBlob = new Blob([dataStr], {type: "application/json"});
-                const url = URL.createObjectURL(dataBlob);
-                const link = document.createElement('a');
-                link.download = `backup_obra_${new Date().toISOString().slice(0, 10)}.json`;
-                link.href = url;
-                link.click();
-                URL.revokeObjectURL(url);
-                mostrarNotificacao('Backup exportado com sucesso!', true);
-            });
-            importarBtn.addEventListener('click', () => importarInput.click());
-            importarInput.addEventListener('change', (e) => {
-                const file = e.target.files[0];
-                if (!file) return;
-                const reader = new FileReader();
-                reader.onload = (event) => {
-                    try {
-                        const data = JSON.parse(event.target.result);
-                        if (data.lancamentos && data.categorias && data.carteiras && data.fornecedores) {
-                            lancamentos = data.lancamentos; 
-                            categorias = data.categorias; 
-                            carteiras = data.carteiras; 
-                            fornecedores = data.fornecedores;
-                            salvarDados();
-                            atualizarTodosDropdownsEPopups();
-                            renderizarLancamentos();
-                            mostrarNotificacao('Backup importado com sucesso!', true);
-                        } else { 
-                            mostrarNotificacao('Arquivo de backup inválido.'); 
-                        }
-                    } catch (error) { 
-                        mostrarNotificacao('Erro ao ler o arquivo de backup.'); 
-                    }
-                };
-                reader.readAsText(file);
-                importarInput.value = '';
-            });
-            
-            const toggleBtn = document.getElementById('toggle-totalizer-btn');
-            const footer = document.getElementById('totalizer-footer');
-            const arrowDown = document.getElementById('totalizer-arrow-down');
-            const arrowUp = document.getElementById('totalizer-arrow-up');
-            const resumoTotal = document.getElementById('resumo-total');
-            
-            const applyTotalizerState = () => {
-                const isCollapsed = localStorage.getItem('totalizerCollapsed') === 'true';
-                footer.dataset.collapsed = isCollapsed;
-                if (isCollapsed) {
-                    const height = resumoTotal.offsetHeight + 16;
-                    footer.style.transform = `translateY(${height}px)`;
-                    arrowDown.classList.add('hidden');
-                    arrowUp.classList.remove('hidden');
-                } else {
-                    footer.style.transform = 'translateY(0)';
-                    arrowDown.classList.remove('hidden');
-                    arrowUp.classList.add('hidden');
-                }
-            };
-
-            toggleBtn.addEventListener('click', () => {
-                const isCollapsed = footer.dataset.collapsed === 'true';
-                localStorage.setItem('totalizerCollapsed', !isCollapsed);
-                applyTotalizerState();
-            });
-
-            // Mostrar a aba de Lançamentos por padrão
-            alternarAbas('lancamentos');
-            mainContent.classList.remove('hidden');
-            backupContent.classList.add('hidden');
-            applyTotalizerState();
-
-
-        });
-
-        const alternarAbas = (aba) => {
-            const isLancamentos = aba === 'lancamentos';
-            lancamentosTabBtn.setAttribute('aria-selected', isLancamentos);
-            relatoriosTabBtn.setAttribute('aria-selected', !isLancamentos);
-
-            lancamentosTabBtn.classList.toggle('text-blue-600', isLancamentos);
-            lancamentosTabBtn.classList.toggle('border-blue-600', isLancamentos);
-            lancamentosTabBtn.classList.toggle('text-gray-500', !isLancamentos);
-            lancamentosTabBtn.classList.toggle('border-transparent', !isLancamentos);
-            
-            relatoriosTabBtn.classList.toggle('text-blue-600', !isLancamentos);
-            relatoriosTabBtn.classList.toggle('border-blue-600', !isLancamentos);
-            relatoriosTabBtn.classList.toggle('text-gray-500', isLancamentos);
-            relatoriosTabBtn.classList.toggle('border-transparent', isLancamentos);
-
-            lancamentosContent.classList.toggle('hidden', !isLancamentos);
-            relatoriosContent.classList.toggle('hidden', isLancamentos);
-
-            totalizerFooter.classList.toggle('hidden', !isLancamentos);
-            abrirNovoLancamentoBtn.classList.toggle('hidden', !isLancamentos);
-
-            if (!isLancamentos) {
-                renderizarResumoObra();
-                renderizarGraficoCategorias();
-            }
-        };
+        let scale = 1, currentScale = 1, pointX = 0, pointY = 0, start = { x: 0, y: 0 }, initialPinchDistance = 0; const setTransform = () => zoomedImage.style.transform = `translate(${pointX}px, ${pointY}px) scale(${scale})`; const getDistance = (p1, p2) => Math.sqrt(Math.pow(p2.clientX - p1.clientX, 2) + Math.pow(p2.clientY - p1.clientY, 2)); const handleTouchStart = (e) => { e.preventDefault(); if (e.touches.length === 2) initialPinchDistance = getDistance(e.touches[0], e.touches[1]); else if (e.touches.length === 1) start = { x: e.touches[0].clientX - pointX, y: e.touches[0].clientY - pointY }; }; const handleTouchMove = (e) => { e.preventDefault(); if (e.touches.length === 2 && initialPinchDistance > 0) { const newPinchDistance = getDistance(e.touches[0], e.touches[1]); scale = currentScale * (newPinchDistance / initialPinchDistance); scale = Math.max(1, Math.min(scale, 5)); setTransform(); } else if (e.touches.length === 1) { pointX = e.touches[0].clientX - start.x; pointY = e.touches[0].clientY - start.y; setTransform(); } }; const handleTouchEnd = (e) => { if (e.touches.length < 2) { currentScale = scale; initialPinchDistance = 0; } }; const abrirZoom = (src) => { scale = 1; currentScale = 1; pointX = 0, pointY = 0; setTransform(); zoomedImage.src = src; zoomModal.classList.remove('hidden'); document.body.style.overflow = 'hidden'; zoomedImage.addEventListener('touchstart', handleTouchStart); zoomedImage.addEventListener('touchmove', handleTouchMove); zoomedImage.addEventListener('touchend', handleTouchEnd); }; const fecharZoom = () => { zoomModal.classList.add('hidden'); document.body.style.overflow = ''; zoomedImage.removeEventListener('touchstart', handleTouchStart); zoomedImage.removeEventListener('touchmove', handleTouchMove); zoomedImage.removeEventListener('touchend', handleTouchEnd); };
+        const renderizarResumoObra = () => { const totalPago = lancamentos.filter(l => l.pago).reduce((soma, l) => soma + (l.valor || 0), 0); const totalPendente = lancamentos.filter(l => !l.pago).reduce((soma, l) => soma + (l.valor || 0), 0); const custoTotal = totalPago + totalPendente; document.getElementById('resumo-pago').textContent = formatarMoeda(totalPago); document.getElementById('resumo-pendente').textContent = formatarMoeda(totalPendente); document.getElementById('resumo-custo-total').textContent = formatarMoeda(custoTotal); };
+        const renderizarGraficoCategorias = () => { if (categoryChartInstance) categoryChartInstance.destroy(); const gastosPorCategoria = lancamentos.reduce((acc, lanc) => { acc[lanc.categoria] = (acc[lanc.categoria] || 0) + (Number(lanc.valor) || 0); return acc; }, {}); const sortedCategories = Object.entries(gastosPorCategoria).sort(([, a], [, b]) => b - a); const labels = sortedCategories.map(([categoria]) => categoria); const data = sortedCategories.map(([, valor]) => valor); const colors = labels.map(() => `rgba(124, 58, 237, ${Math.random() * 0.5 + 0.4})`); const ctx = document.getElementById('category-chart').getContext('2d'); categoryChartInstance = new Chart(ctx, { type: 'bar', data: { labels, datasets: [{ label: 'Total Gasto', data, backgroundColor: colors, borderColor: colors.map(color => color.replace('0.8', '1')), borderWidth: 1 }] }, options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: false }, tooltip: { callbacks: { label: (context) => formatarMoeda(context.raw) } } }, scales: { x: { beginAtZero: true, ticks: { callback: (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(value) } } } } }); };
+        const fecharFiltroPanel = () => { filtroAvancadoPanel.classList.add('translate-x-full'); filtroAvancadoOverlay.classList.add('hidden'); };
+        const abrirFiltroPanel = () => { filtroAvancadoPanel.classList.remove('translate-x-full'); filtroAvancadoOverlay.classList.remove('hidden'); atualizarPillsUI(); };
+        const criarPill = (text, value, group) => { const pill = document.createElement('button'); pill.className = 'px-3 py-1 border rounded-full text-sm cursor-pointer hover:bg-gray-200 transition-colors'; pill.textContent = text; pill.dataset.value = value; pill.dataset.group = group; return pill; };
+        const atualizarPillsUI = () => { document.querySelectorAll('#filtro-avancado-panel .accordion-content button').forEach(pill => { const { group, value } = pill.dataset; let isActive = (group === 'status') ? (filtrosAtivos.status === value) : filtrosAtivos[group]?.includes(value); pill.classList.toggle('bg-violet-500', isActive); pill.classList.toggle('text-white', isActive); pill.classList.toggle('border-violet-500', isActive); pill.classList.toggle('hover:bg-gray-200', !isActive); }); let count = (filtrosAtivos.status ? 1 : 0) + filtrosAtivos.categorias.length + filtrosAtivos.fornecedores.length + filtrosAtivos.carteiras.length; filtroBadge.textContent = count; filtroBadge.classList.toggle('hidden', count === 0); };
+        const handlePillClick = (e) => { const pill = e.target; if (!pill.dataset.group) return; const { group, value } = pill.dataset; if (group === 'status') { filtrosAtivos.status = (filtrosAtivos.status === value) ? null : value; } else { if (!filtrosAtivos[group]) filtrosAtivos[group] = []; const index = filtrosAtivos[group].indexOf(value); if (index > -1) filtrosAtivos[group].splice(index, 1); else filtrosAtivos[group].push(value); } atualizarPillsUI(); };
+        const inicializarFiltros = () => { const statusContainer = document.getElementById('filtro-status-container'); const categoriasContainer = document.getElementById('filtro-categorias-container'); const fornecedoresContainer = document.getElementById('filtro-fornecedores-container'); const carteirasContainer = document.getElementById('filtro-carteiras-container'); statusContainer.innerHTML = ''; ['Pagos', 'Não Pago'].forEach(status => statusContainer.appendChild(criarPill(status, status === 'Pagos' ? 'pago' : 'aberto', 'status'))); categoriasContainer.innerHTML = ''; [...categorias].sort().forEach(cat => categoriasContainer.appendChild(criarPill(cat, cat, 'categorias'))); fornecedoresContainer.innerHTML = ''; [...fornecedores].sort().forEach(forn => fornecedoresContainer.appendChild(criarPill(forn, forn, 'fornecedores'))); carteirasContainer.innerHTML = ''; [...carteiras].sort().forEach(cart => carteirasContainer.appendChild(criarPill(cart, cart, 'carteiras'))); };
+        const renderizarLancamentos = () => { let lancamentosFiltrados = [...lancamentos]; const filtroTexto = campoPesquisa.value.toLowerCase(); if (filtroTexto) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => lanc.descricao.toLowerCase().includes(filtroTexto)); if (filtrosAtivos.status) { const pago = filtrosAtivos.status === 'pago'; lancamentosFiltrados = lancamentosFiltrados.filter(lanc => lanc.pago === pago); } if (filtrosAtivos.categorias.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.categorias.includes(lanc.categoria)); if (filtrosAtivos.fornecedores.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.fornecedores.includes(lanc.fornecedor)); if (filtrosAtivos.carteiras.length > 0) lancamentosFiltrados = lancamentosFiltrados.filter(lanc => filtrosAtivos.carteiras.includes(lanc.carteira)); const agrupadoPorMes = [...lancamentosFiltrados].sort((a, b) => new Date(b.data) - new Date(a.data)).reduce((acc, lanc) => { const dataObj = new Date(lanc.data + 'T12:00:00'); const mesAno = new Intl.DateTimeFormat('pt-BR', { month: 'long', year: 'numeric' }).format(dataObj); if (!acc[mesAno]) acc[mesAno] = []; acc[mesAno].push(lanc); return acc; }, {}); containerLista.innerHTML = ''; if (lancamentosFiltrados.length === 0) { containerLista.innerHTML = `<div class="text-center py-16 px-6 bg-white rounded-2xl shadow-sm border border-gray-200"><svg class="mx-auto h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1"><path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" /></svg><h3 class="mt-4 text-lg font-semibold text-gray-700">Nenhum lançamento encontrado</h3><p class="mt-1 text-sm text-gray-500">Comece adicionando uma nova despesa ou receita no botão de mais.</p></div>`; return; } const mesesOrdenados = Object.keys(agrupadoPorMes).sort((a, b) => { const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]; const [mesA, , anoA] = a.split(' '); const [mesB, , anoB] = b.split(' '); return new Date(anoB, meses.indexOf(mesB.toLowerCase())) - new Date(anoA, meses.indexOf(mesA.toLowerCase())); }); for (const mesAno of mesesOrdenados) { const lancamentosDoMes = agrupadoPorMes[mesAno]; const totalMes = lancamentosDoMes.reduce((soma, item) => soma + Number(item.valor || 0), 0); const mesHeaderHTML = `<div class="flex justify-between items-center mb-2"><h2 class="font-bold text-lg text-gray-900">${mesAno.charAt(0).toUpperCase() + mesAno.slice(1)}</h2><p class="text-gray-600 font-semibold">${formatarMoeda(totalMes)}</p></div>`; containerLista.insertAdjacentHTML('beforeend', mesHeaderHTML); const listContainer = document.createElement('div'); listContainer.className = 'space-y-3'; lancamentosDoMes.forEach(item => { const tagInfo = formatarData(item); const dataSimples = formatarDataSimples(item.data); const tagClasses = { 'green': 'bg-green-100 text-green-800', 'orange': 'bg-amber-100 text-amber-800', 'gray': 'bg-gray-100 text-gray-800' }; const statusTagHTML = `<span class="px-2 py-0.5 text-xs font-semibold ${tagClasses[tagInfo.color]} rounded-md">${tagInfo.text}</span>`; const liquidarBtn = !item.pago ? `<button class="btn-toggle-pago bg-amber-500 text-white font-bold py-2 px-4 rounded-lg hover:bg-amber-600" data-id="${item.id}">Liquidar</button>` : ''; const cardHTML = `<div class="bg-white rounded-xl shadow-sm border border-gray-200 p-4"><div class="flex justify-between items-center mb-2"><div class="flex items-center gap-2 flex-wrap">${statusTagHTML}<p class="text-sm text-gray-500 font-medium">${dataSimples}</p></div><p class="font-bold text-xl text-gray-800 whitespace-nowrap pl-2">${formatarMoeda(item.valor)}</p></div><div><p class="font-semibold text-base text-gray-900 truncate" title="${item.descricao}">${item.descricao}</p><p class="text-sm text-gray-500 mt-1">${item.categoria}</p><p class="text-sm text-gray-500">${item.fornecedor} &bull; ${item.carteira}</p></div><div class="flex items-center justify-between mt-3 pt-3 border-t border-gray-100" style="min-height: 52px;"><div class="flex items-center gap-1"><button class="btn-galeria text-sm text-violet-600 font-semibold p-2 rounded-lg hover:bg-violet-50 ${item.fotos && item.fotos.length > 0 ? '' : 'hidden'}" data-id="${item.id}">Ver Fotos (${item.fotos.length})</button></div><div class="flex items-center gap-2"><button class="btn-editar p-2 rounded-full bg-gray-100 hover:bg-gray-200" data-id="${item.id}" title="Editar lançamento"><svg class="w-5 h-5 text-gray-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.862 4.487zm0 0L19.5 7.125"></path></svg></button>${liquidarBtn}</div></div></div>`; listContainer.insertAdjacentHTML('beforeend', cardHTML); }); containerLista.appendChild(listContainer); } const totalExibido = lancamentosFiltrados.reduce((soma, item) => soma + Number(item.valor || 0), 0); resumoTotalContainer.innerHTML = `<div><span class="font-semibold">Total Exibido</span><p class="text-xs text-gray-500">Exibindo ${lancamentosFiltrados.length} de ${lancamentos.length} itens</p></div><span class="font-bold text-lg">${formatarMoeda(totalExibido)}</span>`; };
+        const mostrarConfirmacao = (titulo, mensagem, onConfirm) => { confirmacaoTitulo.textContent = titulo; confirmacaoMensagem.textContent = mensagem; onConfirmAction = onConfirm; confirmacaoModal.classList.remove('hidden'); };
+        const fecharConfirmacao = () => { confirmacaoModal.classList.add('hidden'); onConfirmAction = null; };
+        document.addEventListener('DOMContentLoaded', () => { carregarDados(); atualizarTodosDropdownsEPopups(); renderizarLancamentos(); cancelarConfirmacaoBtn.addEventListener('click', fecharConfirmacao); confirmacaoModal.addEventListener('click', (e) => { if (e.target === confirmacaoModal) fecharConfirmacao(); }); confirmarAcaoBtn.addEventListener('click', () => { if (typeof onConfirmAction === 'function') { onConfirmAction(); } fecharConfirmacao(); }); excluirLancamentoBtn.addEventListener('click', () => { const id = parseInt(document.getElementById('lancamento-id').value); if (!id) return; const onConfirmDelete = () => { const index = lancamentos.findIndex(l => l.id === id); if (index > -1) { lancamentos.splice(index, 1); salvarDados(); fecharModalLancamento(); renderizarLancamentos(); mostrarNotificacao('Lançamento excluído com sucesso!', true); } }; mostrarConfirmacao('Excluir Lançamento', 'Tem certeza que deseja excluir este lançamento? Esta ação não pode ser desfeita.', onConfirmDelete); }); document.querySelectorAll('.accordion-header').forEach(header => { header.addEventListener('click', () => { header.nextElementSibling.classList.toggle('hidden'); header.querySelector('svg').classList.toggle('rotate-180'); }); }); filtroAvancadoPanel.addEventListener('click', (e) => { if (e.target.tagName === 'BUTTON' && e.target.dataset.group) handlePillClick(e); }); abrirFiltroBtn.addEventListener('click', abrirFiltroPanel); fecharFiltroBtn.addEventListener('click', fecharFiltroPanel); filtroAvancadoOverlay.addEventListener('click', fecharFiltroPanel); aplicarFiltrosBtn.addEventListener('click', () => { fecharFiltroPanel(); renderizarLancamentos(); }); limparFiltrosBtn.addEventListener('click', () => { filtrosAtivos = { status: null, categorias: [], fornecedores: [], carteiras: [] }; atualizarPillsUI(); renderizarLancamentos(); fecharFiltroPanel(); }); abrirAddCategoriaModal = setupAddModal(addCategoriaModal, addCategoriaForm, 'nova-categoria-nome', categorias, categoriaDropdown); abrirAddCarteiraModal = setupAddModal(addCarteiraModal, addCarteiraForm, 'nova-carteira-nome', carteiras, carteiraDropdown); abrirAddFornecedorModal = setupAddModal(addFornecedorModal, addFornecedorForm, 'nova-fornecedor-nome', fornecedores, fornecedorDropdown); lancamentoForm.addEventListener('click', (e) => { const addBtn = e.target.closest('.btn-adicionar'); const delBtn = e.target.closest('.btn-excluir'); if (addBtn) { const tipo = addBtn.dataset.tipo; if (tipo === 'categoria') abrirAddCategoriaModal(); if (tipo === 'fornecedor') abrirAddFornecedorModal(); if (tipo === 'carteira') abrirAddCarteiraModal(); } if (delBtn) handleExclusao(delBtn.dataset.tipo); }); const valorInput = document.getElementById('lancamento-valor'); valorInput.addEventListener('input', (e) => { let value = e.target.value; value = value.replace(/\./g, ','); value = value.replace(/[^0-9,]/g, ''); const parts = value.split(','); if (parts.length > 2) { value = parts[0] + ',' + parts.slice(1).join(''); } e.target.value = value; }); const pagoCheckbox = document.getElementById('lancamento-pago'); const pagoStatusText = document.getElementById('pago-status-text'); pagoCheckbox.addEventListener('change', (e) => { if (e.target.checked) { pagoStatusText.textContent = 'Sim'; pagoStatusText.classList.remove('text-gray-500'); pagoStatusText.classList.add('text-green-600'); } else { pagoStatusText.textContent = 'Não'; pagoStatusText.classList.add('text-gray-500'); pagoStatusText.classList.remove('text-green-600'); } }); containerLista.addEventListener('click', (e) => { const btnToggle = e.target.closest('.btn-toggle-pago'); const btnGaleria = e.target.closest('.btn-galeria'); const btnEditar = e.target.closest('.btn-editar'); if (btnEditar) { const id = parseInt(btnEditar.dataset.id); abrirModalLancamento(id); } else if (btnToggle) { const lancamento = lancamentos.find(l => l.id === parseInt(btnToggle.dataset.id)); if (lancamento) { lancamento.pago = !lancamento.pago; salvarDados(); renderizarLancamentos(); } } else if (btnGaleria) { abrirGaleria(parseInt(btnGaleria.dataset.id)); } }); campoPesquisa.addEventListener('input', () => renderizarLancamentos()); lancamentosTabBtn.addEventListener('click', () => alternarAbas('lancamentos')); relatoriosTabBtn.addEventListener('click', () => alternarAbas('relatorios')); abrirNovoLancamentoBtn.addEventListener('click', () => abrirModalLancamento()); fecharLancamentoModalBtn.onclick = fecharModalLancamento; cancelarLancamentoBtn.onclick = fecharModalLancamento; lancamentoModal.onclick = (e) => { if (e.target === lancamentoModal) fecharModalLancamento(); }; galeriaContainer.addEventListener('click', (e) => { if (e.target.tagName === 'IMG') abrirZoom(e.target.src); }); fecharGaleriaBtn.onclick = fecharGaleria; fecharZoomBtn.onclick = fecharZoom; galeriaModal.onclick = (e) => { if (e.target === galeriaModal) fecharGaleria(); }; btnGaleriaUpload.addEventListener('click', () => galeriaInput.click()); btnCameraUpload.addEventListener('click', () => cameraInput.click()); galeriaInput.addEventListener('change', (e) => handleArquivosDeImagem(e.target.files)); cameraInput.addEventListener('change', (e) => handleArquivosDeImagem(e.target.files)); const fecharMenu = () => { menuLateral.classList.add('-translate-x-full'); menuLateralOverlay.classList.add('hidden'); }; abrirMenuBtn.addEventListener('click', () => { menuLateral.classList.remove('-translate-x-full'); menuLateralOverlay.classList.remove('hidden'); }); menuLateralOverlay.addEventListener('click', fecharMenu); menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); alternarAbas('lancamentos'); fecharMenu(); }); menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); totalizerFooter.classList.add('hidden'); abrirNovoLancamentoBtn.classList.add('hidden'); fecharMenu(); }); exportarBtn.addEventListener('click', () => { const dataToSave = { lancamentos, categorias, carteiras, fornecedores }; const dataStr = JSON.stringify(dataToSave, null, 2); const dataBlob = new Blob([dataStr], {type: "application/json"}); const url = URL.createObjectURL(dataBlob); const link = document.createElement('a'); link.download = `backup_obra_${new Date().toISOString().slice(0, 10)}.json`; link.href = url; link.click(); URL.revokeObjectURL(url); mostrarNotificacao('Backup exportado com sucesso!', true); window.OneSignalDeferred.push(function(OneSignal) { OneSignal.sendSelfNotification( 'Backup da Obra Realizado!', `O backup foi gerado e salvo com sucesso em ${new Date().toLocaleTimeString()}.`, window.location.href ); }); }); importarBtn.addEventListener('click', () => importarInput.click()); importarInput.addEventListener('change', (e) => { const file = e.target.files[0]; if (!file) return; const reader = new FileReader(); reader.onload = (event) => { try { const data = JSON.parse(event.target.result); if (data.lancamentos && data.categorias && data.carteiras && data.fornecedores) { lancamentos = data.lancamentos; categorias = data.categorias; carteiras = data.carteiras; fornecedores = data.fornecedores; salvarDados(); atualizarTodosDropdownsEPopups(); renderizarLancamentos(); mostrarNotificacao('Backup importado com sucesso!', true); } else { mostrarNotificacao('Arquivo de backup inválido.'); } } catch (error) { mostrarNotificacao('Erro ao ler o arquivo de backup.'); } }; reader.readAsText(file); importarInput.value = ''; }); const toggleBtn = document.getElementById('toggle-totalizer-btn'); const footer = document.getElementById('totalizer-footer'); const arrowDown = document.getElementById('totalizer-arrow-down'); const arrowUp = document.getElementById('totalizer-arrow-up'); const applyTotalizerState = () => { const isCollapsed = localStorage.getItem('totalizerCollapsed') === 'true'; footer.dataset.collapsed = isCollapsed; if (isCollapsed) { const height = document.getElementById('totalizer-footer-content').offsetHeight; footer.style.transform = `translateY(${height}px)`; arrowDown.classList.add('hidden'); arrowUp.classList.remove('hidden'); } else { footer.style.transform = 'translateY(0)'; arrowDown.classList.remove('hidden'); arrowUp.classList.add('hidden'); } }; toggleBtn.addEventListener('click', () => { const isCollapsed = footer.dataset.collapsed === 'true'; localStorage.setItem('totalizerCollapsed', !isCollapsed); applyTotalizerState(); }); alternarAbas('lancamentos'); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); applyTotalizerState(); });
+        const alternarAbas = (aba) => { const isLancamentos = aba === 'lancamentos'; lancamentosTabBtn.setAttribute('aria-selected', isLancamentos); relatoriosTabBtn.setAttribute('aria-selected', !isLancamentos); lancamentosTabBtn.classList.toggle('text-violet-600', isLancamentos); lancamentosTabBtn.classList.toggle('border-violet-600', isLancamentos); lancamentosTabBtn.classList.toggle('text-gray-500', !isLancamentos); lancamentosTabBtn.classList.toggle('border-transparent', !isLancamentos); relatoriosTabBtn.classList.toggle('text-violet-600', !isLancamentos); relatoriosTabBtn.classList.toggle('border-violet-600', !isLancamentos); relatoriosTabBtn.classList.toggle('text-gray-500', isLancamentos); relatoriosTabBtn.classList.toggle('border-transparent', isLancamentos); lancamentosContent.classList.toggle('hidden', !isLancamentos); relatoriosContent.classList.toggle('hidden', isLancamentos); totalizerFooter.classList.toggle('hidden', !isLancamentos); if (!isLancamentos) { renderizarResumoObra(); renderizarGraficoCategorias(); } };
     </script>
 </body>
 </html>
-

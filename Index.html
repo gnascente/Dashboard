@@ -182,7 +182,6 @@
             transform: rotate(180deg);
         }
     </style>
-    <!-- OneSignal Integration -->
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
@@ -237,8 +236,8 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0L8 8m4-4v12"></path></svg>
                             </span>
                             <div>
-                                <p class="text-sm font-semibold leading-none">Backup e Config.</p>
-                                <span class="text-xs text-gray-500">Exporte dados e configure chaves</span>
+                                <p class="text-sm font-semibold leading-none">Backup</p>
+                                <span class="text-xs text-gray-500">Exporte e importe seus dados</span>
                             </div>
                         </a>
                     </li>
@@ -435,8 +434,8 @@
             <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                  <div class="text-center pb-6 mb-6 border-b border-dashed">
                     <svg class="mx-auto h-20 w-20 text-violet-500/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    <h2 class="text-2xl font-semibold text-gray-800">Backup e Configurações</h2>
-                    <p class="text-sm text-gray-500 mt-1">Exporte/importe dados e configure chaves de API</p>
+                    <h2 class="text-2xl font-semibold text-gray-800">Backup de Dados</h2>
+                    <p class="text-sm text-gray-500 mt-1">Exporte ou importe os dados da sua obra</p>
                 </div>
                 <div class="space-y-6">
                     <div>
@@ -451,16 +450,6 @@
                         <p class="text-sm text-gray-600 mt-1">Carregue um arquivo de backup para restaurar seus dados. <strong class="text-red-600">Atenção:</strong> Isso substituirá todos os dados atuais.</p>
                         <input type="file" id="importar-input" class="hidden" accept=".json, .txt">
                         <button id="importar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Selecionar Arquivo</button>
-                    </div>
-                     <div class="border-t border-dashed pt-6">
-                        <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Configuração de API (DEV)</p>
-                        <h3 class="text-lg font-bold text-gray-800">OneSignal REST API Key</h3>
-                        <p class="text-sm text-gray-600 mt-1">
-                            <strong class="text-red-600">Apenas para desenvolvimento.</strong> Insira sua chave secreta aqui para testar o agendamento de notificações.
-                            <strong class="text-red-600">Nunca use isso em produção.</strong>
-                        </p>
-                        <input type="password" id="onesignal-api-key-input" placeholder="Sua Chave de API REST" class="mt-2 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:ring-violet-500 focus:border-violet-500">
-                        <button id="salvar-api-key-btn" class="mt-2 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-500 hover:bg-amber-600">Salvar Chave no LocalStorage</button>
                     </div>
                 </div>
             </div>
@@ -794,10 +783,6 @@
         const confirmarAcaoBtn = document.getElementById('confirmar-acao-btn');
         const excluirLancamentoBtn = document.getElementById('excluir-lancamento-btn');
         const totalizerFooter = document.querySelector('footer');
-        // Configuração de API
-        const oneSignalApiKeyInput = document.getElementById('onesignal-api-key-input');
-        const salvarApiKeyBtn = document.getElementById('salvar-api-key-btn');
-
 
         // --- VARIÁVEIS DE ESTADO ---
         let fotosTemporarias = [];
@@ -888,42 +873,76 @@
             }, 3000);
         };
         
-        // --- LÓGICA DE AGENDAMENTO DE NOTIFICAÇÃO DIÁRIA ---
+        /**
+         * Vibra o dispositivo se a API for suportada.
+         * @param {number|number[]} [pattern=200] - A duração ou padrão da vibração em milissegundos.
+         */
+        const vibrarDispositivo = (pattern = 200) => {
+            if ('vibrate' in navigator) {
+                try {
+                    navigator.vibrate(pattern);
+                } catch (error) {
+                    console.error("A vibração falhou:", error);
+                }
+            }
+        };
+
+        // --- LÓGICA DE AGENDAMENTO DE NOTIFICAÇÃO DIÁRIA (PRODUÇÃO) ---
 
         /**
-         * [SIMULAÇÃO BACKEND] Cancela uma notificação agendada.
-         * Em um app real, isso seria uma chamada `fetch` para o seu servidor.
+         * Envia uma requisição para a Netlify Function cancelar a notificação.
          * @param {string} notificationId - O ID da notificação a ser cancelada.
          */
-        async function simularCancelarNotificacao(notificationId) {
-            const apiKey = localStorage.getItem('oneSignalApiKey');
-            if (!apiKey) {
-                console.warn("[SIMULAÇÃO BACKEND] Chave de API do OneSignal não configurada. Cancelamento ignorado.");
-                return { success: false, message: "API Key not configured." };
+        async function cancelarNotificacao(notificationId) {
+            try {
+                const response = await fetch('/.netlify/functions/cancelNotification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ notificationId })
+                });
+
+                if (!response.ok) {
+                    console.error('Falha ao cancelar a notificação.', await response.text());
+                    return { success: false };
+                }
+
+                const data = await response.json();
+                console.log('Notificação cancelada com sucesso:', data);
+                return data;
+            } catch (error) {
+                console.error('Erro de rede ao cancelar notificação:', error);
+                return { success: false };
             }
-            console.log(`[SIMULAÇÃO BACKEND] Chamando a API OneSignal para CANCELAR a notificação de ID: ${notificationId}`);
-            // Aqui iria a chamada real: await fetch(`.../notifications/${notificationId}`, { method: 'DELETE', ... })
-            return { success: true };
         }
 
         /**
-         * [SIMULAÇÃO BACKEND] Agenda uma nova notificação.
-         * Em um app real, isso seria uma chamada `fetch` para o seu servidor.
+         * Envia uma requisição para a Netlify Function agendar uma nova notificação.
          * @param {object} notificationPayload - O corpo da requisição da notificação.
          */
-        async function simularAgendarNotificacao(notificationPayload) {
-             const apiKey = localStorage.getItem('oneSignalApiKey');
-            if (!apiKey) {
-                console.warn("[SIMULAÇÃO BACKEND] Chave de API do OneSignal não configurada. Agendamento ignorado.");
-                return { id: null, message: "API Key not configured." };
-            }
-            console.log('[SIMULAÇÃO BACKEND] Chamando a API OneSignal para AGENDAR uma nova notificação com os seguintes dados:', notificationPayload);
-            // Aqui iria a chamada real: await fetch('.../notifications', { method: 'POST', body: JSON.stringify(notificationPayload), ... })
-            const newId = `simulated_${Date.now()}`;
-            console.log(`[SIMULAÇÃO BACKEND] Notificação agendada com sucesso. Novo ID: ${newId}`);
-            return { id: newId };
-        }
+        async function agendarNotificacao(notificationPayload) {
+            try {
+                // O app_id é adicionado no backend, não precisa enviar daqui.
+                const { app_id, ...payload } = notificationPayload;
 
+                const response = await fetch('/.netlify/functions/scheduleNotification', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (!response.ok) {
+                    console.error('Falha ao agendar a notificação.', await response.text());
+                    return { id: null };
+                }
+
+                const data = await response.json();
+                console.log('Notificação agendada com sucesso:', data);
+                return data; // A API do OneSignal retorna um objeto com o `id`
+            } catch (error) {
+                console.error('Erro de rede ao agendar notificação:', error);
+                return { id: null };
+            }
+        }
 
         /**
          * Rotina principal que verifica os lançamentos e agenda a notificação diária.
@@ -932,7 +951,7 @@
             // 1. Cancela a notificação anterior para garantir que apenas a mais recente seja enviada.
             const scheduledNotificationId = localStorage.getItem('scheduledDailyNotificationId');
             if (scheduledNotificationId) {
-                await simularCancelarNotificacao(scheduledNotificationId);
+                await cancelarNotificacao(scheduledNotificationId);
                 localStorage.removeItem('scheduledDailyNotificationId');
             }
 
@@ -987,15 +1006,14 @@
             }
 
             const notificationPayload = {
-                app_id: "bfad3d68-ae1c-4b4c-90a7-dc211aa11727",
                 include_player_ids: [playerId],
                 headings: { pt: "Resumo Diário da Obra", en: "Daily Construction Summary" },
                 contents: { pt: mensagem, en: "You have pending items. Check the app." },
                 send_after: dataFormatada
             };
 
-            // 6. Envia para o "backend" agendar.
-            const response = await simularAgendarNotificacao(notificationPayload);
+            // 6. Envia para o backend agendar.
+            const response = await agendarNotificacao(notificationPayload);
             
             // 7. Salva o ID da nova notificação agendada.
             if (response && response.id) {
@@ -1591,10 +1609,7 @@
             atualizarTodosDropdownsEPopups();
             renderizarLancamentos();
             
-            // Carregar e aplicar a chave de API salva ao iniciar
-            oneSignalApiKeyInput.value = localStorage.getItem('oneSignalApiKey') || '';
-
-            // Aciona a checagem ao abrir o app
+            // Aciona a checagem ao abrir o app, após o OneSignal estar pronto
             OneSignalDeferred.push(function() {
                 OneSignal.User.getPushSubscriptionId().then(playerId => {
                     if (playerId) {
@@ -1723,7 +1738,13 @@
             abrirMenuBtn.addEventListener('click', () => { menuLateral.classList.remove('-translate-x-full'); menuLateralOverlay.classList.remove('hidden'); });
             menuLateralOverlay.addEventListener('click', fecharMenu);
             menuLancamentosBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.remove('hidden'); backupContent.classList.add('hidden'); alternarAbas('lancamentos'); fecharMenu(); });
-            menuBackupBtn.addEventListener('click', (e) => { e.preventDefault(); mainContent.classList.add('hidden'); backupContent.classList.remove('hidden'); totalizerFooter.classList.add('hidden'); abrirNovoLancamentoBtn.classList.add('hidden'); fecharMenu(); });
+            menuBackupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                mainContent.classList.add('hidden');
+                backupContent.classList.remove('hidden');
+                totalizerFooter.classList.add('hidden');
+                fecharMenu();
+            });
             exportarBtn.addEventListener('click', () => {
                 const dataToSave = { lancamentos, categorias, carteiras, fornecedores };
                 const dataStr = JSON.stringify(dataToSave, null, 2);
@@ -1735,6 +1756,7 @@
                 link.click();
                 URL.revokeObjectURL(url);
                 mostrarNotificacao('Backup exportado com sucesso!', true);
+                vibrarDispositivo(200); // <-- Vibração ao exportar
             });
             importarBtn.addEventListener('click', () => importarInput.click());
             importarInput.addEventListener('change', (e) => {
@@ -1753,6 +1775,7 @@
                             atualizarTodosDropdownsEPopups();
                             renderizarLancamentos();
                             mostrarNotificacao('Backup importado com sucesso!', true);
+                            vibrarDispositivo(200); // <-- Vibração ao importar
                         } else { 
                             mostrarNotificacao('Arquivo de backup inválido.'); 
                         }
@@ -1762,18 +1785,6 @@
                 };
                 reader.readAsText(file);
                 importarInput.value = '';
-            });
-
-            salvarApiKeyBtn.addEventListener('click', () => {
-                const apiKey = oneSignalApiKeyInput.value.trim();
-                if (apiKey) {
-                    localStorage.setItem('oneSignalApiKey', apiKey);
-                    mostrarNotificacao('Chave de API salva com sucesso no LocalStorage.', true);
-                    checarEAgendarNotificacaoDiaria(); // Tenta reagendar com a nova chave
-                } else {
-                    localStorage.removeItem('oneSignalApiKey');
-                    mostrarNotificacao('Chave de API removida.');
-                }
             });
 
             const toggleBtn = document.getElementById('toggle-totalizer-btn');
@@ -1842,4 +1853,3 @@
     </script>
 </body>
 </html>
-

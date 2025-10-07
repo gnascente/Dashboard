@@ -186,9 +186,18 @@
     <script src="https://cdn.onesignal.com/sdks/web/v16/OneSignalSDK.page.js" defer></script>
     <script>
       window.OneSignalDeferred = window.OneSignalDeferred || [];
-      OneSignalDeferred.push(async function(OneSignal) {
-        await OneSignal.init({
+      OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
           appId: "bfad3d68-ae1c-4b4c-90a7-dc211aa11727",
+          allowLocalhostAsSecureOrigin: true,
+          promptOptions: {
+            slidedown: {
+              enabled: true,
+              actionMessage: "Nós gostaríamos de enviar notificações com atualizações sobre sua obra.",
+              acceptButtonText: "Permitir",
+              cancelButtonText: "Agora não",
+            }
+          }
         });
       });
     </script>
@@ -228,8 +237,8 @@
                                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0L8 8m4-4v12"></path></svg>
                             </span>
                             <div>
-                                <p class="text-sm font-semibold leading-none">Backup</p>
-                                <span class="text-xs text-gray-500">Garanta a segurança dos dados</span>
+                                <p class="text-sm font-semibold leading-none">Backup e Config.</p>
+                                <span class="text-xs text-gray-500">Exporte dados e configure chaves</span>
                             </div>
                         </a>
                     </li>
@@ -426,8 +435,8 @@
             <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
                  <div class="text-center pb-6 mb-6 border-b border-dashed">
                     <svg class="mx-auto h-20 w-20 text-violet-500/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                    <h2 class="text-2xl font-semibold text-gray-800">Backup</h2>
-                    <p class="text-sm text-gray-500 mt-1">Exporte ou importe os dados da sua obra</p>
+                    <h2 class="text-2xl font-semibold text-gray-800">Backup e Configurações</h2>
+                    <p class="text-sm text-gray-500 mt-1">Exporte/importe dados e configure chaves de API</p>
                 </div>
                 <div class="space-y-6">
                     <div>
@@ -442,6 +451,16 @@
                         <p class="text-sm text-gray-600 mt-1">Carregue um arquivo de backup para restaurar seus dados. <strong class="text-red-600">Atenção:</strong> Isso substituirá todos os dados atuais.</p>
                         <input type="file" id="importar-input" class="hidden" accept=".json, .txt">
                         <button id="importar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Selecionar Arquivo</button>
+                    </div>
+                     <div class="border-t border-dashed pt-6">
+                        <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Configuração de API (DEV)</p>
+                        <h3 class="text-lg font-bold text-gray-800">OneSignal REST API Key</h3>
+                        <p class="text-sm text-gray-600 mt-1">
+                            <strong class="text-red-600">Apenas para desenvolvimento.</strong> Insira sua chave secreta aqui para testar o agendamento de notificações.
+                            <strong class="text-red-600">Nunca use isso em produção.</strong>
+                        </p>
+                        <input type="password" id="onesignal-api-key-input" placeholder="Sua Chave de API REST" class="mt-2 w-full px-3 py-2 rounded-lg border border-gray-300 bg-white focus:ring-violet-500 focus:border-violet-500">
+                        <button id="salvar-api-key-btn" class="mt-2 w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-amber-500 hover:bg-amber-600">Salvar Chave no LocalStorage</button>
                     </div>
                 </div>
             </div>
@@ -681,10 +700,13 @@
         let fornecedores = ['Leroy Merlin', 'C&C Casa e Construção'];
 
         let lancamentos = [
-            { id: 1, data: '2025-10-06', carteira: 'Conta Corrente', categoria: 'Estrutura e Vedações', descricao: 'Pisos 12 de 12 parcelas', valor: 3317.16, pago: false, fotos: ['https://via.placeholder.com/150'], fornecedor: 'Leroy Merlin' },
-            { id: 2, data: '2025-09-25', carteira: 'Investimentos', categoria: 'Terraplanagem/Tratores', descricao: '10X10 Caixa d\'água e tubulações', valor: 1132.70, pago: true, fotos: [], fornecedor: 'C&C Casa e Construção' },
-            { id: 3, data: '2025-09-25', carteira: 'Conta Corrente', categoria: 'Terraplanagem/Tratores', descricao: 'Pisos 11 de 12 parcelas', valor: 3317.16, pago: true, fotos: [], fornecedor: 'Leroy Merlin' },
-            { id: 4, data: '2025-08-10', carteira: 'Conta Corrente', categoria: 'Acabamentos', descricao: 'Tinta para área externa', valor: 850.00, pago: true, fotos: [], fornecedor: 'C&C Casa e Construção' }
+            // Dados de exemplo para teste
+            // Vencido
+            { id: 1, data: '2025-10-06', carteira: 'Conta Corrente', categoria: 'Estrutura e Vedações', descricao: 'Cimento (atrasado)', valor: 500, pago: false, fotos: [], fornecedor: 'Leroy Merlin' },
+            // Vence amanhã
+            { id: 2, data: new Date(new Date().setDate(new Date().getDate() + 1)).toISOString().slice(0, 10), carteira: 'Investimentos', categoria: 'Acabamentos', descricao: 'Tinta (vence amanhã)', valor: 250, pago: false, fotos: [], fornecedor: 'C&C Casa e Construção' },
+            // Pago
+            { id: 3, data: '2025-09-25', carteira: 'Conta Corrente', categoria: 'Terraplanagem/Tratores', descricao: 'Pisos (pago)', valor: 3317.16, pago: true, fotos: [], fornecedor: 'Leroy Merlin' },
         ];
 
         // --- SELETORES DE DOM ---
@@ -772,6 +794,10 @@
         const confirmarAcaoBtn = document.getElementById('confirmar-acao-btn');
         const excluirLancamentoBtn = document.getElementById('excluir-lancamento-btn');
         const totalizerFooter = document.querySelector('footer');
+        // Configuração de API
+        const oneSignalApiKeyInput = document.getElementById('onesignal-api-key-input');
+        const salvarApiKeyBtn = document.getElementById('salvar-api-key-btn');
+
 
         // --- VARIÁVEIS DE ESTADO ---
         let fotosTemporarias = [];
@@ -790,6 +816,8 @@
                 fornecedores
             };
             localStorage.setItem('controleObraData', JSON.stringify(dataToSave));
+            // Após salvar qualquer alteração nos dados, executa a checagem da notificação
+            checarEAgendarNotificacaoDiaria();
         };
 
         const carregarDados = () => {
@@ -859,6 +887,122 @@
                 setTimeout(() => { notificacaoModal.classList.add('hidden'); }, 300);
             }, 3000);
         };
+        
+        // --- LÓGICA DE AGENDAMENTO DE NOTIFICAÇÃO DIÁRIA ---
+
+        /**
+         * [SIMULAÇÃO BACKEND] Cancela uma notificação agendada.
+         * Em um app real, isso seria uma chamada `fetch` para o seu servidor.
+         * @param {string} notificationId - O ID da notificação a ser cancelada.
+         */
+        async function simularCancelarNotificacao(notificationId) {
+            const apiKey = localStorage.getItem('oneSignalApiKey');
+            if (!apiKey) {
+                console.warn("[SIMULAÇÃO BACKEND] Chave de API do OneSignal não configurada. Cancelamento ignorado.");
+                return { success: false, message: "API Key not configured." };
+            }
+            console.log(`[SIMULAÇÃO BACKEND] Chamando a API OneSignal para CANCELAR a notificação de ID: ${notificationId}`);
+            // Aqui iria a chamada real: await fetch(`.../notifications/${notificationId}`, { method: 'DELETE', ... })
+            return { success: true };
+        }
+
+        /**
+         * [SIMULAÇÃO BACKEND] Agenda uma nova notificação.
+         * Em um app real, isso seria uma chamada `fetch` para o seu servidor.
+         * @param {object} notificationPayload - O corpo da requisição da notificação.
+         */
+        async function simularAgendarNotificacao(notificationPayload) {
+             const apiKey = localStorage.getItem('oneSignalApiKey');
+            if (!apiKey) {
+                console.warn("[SIMULAÇÃO BACKEND] Chave de API do OneSignal não configurada. Agendamento ignorado.");
+                return { id: null, message: "API Key not configured." };
+            }
+            console.log('[SIMULAÇÃO BACKEND] Chamando a API OneSignal para AGENDAR uma nova notificação com os seguintes dados:', notificationPayload);
+            // Aqui iria a chamada real: await fetch('.../notifications', { method: 'POST', body: JSON.stringify(notificationPayload), ... })
+            const newId = `simulated_${Date.now()}`;
+            console.log(`[SIMULAÇÃO BACKEND] Notificação agendada com sucesso. Novo ID: ${newId}`);
+            return { id: newId };
+        }
+
+
+        /**
+         * Rotina principal que verifica os lançamentos e agenda a notificação diária.
+         */
+        async function checarEAgendarNotificacaoDiaria() {
+            // 1. Cancela a notificação anterior para garantir que apenas a mais recente seja enviada.
+            const scheduledNotificationId = localStorage.getItem('scheduledDailyNotificationId');
+            if (scheduledNotificationId) {
+                await simularCancelarNotificacao(scheduledNotificationId);
+                localStorage.removeItem('scheduledDailyNotificationId');
+            }
+
+            // 2. Calcula as datas de referência.
+            const amanha = new Date();
+            amanha.setDate(amanha.getDate() + 1);
+            amanha.setHours(0, 0, 0, 0); // Zera a hora para comparar apenas a data.
+            const amanhaStr = amanha.toISOString().slice(0, 10);
+
+            // 3. Filtra os lançamentos relevantes.
+            const lancamentosNaoPagos = lancamentos.filter(l => !l.pago);
+            
+            const atrasados = lancamentosNaoPagos.filter(l => {
+                const dataLancamento = new Date(l.data + "T12:00:00Z");
+                return dataLancamento < amanha;
+            });
+
+            const vencendoAmanha = lancamentosNaoPagos.filter(l => l.data === amanhaStr);
+
+            // 4. Monta a mensagem da notificação.
+            let mensagem = "Lembrete da Obra: ";
+            const partesMensagem = [];
+
+            if (atrasados.length > 0) {
+                partesMensagem.push(`você tem ${atrasados.length} lançamento${atrasados.length > 1 ? 's' : ''} atrasado${atrasados.length > 1 ? 's' : ''}`);
+            }
+            if (vencendoAmanha.length > 0) {
+                partesMensagem.push(`${vencendoAmanha.length} vencendo hoje`);
+            }
+            
+            // Se não houver nada pendente, não agenda a notificação.
+            if (partesMensagem.length === 0) {
+                console.log("Nenhum lançamento pendente para amanhã. Nenhuma notificação será agendada.");
+                return;
+            }
+
+            mensagem += partesMensagem.join(' e ');
+            mensagem += ".";
+
+            // 5. Prepara o agendamento para amanhã às 8h.
+            const dataEnvio = new Date();
+            dataEnvio.setDate(dataEnvio.getDate() + 1);
+            dataEnvio.setHours(8, 0, 0, 0);
+
+            // Formato esperado pelo OneSignal: "2025-10-09 08:00:00 GMT-0300"
+            const dataFormatada = dataEnvio.toString().match(/(\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[-+]\d{4})/)[0];
+            
+            const playerId = await OneSignal.User.getPushSubscriptionId();
+            if (!playerId) {
+                console.warn("Não foi possível obter o Player ID do OneSignal. A notificação não pode ser agendada.");
+                return;
+            }
+
+            const notificationPayload = {
+                app_id: "bfad3d68-ae1c-4b4c-90a7-dc211aa11727",
+                include_player_ids: [playerId],
+                headings: { pt: "Resumo Diário da Obra", en: "Daily Construction Summary" },
+                contents: { pt: mensagem, en: "You have pending items. Check the app." },
+                send_after: dataFormatada
+            };
+
+            // 6. Envia para o "backend" agendar.
+            const response = await simularAgendarNotificacao(notificationPayload);
+            
+            // 7. Salva o ID da nova notificação agendada.
+            if (response && response.id) {
+                localStorage.setItem('scheduledDailyNotificationId', response.id);
+            }
+        }
+
 
         // --- LÓGICA DE DROPDOWNS ---
         const popularDropdown = (dropdown, items, placeholder = null) => {
@@ -1446,6 +1590,18 @@
             carregarDados();
             atualizarTodosDropdownsEPopups();
             renderizarLancamentos();
+            
+            // Carregar e aplicar a chave de API salva ao iniciar
+            oneSignalApiKeyInput.value = localStorage.getItem('oneSignalApiKey') || '';
+
+            // Aciona a checagem ao abrir o app
+            OneSignalDeferred.push(function() {
+                OneSignal.User.getPushSubscriptionId().then(playerId => {
+                    if (playerId) {
+                         checarEAgendarNotificacaoDiaria();
+                    }
+                });
+            });
 
             cancelarConfirmacaoBtn.addEventListener('click', fecharConfirmacao);
             confirmacaoModal.addEventListener('click', (e) => { if (e.target === confirmacaoModal) fecharConfirmacao(); });
@@ -1463,7 +1619,7 @@
                     const index = lancamentos.findIndex(l => l.id === id);
                     if (index > -1) {
                         lancamentos.splice(index, 1);
-                        salvarDados();
+                        salvarDados(); // salvarDados já chama a rotina de notificação
                         fecharModalLancamento();
                         renderizarLancamentos();
                         mostrarNotificacao('Lançamento excluído com sucesso!', true);
@@ -1540,7 +1696,7 @@
                     const lancamento = lancamentos.find(l => l.id === parseInt(btnToggle.dataset.id)); 
                     if (lancamento) { 
                         lancamento.pago = !lancamento.pago; 
-                        salvarDados();
+                        salvarDados(); // salvarDados já chama a rotina de notificação
                         renderizarLancamentos(); 
                     }
                 } else if (btnGaleria) {
@@ -1593,7 +1749,7 @@
                             categorias = data.categorias; 
                             carteiras = data.carteiras; 
                             fornecedores = data.fornecedores;
-                            salvarDados();
+                            salvarDados(); // salvarDados já chama a rotina de notificação
                             atualizarTodosDropdownsEPopups();
                             renderizarLancamentos();
                             mostrarNotificacao('Backup importado com sucesso!', true);
@@ -1606,6 +1762,18 @@
                 };
                 reader.readAsText(file);
                 importarInput.value = '';
+            });
+
+            salvarApiKeyBtn.addEventListener('click', () => {
+                const apiKey = oneSignalApiKeyInput.value.trim();
+                if (apiKey) {
+                    localStorage.setItem('oneSignalApiKey', apiKey);
+                    mostrarNotificacao('Chave de API salva com sucesso no LocalStorage.', true);
+                    checarEAgendarNotificacaoDiaria(); // Tenta reagendar com a nova chave
+                } else {
+                    localStorage.removeItem('oneSignalApiKey');
+                    mostrarNotificacao('Chave de API removida.');
+                }
             });
 
             const toggleBtn = document.getElementById('toggle-totalizer-btn');
@@ -1674,3 +1842,4 @@
     </script>
 </body>
 </html>
+

@@ -83,13 +83,13 @@
             --text-primary: #2f2b27;
             --text-secondary: #5a5752;
             --text-muted: #7b7770;
-            --accent: '#349e7b';
-            --accent-hover: '#2a7e62';
+            --accent: #349e7b;
+            --accent-hover: #2a7e62;
             --accent-soft: rgba(52, 158, 123, 0.12);
-            --highlight: '#d97706';
-            --danger: '#d9534f';
-            --danger-hover: '#c9302c';
-            --success: '#5cb85c';
+            --highlight: #d97706;
+            --danger: #d9534f;
+            --danger-hover: #c9302c;
+            --success: #5cb85c;
             --success-soft: rgba(92, 184, 92, 0.18);
         }
 
@@ -261,7 +261,7 @@
                     <li>
                         <a href="#" id="menu-backup-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-accent/10 hover:text-accent-hover transition-colors">
                              <span class="w-[38px] h-[38px] rounded-full flex items-center justify-center bg-accent/10 text-accent-hover mr-3">
-                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path></svg>
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.6" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4-4m0 0L8 8m4-4v12"></path></svg>
                             </span>
                             <div>
                                 <p class="text-sm font-semibold leading-none">Backup</p>
@@ -417,32 +417,17 @@
             <div id="relatorios-content" class="hidden space-y-6">
                 <div class="bg-white rounded-2xl shadow-soft border border-gray-200 p-5">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        <div class="bg-green-50 p-4 rounded-xl border border-green-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-green-200/50 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-green-800">Total Pago</p>
-                                <p id="resumo-pago" class="text-xl sm:text-2xl font-bold text-green-600 break-words">R$ 0,00</p>
-                            </div>
+                        <div class="bg-green-50 p-4 rounded-xl border border-green-200 text-center">
+                            <p class="text-sm font-medium text-green-800">Total Pago</p>
+                            <p id="resumo-pago" class="text-xl font-bold text-green-600 break-words">R$ 0,00</p>
                         </div>
-                        <div class="bg-terracotta-100 p-4 rounded-xl border border-red-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-red-200/50 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            </div>
-                            <div class="text-left">
-                                <p class="text-sm font-medium text-red-800">Falta Pagar</p>
-                                <p id="resumo-pendente" class="text-xl sm:text-2xl font-bold text-red-600 break-words">R$ 0,00</p>
-                            </div>
+                        <div class="bg-terracotta-100 p-4 rounded-xl border border-red-200 text-center">
+                            <p class="text-sm font-medium text-red-800">Falta Pagar</p>
+                            <p id="resumo-pendente" class="text-xl font-bold text-red-600 break-words">R$ 0,00</p>
                         </div>
-                        <div class="bg-sand-100 p-4 rounded-xl border border-sand-200 col-span-1 sm:col-span-2 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
-                            <div class="w-12 h-12 rounded-full bg-sand-200/50 flex items-center justify-center flex-shrink-0">
-                                <svg class="w-6 h-6 text-clay-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
-                            </div>
-                            <div>
-                                <p class="text-sm font-medium text-clay-700">Custo Total da Obra</p>
-                                <p id="resumo-custo-total" class="text-2xl sm:text-3xl font-bold text-clay-900 break-words">R$ 0,00</p>
-                            </div>
+                        <div class="bg-sand-100 p-4 rounded-xl border border-sand-200 col-span-1 sm:col-span-2 text-center">
+                             <p class="text-sm font-medium text-clay-700">Custo Total da Obra</p>
+                             <p id="resumo-custo-total" class="text-2xl font-bold text-clay-900 break-words">R$ 0,00</p>
                         </div>
                     </div>
                 </div>
@@ -497,7 +482,7 @@
             </div>
         </footer>
         
-        <button id="abrir-novo-lancamento-modal" class="fixed bottom-20 right-5 max-w-md mx-auto bg-blue-500 hover:bg-blue-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg animate-pulse-slow">
+        <button id="abrir-novo-lancamento-modal" class="fixed bottom-20 right-5 max-w-md mx-auto bg-sky-500 hover:bg-sky-600 text-white rounded-full w-14 h-14 flex items-center justify-center shadow-lg animate-pulse-slow">
              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
             </svg>

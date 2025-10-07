@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Controle de Obra</title>
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#349e7b"/>
+    <link rel="apple-touch-icon" href="https://placehold.co/192x192/349e7b/FFFFFF?text=Obra">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        accent: '#4a766b',
-                        accentDark: '#3b5c52',
-                        accentLight: '#7e9c8f',
-                        highlight: '#c47b36',
+                        accent: '#349e7b',
+                        accentDark: '#2a7e62',
+                        accentLight: '#66bba5',
+                        highlight: '#d97706',
                         neutral: '#f5f1eb',
-                        dangerTone: '#c35d3b',
-                        successTone: '#7b9362',
+                        dangerTone: '#d9534f',
+                        successTone: '#5cb85c',
                         sand: {
                             50: '#f5f1eb',
                             100: '#ece4d7',
@@ -78,14 +83,14 @@
             --text-primary: #2f2b27;
             --text-secondary: #5a5752;
             --text-muted: #7b7770;
-            --accent: #4a766b;
-            --accent-hover: #3b5c52;
-            --accent-soft: rgba(74, 118, 107, 0.12);
-            --highlight: #c47b36;
-            --danger: #c35d3b;
-            --danger-hover: #a44b2d;
-            --success: #7b9362;
-            --success-soft: rgba(123, 147, 98, 0.18);
+            --accent: '#349e7b';
+            --accent-hover: '#2a7e62';
+            --accent-soft: rgba(52, 158, 123, 0.12);
+            --highlight: '#d97706';
+            --danger: '#d9534f';
+            --danger-hover: '#c9302c';
+            --success: '#5cb85c';
+            --success-soft: rgba(92, 184, 92, 0.18);
         }
 
         body {
@@ -114,17 +119,17 @@
         .text-blue-500 { color: var(--accent) !important; }
         .border-blue-600 { border-color: var(--accent-hover) !important; }
         .focus\:border-blue-500:focus { border-color: var(--accent) !important; }
-        .focus\:ring-blue-500:focus { --tw-ring-color: rgba(74, 118, 107, 0.4) !important; }
-        .focus\:ring-blue-300:focus { --tw-ring-color: rgba(74, 118, 107, 0.25) !important; }
+        .focus\:ring-blue-500:focus { --tw-ring-color: rgba(52, 158, 123, 0.4) !important; }
+        .focus\:ring-blue-300:focus { --tw-ring-color: rgba(52, 158, 123, 0.25) !important; }
         .bg-red-500 { background-color: var(--danger) !important; }
         .hover\:bg-red-600:hover { background-color: var(--danger-hover) !important; }
         .text-red-600 { color: var(--danger-hover) !important; }
-        .bg-red-100 { background-color: rgba(195, 93, 59, 0.15) !important; }
+        .bg-red-100 { background-color: rgba(217, 83, 79, 0.15) !important; }
         .text-green-500, .text-green-600 { color: var(--success) !important; }
         .bg-green-500 { background-color: var(--success) !important; }
         .peer-checked\:bg-green-500:checked { background-color: var(--success) !important; }
-        .bg-green-50 { background-color: rgba(123, 147, 98, 0.12) !important; }
-        .bg-yellow-50 { background-color: rgba(196, 123, 54, 0.12) !important; }
+        .bg-green-50 { background-color: rgba(92, 184, 92, 0.12) !important; }
+        .bg-yellow-50 { background-color: rgba(217, 119, 6, 0.12) !important; }
         .bg-blue-50 { background-color: var(--accent-soft) !important; }
         .hover\:bg-gray-200:hover, .hover\:bg-gray-100:hover { background-color: rgba(230, 221, 209, 0.75) !important; }
         .hover\:bg-gray-50:hover { background-color: rgba(240, 234, 224, 0.8) !important; }
@@ -154,7 +159,7 @@
             border-radius: 18px;
         }
 
-        header { padding: 1.25rem; margin-bottom: 1rem; }
+        header { padding: 1rem 1.25rem; margin-bottom: 1rem; }
         footer { box-shadow: 0 -8px 30px rgba(47, 43, 39, 0.08); }
 
         #main-content nav button { border-bottom-width: 2px; transition: all 0.2s ease; }
@@ -166,14 +171,14 @@
         #main-content nav button:hover { color: var(--accent) !important; }
 
         #resumo-total {
-            background: linear-gradient(120deg, rgba(74, 118, 107, 0.1), rgba(196, 123, 54, 0.12));
+            background: linear-gradient(120deg, var(--accent-soft), rgba(217, 119, 6, 0.12));
             border-radius: 14px;
             padding: 1.1rem 1.25rem;
-            border: 1px solid rgba(74, 118, 107, 0.2);
+            border: 1px solid rgba(52, 158, 123, 0.2);
         }
 
         #filtros-ativos-container .pill {
-            background: rgba(74, 118, 107, 0.12);
+            background: var(--accent-soft);
             color: var(--accent-hover);
             border-radius: 9999px;
             padding: 0.35rem 0.8rem;
@@ -198,7 +203,6 @@
 
         #abrir-novo-lancamento-modal { box-shadow: var(--accent-soft) 0px 18px 35px; }
 
-        /* Efeito de pulsar para o botão flutuante */
         @keyframes pulse {
             50% {
                 transform: scale(1.05);
@@ -207,11 +211,9 @@
         .animate-pulse-slow {
             animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
         }
-        /* Rotação para o ícone de expandir/recolher */
         .rotate-180 {
             transform: rotate(180deg);
         }
-        /* Scrollbar customizada para o painel de filtros */
         #filtro-avancado-panel-content::-webkit-scrollbar {
             width: 6px;
         }
@@ -219,11 +221,11 @@
             background: rgba(217, 206, 192, 0.4);
         }
         #filtro-avancado-panel-content::-webkit-scrollbar-thumb {
-            background: rgba(74, 118, 107, 0.5);
+            background: rgba(52, 158, 123, 0.5);
             border-radius: 3px;
         }
         #filtro-avancado-panel-content::-webkit-scrollbar-thumb:hover {
-            background: rgba(74, 118, 107, 0.7);
+            background: rgba(52, 158, 123, 0.7);
         }
     </style>
 </head>
@@ -233,7 +235,11 @@
     <div id="menu-lateral" class="fixed top-0 left-0 w-64 h-full bg-white shadow-lg z-40 transform -translate-x-full transition-transform duration-300">
         <div class="p-6">
             <div class="flex items-center gap-3 mb-6">
-                <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-accent/10 text-accent-hover font-semibold">CO</span>
+                <span class="w-10 h-10 rounded-lg bg-accent text-white flex items-center justify-center shadow-soft">
+                     <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m-3-1l-3-1m-3 1l-3 1m-3-1l3-1.091m0 0l3 1.091m0 0l3-1.091m0 0l3 1.091m0 0l3-1.091M5.25 9.75h3.75m-3.75 0a.75.75 0 01.75-.75h2.25c.414 0 .75.336.75.75m0 0v3.375c0 .621-.504 1.125-1.125 1.125h-1.5c-.621 0-1.125-.504-1.125-1.125V9.75z" />
+                    </svg>
+                </span>
                 <div>
                     <p class="text-sm uppercase tracking-[0.18em] text-gray-500">Controle</p>
                     <h2 class="text-xl font-semibold text-gray-800">Painel da Obra</h2>
@@ -337,8 +343,8 @@
 
     <div class="container mx-auto max-w-md p-4 pb-28">
         
-        <header class="flex items-center justify-between my-4">
-            <div class="flex-1 flex justify-start">
+        <header class="grid grid-cols-3 items-center my-4">
+            <div class="flex justify-start">
                 <button id="abrir-menu-btn" class="p-3 rounded-2xl bg-sand-100 hover:bg-sand-200 focus:outline-none focus:ring-2 focus:ring-accent/40">
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
@@ -346,7 +352,7 @@
                 </button>
             </div>
             
-            <div class="flex items-center gap-3">
+            <div class="flex justify-center items-center gap-3">
                 <div class="relative flex-shrink-0">
                     <div class="absolute -top-3 -left-3 w-10 h-10 rounded-full bg-accent/10 blur-xl"></div>
                     <div class="w-12 h-12 rounded-2xl bg-accent text-white flex items-center justify-center shadow-soft">
@@ -365,7 +371,7 @@
                 </div>
             </div>
 
-            <div class="flex-1"></div>
+            <div class="flex justify-end"></div>
 
         </header>
 
@@ -408,29 +414,43 @@
                 <main id="lancamentos-lista"></main>
             </div>
 
-            <div id="relatorios-content" class="hidden space-y-6 p-5 bg-white rounded-2xl shadow-soft border border-gray-200">
-                <!-- Nova Seção de Resumo -->
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-center">
-                    <div class="bg-green-50 p-4 rounded-xl border border-green-200">
-                        <p class="text-sm font-medium text-green-800">Total Pago</p>
-                        <p id="resumo-pago" class="text-2xl font-bold text-green-600">R$ 0,00</p>
-                    </div>
-                    <div class="bg-terracotta-100 p-4 rounded-xl border border-red-200">
-                        <p class="text-sm font-medium text-red-800">Falta Pagar</p>
-                        <p id="resumo-pendente" class="text-2xl font-bold text-red-600">R$ 0,00</p>
-                    </div>
-                    <div class="bg-sand-100 p-4 rounded-xl border border-sand-200 col-span-1 md:col-span-2">
-                        <p class="text-sm font-medium text-clay-700">Custo Total da Obra</p>
-                        <p id="resumo-custo-total" class="text-3xl font-bold text-clay-900">R$ 0,00</p>
+            <div id="relatorios-content" class="hidden space-y-6">
+                <div class="bg-white rounded-2xl shadow-soft border border-gray-200 p-5">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="bg-green-50 p-4 rounded-xl border border-green-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-green-200/50 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v.01"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-green-800">Total Pago</p>
+                                <p id="resumo-pago" class="text-xl sm:text-2xl font-bold text-green-600 break-words">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="bg-terracotta-100 p-4 rounded-xl border border-red-200 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-red-200/50 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            </div>
+                            <div class="text-left">
+                                <p class="text-sm font-medium text-red-800">Falta Pagar</p>
+                                <p id="resumo-pendente" class="text-xl sm:text-2xl font-bold text-red-600 break-words">R$ 0,00</p>
+                            </div>
+                        </div>
+                        <div class="bg-sand-100 p-4 rounded-xl border border-sand-200 col-span-1 sm:col-span-2 flex flex-col sm:flex-row items-center gap-4 text-center sm:text-left">
+                            <div class="w-12 h-12 rounded-full bg-sand-200/50 flex items-center justify-center flex-shrink-0">
+                                <svg class="w-6 h-6 text-clay-700" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium text-clay-700">Custo Total da Obra</p>
+                                <p id="resumo-custo-total" class="text-2xl sm:text-3xl font-bold text-clay-900 break-words">R$ 0,00</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <!-- Seção do Gráfico (existente) -->
-                <div class="border-t border-dashed pt-6">
+                <div class="bg-white rounded-2xl shadow-soft border border-gray-200 p-5">
                     <div class="flex items-center justify-between mb-4">
                         <div>
-                            <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Panorama</p>
-                            <h3 class="text-lg font-semibold text-gray-800">Gastos por categoria</h3>
+                            <h3 class="text-lg font-semibold text-gray-800">Gastos por Categoria</h3>
                         </div>
                         <span class="px-3 py-1 rounded-full bg-accent/10 text-accent text-xs font-medium">Atualizado em tempo real</span>
                     </div>
@@ -444,6 +464,7 @@
         <div id="backup-content" class="hidden">
             <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-soft">
                  <div class="text-center pb-6 mb-6 border-b border-dashed">
+                    <svg class="mx-auto h-20 w-20 text-accent/50 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                     <h2 class="text-2xl font-semibold text-gray-800">Backup</h2>
                     <p class="text-sm text-gray-500 mt-1">Exporte ou importe os dados da sua obra</p>
                 </div>
@@ -1294,12 +1315,12 @@
             const sortedCategories = Object.entries(gastosPorCategoria).sort(([, a], [, b]) => b - a);
             const labels = sortedCategories.map(([categoria]) => categoria);
             const data = sortedCategories.map(([, valor]) => valor);
-            const colors = labels.map(() => `rgba(${Math.floor(Math.random() * 156)+100}, ${Math.floor(Math.random() * 156)+100}, ${Math.floor(Math.random() * 156)+100}, 0.8)`);
+            const colors = labels.map(() => `rgba(52, 158, 123, ${Math.random() * 0.5 + 0.3})`);
             const ctx = document.getElementById('category-chart').getContext('2d');
             categoryChartInstance = new Chart(ctx, {
                 type: 'bar',
                 data: { labels, datasets: [{ label: 'Total Gasto', data, backgroundColor: colors, borderColor: colors.map(color => color.replace('0.8', '1')), borderWidth: 1 }] },
-                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: true, text: 'Total Gasto por Categoria', font: { size: 16 } }, tooltip: { callbacks: { label: (context) => formatarMoeda(context.raw) } } }, scales: { x: { beginAtZero: true, ticks: { callback: (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(value) } } } }
+                options: { indexAxis: 'y', responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false }, title: { display: false }, tooltip: { callbacks: { label: (context) => formatarMoeda(context.raw) } } }, scales: { x: { beginAtZero: true, ticks: { callback: (value) => new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', notation: 'compact' }).format(value) } } } }
             });
         };
 
@@ -1381,7 +1402,18 @@
                 return acc;
             }, {});
 
-            containerLista.innerHTML = (lancamentosFiltrados.length === 0) ? `<p class="text-center text-gray-500 mt-8">Nenhum lançamento encontrado.</p>` : '';
+            if (lancamentosFiltrados.length === 0) {
+                containerLista.innerHTML = `
+                <div class="text-center py-16 px-6 bg-white rounded-2xl shadow-soft border border-gray-200">
+                    <svg class="mx-auto h-24 w-24 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4" />
+                    </svg>
+                    <h3 class="mt-4 text-lg font-semibold text-gray-700">Nenhum lançamento encontrado</h3>
+                    <p class="mt-1 text-sm text-gray-500">Comece adicionando uma nova despesa ou receita no botão de mais.</p>
+                </div>`;
+            } else {
+                 containerLista.innerHTML = '';
+            }
             
             const mesesOrdenados = Object.keys(agrupadoPorMes).sort((a, b) => {
                 const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];

@@ -7,7 +7,7 @@ exports.handler = async function(event, context) {
 
   try {
     const { notificationId } = JSON.parse(event.body);
-    const ONE_SIGNAL_APP_ID = "bfad3d68-ae1c-4b4c-90a7-dc211aa11727";
+    const ONE_SIGNAL_APP_ID = "9ba8834c-e59a-4dcd-bd78-435ff070e262";
     const ONE_SIGNAL_API_KEY = process.env.ONESIGNAL_API_KEY;
 
     if (!ONE_SIGNAL_API_KEY) {

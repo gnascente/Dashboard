@@ -83,7 +83,7 @@ function setupEventListeners() {
             atualizarLancamento(id, dados);
         } else {
             const novoId = adicionarLancamento(dados);
-            UI.ultimoLancamentoId = novoId;
+            UI.setUltimoLancamentoId(novoId);
         }
 
         salvarDados();

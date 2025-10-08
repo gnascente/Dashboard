@@ -168,7 +168,7 @@ async function checarEAgendarNotificacaoDiaria() {
 
     if (partesMensagem.length === 0) return;
 
-    let mensagem = "Lembrete da Obra: " + partesMensagem.join(' e ') + ".";
+    let mensagem = "Lembrete da Obra: <br>" + partesMensagem.join(', ') + ".";
 
     // Adiciona a quebra de linha e uma chamada para ação
     mensagem += "<br><br>Clique aqui para ver os detalhes.";

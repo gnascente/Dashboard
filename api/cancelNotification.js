@@ -1,41 +1,42 @@
-// api/cancelNotification.js
-
-exports.handler = async function(event, context) {
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+export default async function handler(req, res) {
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
   }
 
+  const { ONE_SIGNAL_APP_ID, ONE_SIGNAL_REST_API_KEY } = process.env;
+  const { notificationId } = req.body;
+
+  if (!notificationId) {
+    return res.status(400).json({ success: false, error: "ID da notificação é obrigatório." });
+  }
+
+  if (!ONE_SIGNAL_APP_ID || !ONE_SIGNAL_REST_API_KEY) {
+    console.error("Variáveis de ambiente do OneSignal não configuradas.");
+    return res.status(500).json({ success: false, error: "Configuração do servidor incompleta." });
+  }
+
+  const url = `https://onesignal.com/api/v1/notifications/${notificationId}?app_id=${ONE_SIGNAL_APP_ID}`;
+
   try {
-    const { notificationId } = JSON.parse(event.body);
-    const ONE_SIGNAL_APP_ID = "9ba8834c-e59a-4dcd-bd78-435ff070e262";
-    const ONE_SIGNAL_API_KEY = process.env.ONESIGNAL_API_KEY;
-
-    if (!ONE_SIGNAL_API_KEY) {
-      throw new Error("A chave de API do OneSignal não está configurada no servidor.");
-    }
-
-    if (!notificationId) {
-        return { statusCode: 400, body: 'Notification ID é obrigatório.' };
-    }
-
-    const response = await fetch(`https://onesignal.com/api/v1/notifications/${notificationId}?app_id=${ONE_SIGNAL_APP_ID}`, {
+    const response = await fetch(url, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Basic ${ONE_SIGNAL_API_KEY}`
-      }
+        'Authorization': `Basic ${ONE_SIGNAL_REST_API_KEY}`,
+      },
     });
 
     const data = await response.json();
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data)
-    };
+    if (!response.ok) {
+      console.error('Erro ao cancelar notificação no OneSignal:', data);
+      return res.status(response.status).json({ success: false, error: data });
+    }
+
+    res.status(200).json(data);
 
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message })
-    };
+    console.error('Erro interno na função cancelNotification:', error);
+    res.status(500).json({ success: false, error: 'Erro interno do servidor.' });
   }
-};
+}

@@ -1687,14 +1687,14 @@ async function enviarNotificacaoDeTesteImediata() {
             atualizarTodosDropdownsEPopups();
             renderizarLancamentos();
             
-            // Aciona a checagem ao abrir o app, após o OneSignal estar pronto
-            OneSignalDeferred.push(function() {
-                OneSignal.User.getPushSubscriptionId().then(playerId => {
-                    if (playerId) {
-                         checarEAgendarNotificacaoDiaria();
-                    }
-                });
-            });
+            // Bloco Corrigido
+OneSignalDeferred.push(function() {
+    // Acessamos o ID diretamente, pois ele já deve estar disponível aqui
+    const playerId = OneSignal.User.PushSubscription.id;
+    if (playerId) {
+         checarEAgendarNotificacaoDiaria();
+    }
+});
 
             cancelarConfirmacaoBtn.addEventListener('click', fecharConfirmacao);
             confirmacaoModal.addEventListener('click', (e) => { if (e.target === confirmacaoModal) fecharConfirmacao(); });

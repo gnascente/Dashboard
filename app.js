@@ -230,21 +230,33 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.categoriaDropdown.value = nome;
-        } else { UI.mostrarNotificacao('Esta categoria já existe!'); }
+            return true;
+        } else { 
+            UI.mostrarNotificacao('Esta categoria já existe!'); 
+            return false;
+        }
     });
     const abrirAddFornecedor = UI.setupAddModal(UI.addFornecedorModal, UI.addFornecedorForm, (nome) => {
         if(adicionarItem('fornecedor', nome)) {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.fornecedorDropdown.value = nome;
-        } else { UI.mostrarNotificacao('Este fornecedor já existe!'); }
+            return true;
+        } else { 
+            UI.mostrarNotificacao('Este fornecedor já existe!'); 
+            return false;
+        }
     });
     const abrirAddCarteira = UI.setupAddModal(UI.addCarteiraModal, UI.addCarteiraForm, (nome) => {
         if(adicionarItem('carteira', nome)) {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.carteiraDropdown.value = nome;
-        } else { UI.mostrarNotificacao('Esta carteira já existe!'); }
+            return true;
+        } else { 
+            UI.mostrarNotificacao('Esta carteira já existe!');
+            return false;
+        }
     });
 
     UI.lancamentoForm.addEventListener('click', (e) => {
@@ -281,7 +293,7 @@ function setupEventListeners() {
         UI.mostrarConfirmacao('Excluir Lançamento', 'Tem certeza? Esta ação não pode ser desfeita.');
     });
 
-    // --- [NOVO] LÓGICA DO ACORDEÃO DO FILTRO ---
+    // --- LÓGICA DO ACORDEÃO DO FILTRO ---
     const accordionHeaders = document.querySelectorAll('#filtro-avancado-panel .accordion-header');
     
     // Expande a primeira seção por padrão para melhor UX

@@ -24,8 +24,13 @@ export const salvarDados = () => {
         fornecedores
     };
     localStorage.setItem('controleObraData', JSON.stringify(dataToSave));
-    if (window.OneSignal && OneSignal.User.PushSubscription.id) {
-        checarEAgendarNotificacaoDiaria();
+
+    try {
+        if (window.OneSignal && OneSignal.User.PushSubscription.id) {
+            checarEAgendarNotificacaoDiaria();
+        }
+    } catch (error) {
+        console.error("Falha ao processar agendamento de notificação (servidor não encontrado):", error);
     }
 };
 
@@ -151,12 +156,23 @@ async function checarEAgendarNotificacaoDiaria() {
     const vencendoAmanha = lancamentosNaoPagos.filter(l => l.data === amanhaStr);
 
     let partesMensagem = [];
-    if (atrasados.length > 0) partesMensagem.push(`você tem ${atrasados.length} lançamento${atrasados.length > 1 ? 's' : ''} atrasado${atrasados.length > 1 ? 's' : ''}`);
-    if (vencendoAmanha.length > 0) partesMensagem.push(`${vencendoAmanha.length} vencendo hoje`);
-    
+
+    // Adiciona a tag <b> ao redor da quantidade de itens
+    if (atrasados.length > 0) {
+        partesMensagem.push(`você tem <b>${atrasados.length}</b> lançamento${atrasados.length > 1 ? 's' : ''} atrasado${atrasados.length > 1 ? 's' : ''}`);
+    }
+    // Adiciona a tag <b> ao redor da quantidade de itens
+    if (vencendoAmanha.length > 0) {
+        partesMensagem.push(`<br><b>${vencendoAmanha.length}</b> vencendo hoje`);
+    }
+
     if (partesMensagem.length === 0) return;
 
-    const mensagem = "Lembrete da Obra: " + partesMensagem.join(' e ') + ".";
+    let mensagem = "Lembrete da Obra: " + partesMensagem.join(' e ') + ".";
+
+    // Adiciona a quebra de linha e uma chamada para ação
+    mensagem += "<br><br>Clique aqui para ver os detalhes.";
+    
     const dataEnvio = new Date();
     dataEnvio.setDate(dataEnvio.getDate() + 1);
     dataEnvio.setHours(8, 0, 0, 0);
@@ -178,8 +194,8 @@ async function checarEAgendarNotificacaoDiaria() {
     }
 }
 
-export async function enviarNotificacaoDeTesteImediata(mostrarNotificacaoCallback) {
-    mostrarNotificacaoCallback('Preparando notificação de teste...', true);
+export async function agendarNotificacaoDeTeste(mostrarNotificacaoCallback) {
+    mostrarNotificacaoCallback('Preparando agendamento de teste...', true);
     
     const playerId = OneSignal.User.PushSubscription.id;
     if (!playerId) {
@@ -187,16 +203,21 @@ export async function enviarNotificacaoDeTesteImediata(mostrarNotificacaoCallbac
         return;
     }
 
+    const dataEnvio = new Date();
+    dataEnvio.setMinutes(dataEnvio.getMinutes() + 1);
+    const dataFormatada = dataEnvio.toString().match(/(\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[-+]\d{4})/)[0];
+
     const notificationPayload = {
         include_player_ids: [playerId],
         headings: { pt: "Teste de Notificação da Obra", en: "Test Notification" },
-        contents: { pt: "Esta é uma notificação de teste. Tudo funcionando!", en: "This is a test notification." },
+        contents: { pt: "Esta é uma notificação de teste agendada. Tudo funcionando!", en: "This is a scheduled test notification." },
+        send_after: dataFormatada
     };
 
     const response = await agendarNotificacao(notificationPayload);
     if (response && response.id) {
-        mostrarNotificacaoCallback('Notificação de teste enviada!', true);
+        mostrarNotificacaoCallback('Notificação agendada para daqui a 1 minuto!', true);
     } else {
-        mostrarNotificacaoCallback('Falha ao enviar notificação de teste.');
+        mostrarNotificacaoCallback('Falha ao agendar notificação de teste.');
     }
 }

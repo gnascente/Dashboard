@@ -1,48 +1,44 @@
-// api/scheduleNotification.js
-
-exports.handler = async function(event, context) {
-  // Apenas permite requisições do tipo POST
-  if (event.httpMethod !== 'POST') {
-    return { statusCode: 405, body: 'Method Not Allowed' };
+export default async function handler(req, res) {
+  // Garante que o método da requisição é POST
+  if (req.method !== 'POST') {
+    res.setHeader('Allow', 'POST');
+    return res.status(405).end('Method Not Allowed');
   }
 
+  const { ONE_SIGNAL_APP_ID, ONE_SIGNAL_REST_API_KEY } = process.env;
+
+  if (!ONE_SIGNAL_APP_ID || !ONE_SIGNAL_REST_API_KEY) {
+    console.error("Variáveis de ambiente do OneSignal não configuradas.");
+    return res.status(500).json({ success: false, error: "Configuração do servidor incompleta." });
+  }
+
+  const notificationPayload = {
+    ...req.body,
+    app_id: ONE_SIGNAL_APP_ID,
+  };
+
   try {
-    const notificationPayload = JSON.parse(event.body);
-    const ONE_SIGNAL_APP_ID = "9ba8834c-e59a-4dcd-bd78-435ff070e262";
-
-    // Pega a chave secreta das variáveis de ambiente do Netlify
-    const ONE_SIGNAL_API_KEY = process.env.ONESIGNAL_API_KEY;
-
-    if (!ONE_SIGNAL_API_KEY) {
-      throw new Error("A chave de API do OneSignal não está configurada no servidor.");
-    }
-    
-    // Adiciona o App ID ao payload recebido do frontend
-    const finalPayload = {
-        ...notificationPayload,
-        app_id: ONE_SIGNAL_APP_ID
-    };
-
-    const response = await fetch('[https://onesignal.com/api/v1/notifications](https://onesignal.com/api/v1/notifications)', {
+    const response = await fetch('https://onesignal.com/api/v1/notifications', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json; charset=utf-8',
-        'Authorization': `Basic ${ONE_SIGNAL_API_KEY}`
+        'Content-Type': 'application/json',
+        'Authorization': `Basic ${ONE_SIGNAL_REST_API_KEY}`,
       },
-      body: JSON.stringify(finalPayload)
+      body: JSON.stringify(notificationPayload),
     });
 
     const data = await response.json();
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(data)
-    };
+    if (!response.ok) {
+      console.error('Erro ao enviar notificação para o OneSignal:', data);
+      return res.status(response.status).json({ success: false, error: data });
+    }
+
+    // Retorna a resposta de sucesso do OneSignal para o frontend
+    res.status(200).json(data);
 
   } catch (error) {
-    return {
-      statusCode: 500,
-      body: JSON.stringify({ error: error.message })
-    };
+    console.error('Erro interno na função scheduleNotification:', error);
+    res.status(500).json({ success: false, error: 'Erro interno do servidor.' });
   }
-};
+}

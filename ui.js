@@ -84,6 +84,10 @@ export const toggleBtn = document.getElementById('toggle-totalizer-btn');
 // --- VARIÁVEIS DE UI ---
 export let ultimoLancamentoId = null;
 let categoryChartInstance = null;
+// --- [NOVO] FUNÇÃO PARA ATUALIZAR O ID DO ÚLTIMO LANÇAMENTO ---
+export const setUltimoLancamentoId = (id) => {
+    ultimoLancamentoId = id;
+};
 
 // --- FUNÇÕES UTILITÁRIAS DE FORMATAÇÃO ---
 export const formatarMoeda = (valor) => (valor || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });

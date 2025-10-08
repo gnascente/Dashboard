@@ -25,20 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
     UI.applyTotalizerState();
     
-    if (window.OneSignalDeferred) {
-        window.OneSignalDeferred.push(function(OneSignal) {
-            OneSignal.init({
-                appId: "9ba8834c-e59a-4dcd-bd78-435ff070e262", // SEU APP ID AQUI
-                allowLocalhostAsSecureOrigin: true,
-            });
-            OneSignal.User.PushSubscription.addEventListener("change", function(isSubscribed) {
-                if (isSubscribed) {
-                    console.log("Usuário inscrito para notificações.");
-                    salvarDados();
-                }
-            });
-        });
-    }
+
 
     setupEventListeners();
 });

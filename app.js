@@ -5,7 +5,7 @@
 import {
     lancamentos, categorias, carteiras, fornecedores,
     salvarDados, carregarDados, adicionarLancamento, atualizarLancamento, removerLancamento,
-    enviarNotificacaoDeTesteImediata, updateCategorias, updateCarteiras, updateFornecedores,
+    agendarNotificacaoDeTeste, updateCategorias, updateCarteiras, updateFornecedores,
     updateLancamentos, adicionarItem, removerItem
 } from './data.js';
 
@@ -113,7 +113,7 @@ function setupEventListeners() {
     // --- NAVEGAÇÃO E MENUS ---
     document.getElementById('menu-teste-notificacao-btn').addEventListener('click', (e) => {
         e.preventDefault();
-        enviarNotificacaoDeTesteImediata(UI.mostrarNotificacao);
+        agendarNotificacaoDeTeste(UI.mostrarNotificacao);
         UI.fecharMenu();
     });
     UI.lancamentosTabBtn.addEventListener('click', () => UI.alternarAbas('lancamentos'));

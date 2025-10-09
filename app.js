@@ -19,15 +19,24 @@ let itemParaExcluir = { tipo: '', valor: '' };
 // --- INICIALIZAÇÃO DA APLICAÇÃO ---
 document.addEventListener('DOMContentLoaded', () => {
     carregarDados();
-    // Passa os dados carregados para as funções de UI
     const dataArrays = { categorias, carteiras, fornecedores };
     UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
     UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
     UI.applyTotalizerState();
-    
-
-
     setupEventListeners();
+
+    // Registra o Service Worker para funcionalidades PWA (instalação e offline)
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('/sw.js')
+                .then(registration => {
+                    console.log('Service Worker registrado com sucesso:', registration.scope);
+                })
+                .catch(error => {
+                    console.log('Falha ao registrar o Service Worker:', error);
+                });
+        });
+    }
 });
 
 // --- CONFIGURAÇÃO DE EVENT LISTENERS ---
@@ -217,33 +226,21 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.categoriaDropdown.value = nome;
-            return true;
-        } else { 
-            UI.mostrarNotificacao('Esta categoria já existe!'); 
-            return false;
-        }
+        } else { UI.mostrarNotificacao('Esta categoria já existe!'); }
     });
     const abrirAddFornecedor = UI.setupAddModal(UI.addFornecedorModal, UI.addFornecedorForm, (nome) => {
         if(adicionarItem('fornecedor', nome)) {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.fornecedorDropdown.value = nome;
-            return true;
-        } else { 
-            UI.mostrarNotificacao('Este fornecedor já existe!'); 
-            return false;
-        }
+        } else { UI.mostrarNotificacao('Este fornecedor já existe!'); }
     });
     const abrirAddCarteira = UI.setupAddModal(UI.addCarteiraModal, UI.addCarteiraForm, (nome) => {
         if(adicionarItem('carteira', nome)) {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.carteiraDropdown.value = nome;
-            return true;
-        } else { 
-            UI.mostrarNotificacao('Esta carteira já existe!');
-            return false;
-        }
+        } else { UI.mostrarNotificacao('Esta carteira já existe!'); }
     });
 
     UI.lancamentoForm.addEventListener('click', (e) => {
@@ -283,7 +280,6 @@ function setupEventListeners() {
     // --- LÓGICA DO ACORDEÃO DO FILTRO ---
     const accordionHeaders = document.querySelectorAll('#filtro-avancado-panel .accordion-header');
     
-    // Expande a primeira seção por padrão para melhor UX
     if (accordionHeaders.length > 0) {
         const firstHeader = accordionHeaders[0];
         const firstContent = firstHeader.nextElementSibling;

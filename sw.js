@@ -8,8 +8,8 @@ const urlsToCache = [
   '/app.js',
   '/ui.js',
   '/data.js',
-  '/icon-192x192.png',
-  '/icon-512x512.png'
+  '/ico-192x192.png',
+  '/ico-512x512.png'
 ];
 
 // Evento de instalação: abre o cache e adiciona os arquivos principais
@@ -36,4 +36,5 @@ self.addEventListener('fetch', event => {
         return fetch(event.request);
       })
   );
+
 });

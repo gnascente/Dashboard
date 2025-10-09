@@ -24,7 +24,31 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
     UI.applyTotalizerState();
     setupEventListeners();
+    // --- [NOVO BLOCO UNIFICADO ONESIGNAL] ---
+    // Toda a lógica de inicialização e eventos do OneSignal agora fica aqui.
+    window.OneSignalDeferred = window.OneSignalDeferred || [];
+    window.OneSignalDeferred.push(function(OneSignal) {
+        OneSignal.init({
+            appId: "9ba8834c-e59a-4dcd-bd78-435ff070e262", // SEU APP ID
+            allowLocalhostAsSecureOrigin: true,
+            promptOptions: {
+                slidedown: {
+                    enabled: true,
+                    actionMessage: "Nós gostaríamos de enviar notificações com atualizações sobre sua obra.",
+                    acceptButtonText: "Permitir",
+                    cancelButtonText: "Agora não",
+                }
+            }
+        });
 
+        OneSignal.User.PushSubscription.addEventListener("change", function(isSubscribed) {
+            if (isSubscribed) {
+                console.log("Usuário inscrito para notificações.");
+                // Salva os dados para forçar uma atualização da notificação agendada
+                salvarDados();
+            }
+        });
+    });
     // Registra o Service Worker para funcionalidades PWA (instalação e offline)
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {

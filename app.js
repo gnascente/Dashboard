@@ -323,4 +323,76 @@ function setupEventListeners() {
             icon.classList.toggle('rotate-180');
         });
     });
+    
+    // --- LÓGICA DO MODAL DE EXCLUSÃO DE ITEM ---
+
+    // Evento para fechar o modal de exclusão
+    UI.cancelarDeleteItemBtn.addEventListener('click', () => {
+        UI.deleteItemModal.classList.add('hidden');
+    });
+
+    // Evento principal que reage à seleção de um item no dropdown
+    UI.deleteItemSelect.addEventListener('change', () => {
+        const itemSelecionado = UI.deleteItemSelect.value;
+        const tipo = itemParaExcluir.tipo;
+        
+        itemParaExcluir.valor = itemSelecionado;
+
+        if (!itemSelecionado) {
+            UI.deleteItemInfoSection.classList.add('hidden');
+            return;
+        }
+
+        const lancamentosUsandoItem = lancamentos.filter(l => l[tipo] === itemSelecionado);
+        const dataArrayOriginal = { 'categoria': categorias, 'fornecedor': fornecedores, 'carteira': carteiras }[tipo];
+        
+        UI.deleteItemInfoSection.classList.remove('hidden');
+
+        if (lancamentosUsandoItem.length === 0) {
+            // Caso 1: Item não está em uso
+            UI.deleteItemMessage.textContent = `Este item não está em uso em nenhum lançamento e pode ser excluído com segurança.`;
+            UI.deleteItemMessage.className = 'text-sm text-green-700 mt-2 p-3 rounded-md bg-green-50 border border-green-200';
+            UI.deleteItemReplaceSection.classList.add('hidden');
+            UI.confirmarDeleteSimplesBtn.classList.remove('hidden');
+            UI.confirmarDeleteReplaceBtn.classList.add('hidden');
+        } else {
+            // Caso 2: Item está em uso
+            const count = lancamentosUsandoItem.length;
+            UI.deleteItemMessage.innerHTML = `Este item está sendo usado em <strong>${count} lançamento${count > 1 ? 's' : ''}</strong>. Para excluí-lo, você deve escolher um item para substituí-lo.`;
+            UI.deleteItemMessage.className = 'text-sm text-amber-800 mt-2 p-3 rounded-md bg-amber-50 border border-amber-200';
+            
+            const opcoesDeSubstituicao = dataArrayOriginal.filter(item => item !== itemSelecionado);
+            UI.popularDropdown(UI.deleteItemReplaceSelect, opcoesDeSubstituicao, 'Selecione um substituto...');
+            
+            UI.deleteItemReplaceSection.classList.remove('hidden');
+            UI.confirmarDeleteSimplesBtn.classList.add('hidden');
+            UI.confirmarDeleteReplaceBtn.classList.remove('hidden');
+        }
+    });
+
+    // Ação do botão de exclusão simples
+    UI.confirmarDeleteSimplesBtn.addEventListener('click', () => {
+        removerItem(itemParaExcluir.tipo, itemParaExcluir.valor);
+        salvarDados();
+        UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
+        UI.deleteItemModal.classList.add('hidden');
+        UI.mostrarNotificacao('Item excluído com sucesso!', true);
+    });
+
+    // Ação do botão de substituir e excluir
+    UI.confirmarDeleteReplaceBtn.addEventListener('click', () => {
+        const substituto = UI.deleteItemReplaceSelect.value;
+        if (!substituto) {
+            UI.mostrarNotificacao('Por favor, selecione um item para substituir.');
+            return;
+        }
+
+        removerItem(itemParaExcluir.tipo, itemParaExcluir.valor, substituto);
+        salvarDados();
+        UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
+        UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
+        UI.deleteItemModal.classList.add('hidden');
+        UI.mostrarNotificacao('Item substituído e excluído com sucesso!', true);
+    });
+
 }

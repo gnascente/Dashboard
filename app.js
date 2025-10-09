@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             promptOptions: {
                 slidedown: {
                     enabled: true,
-                    autoPrompt: true, // Garante que o prompt seja automático para novos usuários
+                    autoPrompt: true, // Pede permissão automaticamente para novos usuários
                     actionMessage: "Nós gostaríamos de enviar notificações com atualizações sobre sua obra.",
                     acceptButtonText: "Permitir",
                     cancelButtonText: "Agora não",
@@ -43,19 +43,32 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Listener para quando o usuário se inscreve ou cancela a inscrição
-        OneSignal.User.PushSubscription.addEventListener("change", function(isSubscribed) {
-            if (isSubscribed) {
-                console.log("Usuário inscrito ou estado de inscrição alterado.");
-                salvarDados();
+        // Adiciona um listener para quando o usuário responde ao prompt
+        OneSignal.Notifications.addEventListener('permissionChange', function(permission) {
+            console.log("O estado da permissão de notificação mudou para:", permission);
+            if (permission === 'granted') {
+                 console.log("Permissão concedida. Agendando notificação.");
+                 salvarDados();
             }
         });
-        
-        // Apenas verifica se o usuário já está inscrito para agendar a notificação.
-        // O prompt para novos usuários será tratado automaticamente pela configuração do 'init'.
-        if (OneSignal.User.PushSubscription.isSubscribed) {
-            console.log("Usuário já inscrito. Verificando notificações ao carregar.");
+
+        // Verifica o estado da permissão ao carregar o app
+        const currentPermission = await OneSignal.Notifications.getPermission();
+        console.log("Permissão de notificação no carregamento:", currentPermission);
+
+        // Se a permissão já foi concedida, garante que a notificação seja agendada
+        if (currentPermission === 'granted') {
+            console.log("Usuário já concedeu permissão. Verificando agendamento.");
             salvarDados();
+        } 
+        // Se a permissão foi explicitamente negada, o navegador impede novos pedidos.
+        // A única forma de reverter é o usuário mudar nas configurações do navegador.
+        else if (currentPermission === 'denied') {
+            console.log("O usuário bloqueou as notificações. Não é possível pedir novamente.");
+        }
+        // Se for 'default', o autoPrompt configurado no init() será acionado.
+        else {
+             console.log("A permissão ainda não foi definida. O prompt automático será exibido.");
         }
     });
 

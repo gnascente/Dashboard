@@ -502,7 +502,9 @@ export const handleExclusao = (tipo, setItemParaExcluir, dataArrays) => {
     deleteItemTitle.textContent = `Excluir ${titulos[tipo]}`;
     deleteItemLabel.textContent = `Selecione a ${titulos[tipo].toLowerCase()} para excluir:`;
 
-    popularDropdown(deleteItemSelect, dataArrays[tipo], 'Selecione uma opção...');
+    // CORREÇÃO: Lógica mais robusta para encontrar a chave plural correta.
+    const pluralKey = tipo === 'fornecedor' ? 'fornecedores' : tipo + 's';
+    popularDropdown(deleteItemSelect, dataArrays[pluralKey], 'Selecione uma opção...');
 
     deleteItemInfoSection.classList.add('hidden');
     deleteItemReplaceSection.classList.add('hidden');

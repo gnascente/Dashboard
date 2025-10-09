@@ -35,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
             promptOptions: {
                 slidedown: {
                     enabled: true,
+                    autoPrompt: true, // Garante que o prompt seja automático para novos usuários
                     actionMessage: "Nós gostaríamos de enviar notificações com atualizações sobre sua obra.",
                     acceptButtonText: "Permitir",
                     cancelButtonText: "Agora não",
@@ -50,15 +51,11 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
         
-        // Verifica se o usuário já está inscrito
+        // Apenas verifica se o usuário já está inscrito para agendar a notificação.
+        // O prompt para novos usuários será tratado automaticamente pela configuração do 'init'.
         if (OneSignal.User.PushSubscription.isSubscribed) {
             console.log("Usuário já inscrito. Verificando notificações ao carregar.");
             salvarDados();
-        } else {
-            // **NOVO**: Se não estiver inscrito, pede permissão novamente a cada visita.
-            // Isso respeitará a decisão do usuário caso ele tenha bloqueado as notificações no navegador.
-            console.log("Usuário não está inscrito. Solicitando permissão.");
-            OneSignal.Notifications.requestPermission();
         }
     });
 

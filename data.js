@@ -157,11 +157,9 @@ async function checarEAgendarNotificacaoDiaria() {
 
     let partesMensagem = [];
 
-    // Adiciona a tag <b> ao redor da quantidade de itens
     if (atrasados.length > 0) {
         partesMensagem.push(`você tem <b>${atrasados.length}</b> lançamento${atrasados.length > 1 ? 's' : ''} atrasado${atrasados.length > 1 ? 's' : ''}`);
     }
-    // Adiciona a tag <b> ao redor da quantidade de itens
     if (vencendoAmanha.length > 0) {
         partesMensagem.push(`<br><b>${vencendoAmanha.length}</b> vencendo hoje`);
     }
@@ -169,13 +167,24 @@ async function checarEAgendarNotificacaoDiaria() {
     if (partesMensagem.length === 0) return;
 
     let mensagem = "Lembrete da Obra: <br>" + partesMensagem.join(', ') + ".";
-
-    // Adiciona a quebra de linha e uma chamada para ação
     mensagem += "<br><br>Clique aqui para ver os detalhes.";
     
-    const dataEnvio = new Date();
-    dataEnvio.setDate(dataEnvio.getDate() + 1);
-    dataEnvio.setHours(8, 0, 0, 0);
+    // --- [NOVA LÓGICA DE AGENDAMENTO INTELIGENTE] ---
+    const agora = new Date();
+    let dataEnvio = new Date();
+
+    // Define o horário de "corte" para 8h da manhã de hoje
+    dataEnvio.setHours(8, 0, 0, 0); 
+
+    // Se o horário atual (agora) já passou das 8h de hoje,
+    // a notificação é agendada para 8h de amanhã.
+    if (agora.getTime() > dataEnvio.getTime()) {
+        dataEnvio.setDate(dataEnvio.getDate() + 1);
+    }
+    // Caso contrário (se ainda não são 8h), a notificação
+    // permanece agendada para 8h de hoje.
+    // --- [FIM DA NOVA LÓGICA] ---
+
     const dataFormatada = dataEnvio.toString().match(/(\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[-+]\d{4})/)[0];
     
     const playerId = OneSignal.User.PushSubscription.id;

@@ -9,10 +9,22 @@ export let carteiras = [];
 export let fornecedores = [];
 
 // Funções para permitir que o backup/restauração altere os arrays
-export function updateLancamentos(newData) { lancamentos = newData; }
-export function updateCategorias(newData) { categorias = newData; }
-export function updateCarteiras(newData) { carteiras = newData; }
-export function updateFornecedores(newData) { fornecedores = newData; }
+export function updateLancamentos(newData) {
+    lancamentos.length = 0; // Limpa o array sem quebrar a referência
+    lancamentos.push(...newData); // Adiciona os novos itens
+}
+export function updateCategorias(newData) {
+    categorias.length = 0;
+    categorias.push(...newData);
+}
+export function updateCarteiras(newData) {
+    carteiras.length = 0;
+    carteiras.push(...newData);
+}
+export function updateFornecedores(newData) {
+    fornecedores.length = 0;
+    fornecedores.push(...newData);
+}
 
 
 // --- PERSISTÊNCIA DE DADOS (LocalStorage) ---

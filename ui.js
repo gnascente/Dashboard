@@ -81,12 +81,28 @@ export const excluirLancamentoBtn = document.getElementById('excluir-lancamento-
 export const totalizerFooter = document.getElementById('totalizer-footer');
 export const toggleBtn = document.getElementById('toggle-totalizer-btn');
 
+// --- LISTENER PARA O TOGGLE 'PAGO' ---
+const pagoCheckbox = lancamentoForm['lancamento-pago'];
+const pagoStatusText = document.getElementById('pago-status-text');
+if (pagoCheckbox && pagoStatusText) {
+    pagoCheckbox.addEventListener('change', () => {
+        const isChecked = pagoCheckbox.checked;
+        pagoStatusText.textContent = isChecked ? 'Sim' : 'Não';
+        pagoStatusText.classList.toggle('text-green-600', isChecked);
+        pagoStatusText.classList.toggle('text-gray-500', !isChecked);
+    });
+}
+
 // --- VARIÁVEIS DE UI ---
-export let ultimoLancamentoId = null;
+// O ID do último lançamento agora é salvo no localStorage para persistir
+export let ultimoLancamentoId = localStorage.getItem('ultimoLancamentoId') ? Number(localStorage.getItem('ultimoLancamentoId')) : null;
 let categoryChartInstance = null;
-// --- [NOVO] FUNÇÃO PARA ATUALIZAR O ID DO ÚLTIMO LANÇAMENTO ---
+
+// --- FUNÇÃO PARA ATUALIZAR O ID DO ÚLTIMO LANÇAMENTO ---
 export const setUltimoLancamentoId = (id) => {
     ultimoLancamentoId = id;
+    // Salva o ID no localStorage para que o destaque não se perca ao recarregar a página
+    localStorage.setItem('ultimoLancamentoId', id);
 };
 
 // --- FUNÇÕES UTILITÁRIAS DE FORMATAÇÃO ---
@@ -514,3 +530,4 @@ export const handleExclusao = (tipo, setItemParaExcluir, dataArrays) => {
 
     deleteItemModal.classList.remove('hidden');
 };
+

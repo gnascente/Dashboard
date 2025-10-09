@@ -20,7 +20,6 @@ let itemParaExcluir = { tipo: '', valor: '' };
 document.addEventListener('DOMContentLoaded', () => {
     carregarDados();
     const dataArrays = { categorias, carteiras, fornecedores };
-const dataArrays = { categoria: categorias, carteira: carteiras, fornecedor: fornecedores };
     UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
     UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
     UI.applyTotalizerState();
@@ -71,7 +70,7 @@ function setupEventListeners() {
         set: (val) => { fotosTemporarias = val; }, 
         get: () => fotosTemporarias 
     };
-const dataArrays = { categoria: categorias, carteira: carteiras, fornecedor: fornecedores };
+    const dataArrays = { categorias, carteiras, fornecedores };
 
     // --- MODAL DE LANÇAMENTO (Formulário Principal) ---
     UI.abrirNovoLancamentoBtn.addEventListener('click', () => UI.abrirModalLancamento(null, fotosRef, dataArrays));

@@ -215,30 +215,23 @@ async function checarEAgendarNotificacaoDiaria() {
     }
 }
 
-export async function agendarNotificacaoDeTeste(mostrarNotificacaoCallback) {
-    mostrarNotificacaoCallback('Preparando agendamento de teste...', true);
-    
+export async function enviarNotificacaoDeBoasVindas(mostrarNotificacaoCallback) {
     const playerId = OneSignal.User.PushSubscription.id;
     if (!playerId) {
-        mostrarNotificacaoCallback("Não foi possível obter seu ID de usuário para o teste.");
+        mostrarNotificacaoCallback("Não foi possível obter seu ID de usuário.");
         return;
     }
 
-    const dataEnvio = new Date();
-    dataEnvio.setMinutes(dataEnvio.getMinutes() + 1);
-    const dataFormatada = dataEnvio.toString().match(/(\w{3} \w{3} \d{2} \d{4} \d{2}:\d{2}:\d{2} GMT[-+]\d{4})/)[0];
-
     const notificationPayload = {
         include_player_ids: [playerId],
-        headings: { pt: "Teste de Notificação da Obra", en: "Test Notification" },
-        contents: { pt: "Esta é uma notificação de teste agendada. Tudo funcionando!", en: "This is a scheduled test notification." },
-        send_after: dataFormatada
+        headings: { pt: "Inscrição Realizada!", en: "Subscribed!" },
+        contents: { pt: "Tudo pronto! Você começará a receber alertas diários sobre sua obra.", en: "All set! You'll start receiving daily alerts about your project." },
     };
 
     const response = await agendarNotificacao(notificationPayload);
-    if (response && response.id) {
-        mostrarNotificacaoCallback('Notificação agendada para daqui a 1 minuto!', true);
+    if (response && (response.id || response.success)) {
+        mostrarNotificacaoCallback('Notificação de boas-vindas enviada!', true);
     } else {
-        mostrarNotificacaoCallback('Falha ao agendar notificação de teste.');
+        mostrarNotificacaoCallback('Falha ao enviar a notificação de boas-vindas.');
     }
 }

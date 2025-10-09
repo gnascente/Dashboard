@@ -15,6 +15,7 @@ export const lancamentosContent = document.getElementById('lancamentos-content')
 export const relatoriosContent = document.getElementById('relatorios-content');
 export const mainContent = document.getElementById('main-content');
 export const backupContent = document.getElementById('backup-content');
+export const settingsContent = document.getElementById('settings-content');
 export const lancamentoModal = document.getElementById('lancamento-modal');
 export const lancamentoForm = document.getElementById('lancamento-form');
 export const fecharLancamentoModalBtn = document.getElementById('fechar-lancamento-modal');
@@ -50,6 +51,9 @@ export const menuLateral = document.getElementById('menu-lateral');
 export const menuLateralOverlay = document.getElementById('menu-lateral-overlay');
 export const menuLancamentosBtn = document.getElementById('menu-lancamentos-btn');
 export const menuBackupBtn = document.getElementById('menu-backup-btn');
+export const menuConfiguracoesBtn = document.getElementById('menu-configuracoes-btn');
+export const notificationToggle = document.getElementById('notification-toggle');
+export const notificationStatusText = document.getElementById('notification-status-text');
 export const exportarBtn = document.getElementById('exportar-btn');
 export const importarBtn = document.getElementById('importar-btn');
 export const importarInput = document.getElementById('importar-input');
@@ -531,3 +535,11 @@ export const handleExclusao = (tipo, setItemParaExcluir, dataArrays) => {
     deleteItemModal.classList.remove('hidden');
 };
 
+export const updateNotificationToggleState = (isSubscribed) => {
+    if (notificationToggle) {
+        notificationToggle.checked = isSubscribed;
+    }
+    if (notificationStatusText) {
+        notificationStatusText.textContent = isSubscribed ? 'Notificações Habilitadas' : 'Habilitar Notificações';
+    }
+};

@@ -5,7 +5,7 @@
 import {
     lancamentos, categorias, carteiras, fornecedores,
     salvarDados, carregarDados, adicionarLancamento, atualizarLancamento, removerLancamento,
-    agendarNotificacaoDeTeste, updateCategorias, updateCarteiras, updateFornecedores,
+    enviarNotificacaoDeBoasVindas, updateCategorias, updateCarteiras, updateFornecedores,
     updateLancamentos, adicionarItem, removerItem
 } from './data.js';
 
@@ -43,20 +43,21 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
-        // Este listener reage a quando o usuário se inscreve (após o prompt)
+        // Este listener reage a quando o usuário se inscreve, desinscreve ou altera permissões
         OneSignal.User.PushSubscription.addEventListener('change', function(isSubscribed) {
+            console.log("O estado da subscrição mudou para:", isSubscribed);
+            UI.updateNotificationToggleState(isSubscribed); // Mantém a UI em sincronia
             if (isSubscribed) {
-                console.log("O estado da subscrição mudou para: inscrito.");
-                salvarDados();
+                salvarDados(); // Isso irá acionar a verificação de agendamento diário
             }
         });
 
         // Esta verificação cobre o caso de um usuário que já está inscrito ao abrir o app
-        if (OneSignal.User.PushSubscription.isSubscribed) {
-            console.log("Utilizador já está inscrito na inicialização. Verificando agendamento.");
+        const isSubscribed = OneSignal.User.PushSubscription.isSubscribed;
+        console.log("Utilizador está inscrito na inicialização:", isSubscribed);
+        UI.updateNotificationToggleState(isSubscribed);
+        if (isSubscribed) {
             salvarDados();
-        } else {
-            console.log("Utilizador não está inscrito. O prompt automático será exibido se a permissão for 'default'.");
         }
     });
 
@@ -139,19 +140,16 @@ function setupEventListeners() {
     });
     
     // --- NAVEGAÇÃO E MENUS ---
-    document.getElementById('menu-teste-notificacao-btn').addEventListener('click', (e) => {
-        e.preventDefault();
-        agendarNotificacaoDeTeste(UI.mostrarNotificacao);
-        UI.fecharMenu();
-    });
     UI.lancamentosTabBtn.addEventListener('click', () => UI.alternarAbas('lancamentos'));
     UI.relatoriosTabBtn.addEventListener('click', () => UI.alternarAbas('relatorios'));
     UI.abrirMenuBtn.addEventListener('click', UI.abrirMenu);
     UI.menuLateralOverlay.addEventListener('click', UI.fecharMenu);
+    
     UI.menuLancamentosBtn.addEventListener('click', (e) => {
         e.preventDefault();
         UI.mainContent.classList.remove('hidden');
         UI.backupContent.classList.add('hidden');
+        UI.settingsContent.classList.add('hidden');
         UI.alternarAbas('lancamentos');
         UI.fecharMenu();
     });
@@ -159,6 +157,15 @@ function setupEventListeners() {
         e.preventDefault();
         UI.mainContent.classList.add('hidden');
         UI.backupContent.classList.remove('hidden');
+        UI.settingsContent.classList.add('hidden');
+        UI.totalizerFooter.classList.add('hidden');
+        UI.fecharMenu();
+    });
+    UI.menuConfiguracoesBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        UI.mainContent.classList.add('hidden');
+        UI.backupContent.classList.add('hidden');
+        UI.settingsContent.classList.remove('hidden');
         UI.totalizerFooter.classList.add('hidden');
         UI.fecharMenu();
     });
@@ -419,5 +426,30 @@ function setupEventListeners() {
         UI.deleteItemModal.classList.add('hidden');
         UI.mostrarNotificacao('Item substituído e excluído com sucesso!', true);
     });
-}
 
+    // --- LÓGICA DO TOGGLE DE NOTIFICAÇÃO ---
+    UI.notificationToggle.addEventListener('change', (e) => {
+        const isEnabled = e.target.checked;
+        if (isEnabled) {
+            console.log("Tentando inscrever para notificações...");
+            OneSignal.User.PushSubscription.optIn().then(() => {
+                console.log("Inscrito com sucesso via toggle.");
+                enviarNotificacaoDeBoasVindas(UI.mostrarNotificacao);
+            }).catch((error) => {
+                console.error("Falha ao se inscrever via toggle:", error);
+                UI.mostrarNotificacao("Não foi possível habilitar as notificações.");
+                UI.updateNotificationToggleState(false);
+            });
+        } else {
+            console.log("Tentando desinscrever das notificações...");
+            OneSignal.User.PushSubscription.optOut().then(() => {
+                console.log("Desinscrito com sucesso via toggle.");
+                UI.mostrarNotificacao('Notificações desabilitadas.', true);
+            }).catch((error) => {
+                console.error("Falha ao se desinscrever via toggle:", error);
+                UI.mostrarNotificacao("Ocorreu um erro ao desabilitar as notificações.");
+                UI.updateNotificationToggleState(true);
+            });
+        }
+    });
+}

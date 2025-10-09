@@ -84,15 +84,16 @@
                         </a>
                     </li>
                     <li>
-                        <a href="#" id="menu-teste-notificacao-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-violet-50 hover:text-violet-600 transition-colors">
+                        <a href="#" id="menu-configuracoes-btn" class="flex items-center p-3 text-gray-700 rounded-xl hover:bg-violet-50 hover:text-violet-600 transition-colors">
                              <span class="w-[38px] h-[38px] rounded-full flex items-center justify-center bg-violet-50 text-violet-600 mr-3">
                                 <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.6" stroke="currentColor">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-1.007 1.11-1.11a12.003 12.003 0 018.586 8.586c-.103.55-.568 1.02-1.11 1.11a12.003 12.003 0 01-8.586 8.586c-.55.103-1.02.568-1.11 1.11a12.003 12.003 0 01-8.586-8.586c.103-.55.568-1.02 1.11-1.11a12.003 12.003 0 018.586-8.586z" />
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                                 </svg>
                             </span>
                             <div>
-                                <p class="text-sm font-semibold leading-none">Testar Notificação</p>
-                                <span class="text-xs text-gray-500">Enviar um push de teste agora</span>
+                                <p class="text-sm font-semibold leading-none">Configurações</p>
+                                <span class="text-xs text-gray-500">Gerenciar permissões e alertas</span>
                             </div>
                         </a>
                     </li>
@@ -305,6 +306,36 @@
                         <p class="text-sm text-gray-600 mt-1">Carregue um arquivo de backup para restaurar seus dados. <strong class="text-red-600">Atenção:</strong> Isso substituirá todos os dados atuais.</p>
                         <input type="file" id="importar-input" class="hidden" accept=".json, .txt">
                         <button id="importar-btn" class="mt-4 w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50">Selecionar Arquivo</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="settings-content" class="hidden">
+            <div class="bg-white p-6 rounded-2xl border border-gray-200 shadow-sm">
+                 <div class="text-center pb-6 mb-6 border-b border-dashed">
+                    <svg class="mx-auto h-20 w-20 text-violet-500/50 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M10.343 3.94c.09-.542.56-1.007 1.11-1.11a12.003 12.003 0 018.586 8.586c-.103.55-.568 1.02-1.11 1.11a12.003 12.003 0 01-8.586 8.586c-.55.103-1.02.568-1.11 1.11a12.003 12.003 0 01-8.586-8.586c.103-.55.568-1.02 1.11-1.11a12.003 12.003 0 018.586-8.586z" />
+                       <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                   </svg>
+                    <h2 class="text-2xl font-semibold text-gray-800">Configurações</h2>
+                    <p class="text-sm text-gray-500 mt-1">Gerencie as funcionalidades do aplicativo</p>
+                </div>
+                <div class="space-y-6">
+                    <div>
+                       <p class="text-xs uppercase tracking-[0.24em] text-gray-500">Alertas</p>
+                       <h3 class="text-lg font-bold text-gray-800">Notificações Push</h3>
+                       <p class="text-sm text-gray-600 mt-1">Receba lembretes diários sobre contas a vencer e atrasadas.</p>
+       
+                       <div class="mt-4 flex items-center justify-between p-4 bg-gray-50 rounded-lg">
+                           <span id="notification-status-text" class="text-sm font-semibold text-gray-700">Habilitar Notificações</span>
+                            <div class="flex items-center gap-3">
+                               <label for="notification-toggle" class="relative inline-flex items-center cursor-pointer">
+                                   <input type="checkbox" id="notification-toggle" class="sr-only peer">
+                                   <div class="w-11 h-6 bg-gray-200 rounded-full peer peer-focus:ring-4 peer-focus:ring-violet-500/40 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-green-500"></div>
+                               </label>
+                           </div>
+                       </div>
                     </div>
                 </div>
             </div>

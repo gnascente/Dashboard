@@ -24,10 +24,12 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.renderizarLancamentos(filtrosAtivos, categorias, fornecedores, carteiras);
     UI.applyTotalizerState();
     setupEventListeners();
-    // --- [NOVO BLOCO UNIFICADO ONESIGNAL] ---
+    
+    // --- LÓGICA DO ONESIGNAL ATUALIZADA ---
     window.OneSignalDeferred = window.OneSignalDeferred || [];
-    window.OneSignalDeferred.push(function(OneSignal) {
-        OneSignal.init({
+    window.OneSignalDeferred.push(async function(OneSignal) {
+        // Espera o SDK ser totalmente inicializado
+        await OneSignal.init({
             appId: "9ba8834c-e59a-4dcd-bd78-435ff070e262", // SEU APP ID
             allowLocalhostAsSecureOrigin: true,
             promptOptions: {
@@ -40,13 +42,26 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
 
+        // Listener para quando o usuário se inscreve ou cancela a inscrição
         OneSignal.User.PushSubscription.addEventListener("change", function(isSubscribed) {
             if (isSubscribed) {
-                console.log("Usuário inscrito para notificações.");
+                console.log("Usuário inscrito ou estado de inscrição alterado.");
                 salvarDados();
             }
         });
+        
+        // Verifica se o usuário já está inscrito
+        if (OneSignal.User.PushSubscription.isSubscribed) {
+            console.log("Usuário já inscrito. Verificando notificações ao carregar.");
+            salvarDados();
+        } else {
+            // **NOVO**: Se não estiver inscrito, pede permissão novamente a cada visita.
+            // Isso respeitará a decisão do usuário caso ele tenha bloqueado as notificações no navegador.
+            console.log("Usuário não está inscrito. Solicitando permissão.");
+            OneSignal.Slidedown.prompt();
+        }
     });
+
     // Registra o Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -95,7 +110,7 @@ function setupEventListeners() {
 
         if (id) {
             atualizarLancamento(id, dados);
-            UI.setUltimoLancamentoId(id); // CORREÇÃO ADICIONADA
+            UI.setUltimoLancamentoId(id);
         } else {
             const novoId = adicionarLancamento(dados);
             UI.setUltimoLancamentoId(novoId);

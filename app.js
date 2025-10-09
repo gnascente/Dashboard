@@ -95,6 +95,7 @@ function setupEventListeners() {
 
         if (id) {
             atualizarLancamento(id, dados);
+            UI.setUltimoLancamentoId(id); // CORREÇÃO ADICIONADA
         } else {
             const novoId = adicionarLancamento(dados);
             UI.setUltimoLancamentoId(novoId);
@@ -256,7 +257,6 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.fornecedorDropdown.value = nome;
-            // CORREÇÃO: Atualiza o dropdown de substituição
             const itemSendoExcluido = UI.deleteItemSelect.value;
             const novasOpcoes = fornecedores.filter(item => item !== itemSendoExcluido);
             UI.popularDropdown(UI.deleteItemReplaceSelect, novasOpcoes, 'Selecione um substituto...');
@@ -407,3 +407,4 @@ function setupEventListeners() {
         UI.mostrarNotificacao('Item substituído e excluído com sucesso!', true);
     });
 }
+

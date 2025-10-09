@@ -25,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
     UI.applyTotalizerState();
     setupEventListeners();
     // --- [NOVO BLOCO UNIFICADO ONESIGNAL] ---
-    // Toda a lógica de inicialização e eventos do OneSignal agora fica aqui.
     window.OneSignalDeferred = window.OneSignalDeferred || [];
     window.OneSignalDeferred.push(function(OneSignal) {
         OneSignal.init({
@@ -44,21 +43,16 @@ document.addEventListener('DOMContentLoaded', () => {
         OneSignal.User.PushSubscription.addEventListener("change", function(isSubscribed) {
             if (isSubscribed) {
                 console.log("Usuário inscrito para notificações.");
-                // Salva os dados para forçar uma atualização da notificação agendada
                 salvarDados();
             }
         });
     });
-    // Registra o Service Worker para funcionalidades PWA (instalação e offline)
+    // Registra o Service Worker
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('/sw.js')
-                .then(registration => {
-                    console.log('Service Worker registrado com sucesso:', registration.scope);
-                })
-                .catch(error => {
-                    console.log('Falha ao registrar o Service Worker:', error);
-                });
+                .then(registration => console.log('Service Worker registrado com sucesso:', registration.scope))
+                .catch(error => console.log('Falha ao registrar o Service Worker:', error));
         });
     }
 });
@@ -250,6 +244,11 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.categoriaDropdown.value = nome;
+            // CORREÇÃO: Atualiza o dropdown de substituição se o modal de exclusão estiver aberto
+            const itemSendoExcluido = UI.deleteItemSelect.value;
+            const novasOpcoes = categorias.filter(item => item !== itemSendoExcluido);
+            UI.popularDropdown(UI.deleteItemReplaceSelect, novasOpcoes, 'Selecione um substituto...');
+            UI.deleteItemReplaceSelect.value = nome;
         } else { UI.mostrarNotificacao('Esta categoria já existe!'); }
     });
     const abrirAddFornecedor = UI.setupAddModal(UI.addFornecedorModal, UI.addFornecedorForm, (nome) => {
@@ -257,6 +256,11 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.fornecedorDropdown.value = nome;
+            // CORREÇÃO: Atualiza o dropdown de substituição
+            const itemSendoExcluido = UI.deleteItemSelect.value;
+            const novasOpcoes = fornecedores.filter(item => item !== itemSendoExcluido);
+            UI.popularDropdown(UI.deleteItemReplaceSelect, novasOpcoes, 'Selecione um substituto...');
+            UI.deleteItemReplaceSelect.value = nome;
         } else { UI.mostrarNotificacao('Este fornecedor já existe!'); }
     });
     const abrirAddCarteira = UI.setupAddModal(UI.addCarteiraModal, UI.addCarteiraForm, (nome) => {
@@ -264,6 +268,11 @@ function setupEventListeners() {
             salvarDados();
             UI.atualizarTodosDropdownsEPopups(categorias, carteiras, fornecedores);
             UI.carteiraDropdown.value = nome;
+            // CORREÇÃO: Atualiza o dropdown de substituição
+            const itemSendoExcluido = UI.deleteItemSelect.value;
+            const novasOpcoes = carteiras.filter(item => item !== itemSendoExcluido);
+            UI.popularDropdown(UI.deleteItemReplaceSelect, novasOpcoes, 'Selecione um substituto...');
+            UI.deleteItemReplaceSelect.value = nome;
         } else { UI.mostrarNotificacao('Esta carteira já existe!'); }
     });
 
@@ -318,20 +327,23 @@ function setupEventListeners() {
         button.addEventListener('click', () => {
             const content = button.nextElementSibling;
             const icon = button.querySelector('svg');
-            
             content.classList.toggle('hidden');
             icon.classList.toggle('rotate-180');
         });
     });
     
     // --- LÓGICA DO MODAL DE EXCLUSÃO DE ITEM ---
-
-    // Evento para fechar o modal de exclusão
-    UI.cancelarDeleteItemBtn.addEventListener('click', () => {
-        UI.deleteItemModal.classList.add('hidden');
+    
+    // CORREÇÃO: Adiciona listener para o botão de adicionar substituto
+    UI.deleteItemAddReplacementBtn.addEventListener('click', () => {
+        const tipo = itemParaExcluir.tipo;
+        if (tipo === 'categoria') abrirAddCategoria();
+        if (tipo === 'fornecedor') abrirAddFornecedor();
+        if (tipo === 'carteira') abrirAddCarteira();
     });
 
-    // Evento principal que reage à seleção de um item no dropdown
+    UI.cancelarDeleteItemBtn.addEventListener('click', () => UI.deleteItemModal.classList.add('hidden'));
+
     UI.deleteItemSelect.addEventListener('change', () => {
         const itemSelecionado = UI.deleteItemSelect.value;
         const tipo = itemParaExcluir.tipo;
@@ -394,5 +406,4 @@ function setupEventListeners() {
         UI.deleteItemModal.classList.add('hidden');
         UI.mostrarNotificacao('Item substituído e excluído com sucesso!', true);
     });
-
 }

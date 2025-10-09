@@ -58,7 +58,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // **NOVO**: Se não estiver inscrito, pede permissão novamente a cada visita.
             // Isso respeitará a decisão do usuário caso ele tenha bloqueado as notificações no navegador.
             console.log("Usuário não está inscrito. Solicitando permissão.");
-            OneSignal.Slidedown.prompt();
+            OneSignal.Notifications.requestPermission();
         }
     });
 
